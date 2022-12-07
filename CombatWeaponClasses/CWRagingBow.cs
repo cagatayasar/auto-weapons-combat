@@ -26,13 +26,13 @@ public class CWRagingBow : CombatWeapon, ICWStackWeapon
     public event Action<POneTarget> onDestroyProjectile;
     public event Action<POneTarget, float> onUpdateProjectile;
 
-    public CWRagingBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd) 
+    public CWRagingBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.ragingBow;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         _30DegreesRotationDuration = stats._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }

@@ -7,7 +7,7 @@ public class CWShield : CombatWeapon
 {
     StatsShield stats;
 
-    public CWShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.shield;

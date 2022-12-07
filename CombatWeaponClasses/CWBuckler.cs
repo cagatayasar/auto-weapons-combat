@@ -11,7 +11,7 @@ public class CWBuckler : CombatWeapon
 
     public event Action<float> onUpdateImmunity;
 
-    public CWBuckler(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWBuckler(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.buckler;
@@ -90,7 +90,7 @@ public class CWBuckler : CombatWeapon
                 return;
             var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
             var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
-            CombatFunctions.ApplyResponseAction(target, this, CombatInfos.attachmentAttributes.repel_Value, CombatInfos.attachmentAttributes.repel_Value);
+            CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
     }
 

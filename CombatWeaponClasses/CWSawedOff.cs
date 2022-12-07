@@ -26,19 +26,19 @@ public class CWSawedOff : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWSawedOff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWSawedOff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.sawedOff;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         bullets = stats.bullets;
         _30DegreesRotationDuration = stats._30DegreesRotationDuration;
         actionTimePassed = 10f;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.firstReloadLength /= CombatInfos.attachmentAttributes.fasterReload_Multiplier;
-            stats.secondReloadLength /= CombatInfos.attachmentAttributes.fasterReload_Multiplier;
+            stats.firstReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
+            stats.secondReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }

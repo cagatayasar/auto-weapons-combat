@@ -24,14 +24,14 @@ public class CWCannon : CombatWeapon, ICWHoldsRowPositions
     public event Action<POneRow> onDestroyProjectile;
     public event Action<POneRow, float> onUpdateProjectile;
 
-    public CWCannon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWCannon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.cannon;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
-        projectileMaxHeightOverDistance = stats.projectileMaxHeightOverDistance * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
+        projectileMaxHeightOverDistance = stats.projectileMaxHeightOverDistance * CombatMain.combatAreaScale;
         UpdateRowPositions(false);
         ApplyExistingPermanentStatusEffects();
     }

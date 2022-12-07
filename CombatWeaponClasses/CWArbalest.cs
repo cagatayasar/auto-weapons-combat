@@ -32,14 +32,14 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     public event Action<PArbalest> onDestroyProjectile;
     public event Action<PArbalest, float> onUpdateProjectile;
 
-    public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.arbalest;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        arrowImaginaryStartingOffset = stats.arrowImaginaryStartingOffset * CombatInfos.combatAreaScale;
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        arrowImaginaryStartingOffset = stats.arrowImaginaryStartingOffset * CombatMain.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         UpdateRowPositions(false);
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
         combatAreaBoundaryLeft = leftAreaRows[2].x - distancePerRow;

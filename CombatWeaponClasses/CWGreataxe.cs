@@ -41,7 +41,7 @@ public class CWGreataxe : CombatWeapon
     float damage2TriggerTime;
     float damage3TriggerTime;
 
-    public CWGreataxe(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWGreataxe(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.greataxe;

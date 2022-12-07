@@ -24,13 +24,13 @@ public class CWBow : CombatWeapon
     public event Action<POneTarget> onDestroyProjectile;
     public event Action<POneTarget, float> onUpdateProjectile;
 
-    public CWBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.bow;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         _30DegreesRotationDuration = stats._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }

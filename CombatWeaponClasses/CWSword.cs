@@ -20,7 +20,7 @@ public class CWSword : CombatWeapon, ICWCancelTransition
     float damageUpwardTriggerTime;
     float damageFrontTriggerTime;
 
-    public CWSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.sword;

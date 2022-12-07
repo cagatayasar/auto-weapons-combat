@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWDynamite : CombatWeapon
 {
-    public CWDynamite(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWDynamite(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         UpdateLevelBasedStats();

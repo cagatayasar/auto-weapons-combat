@@ -26,17 +26,17 @@ public class CWRevolver : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.revolver;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         bullets = stats.bullets;
         _30DegreesRotationDuration = stats._30DegreesRotationDuration;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.reloadTimePerBullet /= CombatInfos.attachmentAttributes.fasterReload_Multiplier;
+            stats.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }

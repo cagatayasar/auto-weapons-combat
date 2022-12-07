@@ -35,7 +35,7 @@ public class CombatWeapon
     public Weapon weapon;
     public CombatMode combatMode;
 
-    public Unity.Mathematics.Random rnd;
+    public System.Random rnd;
 
     public List<List<CombatWeapon>> playerRowsList;
     public List<List<CombatWeapon>> enemyRowsList;
@@ -137,7 +137,7 @@ public class CombatWeapon
     public void OnReceiveAction(CombatAction combatAction) => onReceiveAction?.Invoke(this, combatAction);
 
     //------------------------------------------------------------------------
-    public CombatWeapon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CombatWeapon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
     {
         this.weapon = weapon;
         this.playerEnemyData = playerEnemyData;
@@ -148,7 +148,7 @@ public class CombatWeapon
 
         statusEffects = new List<StatusEffect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
-            damageShield += CombatInfos.attachmentAttributes.dmgShield_Value;
+            damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
             OnUpdateHealthBar(0f);
         } else if (weapon.attachment == AttachmentType.Dodge) {
             attachment_dodgeAvailable = true;
@@ -193,7 +193,7 @@ public class CombatWeapon
                 return;
             var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
             var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
-            CombatFunctions.ApplyResponseAction(target, this, CombatInfos.attachmentAttributes.repel_Value, CombatInfos.attachmentAttributes.repel_Value);
+            CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
     }
 
@@ -217,10 +217,10 @@ public class CombatWeapon
         int damageReceived = maxHealthPoint - healthPoint;
         float hpMultiplier = 1f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.BonusHp)) // item12
-            hpMultiplier += CombatInfos.itemAttributes.bonusHp_Multiplier - 1f;
+            hpMultiplier += CombatMain.itemAttributes.bonusHp_Multiplier - 1f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.IfAloneInRowBonusHp)) { // item17
             if (playerRowsList[rowNumber - 1].Count == 1) {
-                hpMultiplier += CombatInfos.itemAttributes.ifAloneInRowHp_Multiplier - 1f;
+                hpMultiplier += CombatMain.itemAttributes.ifAloneInRowHp_Multiplier - 1f;
             }
         }
         maxHealthPoint = MathCustom.RoundToInt(maxHealthPoint * hpMultiplier);
@@ -232,13 +232,13 @@ public class CombatWeapon
         float actionSpeedMultiplier = 1f;
         float actionSpeedToAdd = 0f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.BonusActionSpeed)) // item13
-            actionSpeedMultiplier += CombatInfos.itemAttributes.bonusSpeed_Multiplier - 1f;
+            actionSpeedMultiplier += CombatMain.itemAttributes.bonusSpeed_Multiplier - 1f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.ThirdRowBonusActionSpeed)) // item16
-            actionSpeedMultiplier += CombatInfos.itemAttributes.thirdRowSpeed_Multiplier - 1f;
+            actionSpeedMultiplier += CombatMain.itemAttributes.thirdRowSpeed_Multiplier - 1f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.Gunslinger_QuickDraw))
             actionSpeedToAdd += DataManager.inst.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_QuickDraw).speedToAdd;
         if (weapon.attachment == AttachmentType.Speed)
-            actionSpeedToAdd += CombatInfos.attachmentAttributes.speed_Value;
+            actionSpeedToAdd += CombatMain.attachmentAttributes.speed_Value;
         actionTimePeriod /= (actionSpeedMultiplier + actionSpeedToAdd);
     }
 
@@ -275,7 +275,7 @@ public class CombatWeapon
                 }
                 break;
             case StatusEffectType.RotateSlower:
-                seRotationSpeedMultiplier *= CombatInfos.itemAttributes.rotateSlower_Multiplier;
+                seRotationSpeedMultiplier *= CombatMain.itemAttributes.rotateSlower_Multiplier;
                 break;
             case StatusEffectType.Gunslinger_OneEyeClosed:
                 if (!statusEffects.Exists(e => e.statusEffectType == se.statusEffectType)) {

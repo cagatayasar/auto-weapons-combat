@@ -28,17 +28,17 @@ public class CWSniperRifle : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.sniperRifle;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         bullets = stats.bullets;
         _30DegreesRotationDuration = stats._30DegreesRotationDuration;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.reloadTimePerBullet /= CombatInfos.attachmentAttributes.fasterReload_Multiplier;
+            stats.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }

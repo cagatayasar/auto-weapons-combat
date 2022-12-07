@@ -19,15 +19,15 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
     public float combatAreaBoundaryLeft;
     public float combatAreaBoundaryRight;
 
-    public CWJavelin(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWJavelin(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.javelin;
         statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatInfos.combatAreaScale;
+        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
         if (combatMode == CombatMode.Object) {
-            damagePointOffset = Vec3.right * stats.damagePointOffset * CombatInfos.combatAreaScale * isPlayer.ToMultiplier();
+            damagePointOffset = Vec3.right * stats.damagePointOffset * CombatMain.combatAreaScale * isPlayer.ToMultiplier();
         }
         UpdateRowPositions(false);
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);

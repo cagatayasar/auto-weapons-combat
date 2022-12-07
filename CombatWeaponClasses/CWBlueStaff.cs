@@ -11,7 +11,7 @@ public class CWBlueStaff : CombatWeapon
 
     public event Action onUpdateLines;
 
-    public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.blueStaff;
@@ -102,7 +102,7 @@ public class CWBlueStaff : CombatWeapon
                 return;
             var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
             var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
-            CombatFunctions.ApplyResponseAction(target, this, CombatInfos.attachmentAttributes.repel_Value, CombatInfos.attachmentAttributes.repel_Value);
+            CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
         OnUpdateHealthBar(0f);
     }

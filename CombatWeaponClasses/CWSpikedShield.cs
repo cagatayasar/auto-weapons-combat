@@ -9,7 +9,7 @@ public class CWSpikedShield : CombatWeapon
     int responseDamageMin;
     int responseDamageMax;
 
-    public CWSpikedShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWSpikedShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.spikedShield;
@@ -65,7 +65,7 @@ public class CWSpikedShield : CombatWeapon
         OnUpdateHealthBar(0f);
         var addToResponseDamage = 0;
         if (weapon.attachment == AttachmentType.Repel) {
-            addToResponseDamage = CombatInfos.attachmentAttributes.repel_Value;
+            addToResponseDamage = CombatMain.attachmentAttributes.repel_Value;
         }
         if (isPlayer == action.isSenderPlayersWeapon)
             return;
@@ -73,7 +73,7 @@ public class CWSpikedShield : CombatWeapon
         var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
         var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
         if (target != null) {
-            var responseAction = new CombatAction(rnd.NextInt(responseDamageMin + addToResponseDamage, responseDamageMax + addToResponseDamage + 1),
+            var responseAction = new CombatAction(rnd.Next(responseDamageMin + addToResponseDamage, responseDamageMax + addToResponseDamage + 1),
                 isPlayer, weapon.matchRosterIndex);
             CombatFunctions.ApplyActionToTarget(target, this, responseAction);
         }

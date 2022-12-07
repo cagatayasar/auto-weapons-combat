@@ -28,7 +28,7 @@ public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
 
     public event Action onUpdateStackUI;
 
-    public CWDarkSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref Unity.Mathematics.Random rnd)
+    public CWDarkSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
         stats = DataManager.inst.weaponsPackage.darkSword;
