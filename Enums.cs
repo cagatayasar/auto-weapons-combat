@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum WeaponType : byte
 {
@@ -197,4 +196,21 @@ public enum TableEventType : byte
     BlacksmithEvent,
 }
 
-
+public enum AttachmentType
+{
+    Null,
+    CostsLess,
+    DmgShield,
+    Dodge,
+    FasterReload,
+    FirstAttack,
+    Furthest,
+    Lifesteal,
+    Lucky,
+    Range,
+    ReceiveLessDmg,
+    Repel,
+    Round,
+    RowMoreDamage,
+    Speed,
+}

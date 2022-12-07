@@ -1,0 +1,16 @@
+bonusDmg_Multiplier: 1.05
+bonusHp_Multiplier: 1.05
+bonusSpeed_Multiplier: 1.05
+firstAttacksBuff_Multiplier: 2
+ifAloneBonusDmg_Multiplier: 1.2
+ifAloneInRowHp_Multiplier: 1.2
+perfectSquareBonusDmg_Multiplier: 1.4
+oneLessRange_Duration: 3
+rotateSlower_Multiplier: 0.5
+thirdRowSpeed_Multiplier: 1.2
+healBaseHeal_Amount: 3
+firstRowBuffDmg_Multiplier: 5
+summonAShield_hp: 5
+barrierShield_Value: 5
+killAndShieldShield_Value: 10
+killAndBoostBoost_Multiplier: 1.4

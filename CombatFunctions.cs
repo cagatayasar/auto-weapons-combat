@@ -55,7 +55,7 @@ public static class CombatFunctions
     public static int GetRangeToAddOrSubstract(CombatWeapon cw, int range, float timePassed, bool oneLessRangeForXSeconds)
     {
         int rangeToAddOrSubstract = 0;
-        if (timePassed < DataManager.inst.itemAttributes.oneLessRange_Duration && oneLessRangeForXSeconds)
+        if (timePassed < CombatInfos.itemAttributes.oneLessRange_Duration && oneLessRangeForXSeconds)
             rangeToAddOrSubstract--; // item5
         if (range + rangeToAddOrSubstract < 1)
             rangeToAddOrSubstract = 1 - range;
@@ -76,7 +76,7 @@ public static class CombatFunctions
             switch (statusEffects[i].statusEffectType)
             {
             case StatusEffectType.BonusAttackDmg:
-                dmgMultiplier += DataManager.inst.itemAttributes.bonusDmg_Multiplier - 1f;
+                dmgMultiplier += CombatInfos.itemAttributes.bonusDmg_Multiplier - 1f;
                 break;
             case StatusEffectType.EachAttackOneLess:
                 dmgAddAmount--;
@@ -85,27 +85,27 @@ public static class CombatFunctions
                 dmgAddAmount++;
                 break;
             case StatusEffectType.FirstAttacksDoubleDmg:
-                dmgMultiplier += DataManager.inst.itemAttributes.firstAttacksBuff_Multiplier - 1f;
+                dmgMultiplier += CombatInfos.itemAttributes.firstAttacksBuff_Multiplier - 1f;
                 statusEffects.RemoveAt(i);
                 i--;
                 break;
             case StatusEffectType.IfAloneBonusDmg:
                 if (allyCombatWeapons.Count == 1)
-                    dmgMultiplier += DataManager.inst.itemAttributes.ifAloneBonusDmg_Multiplier - 1f;
+                    dmgMultiplier += CombatInfos.itemAttributes.ifAloneBonusDmg_Multiplier - 1f;
                 break;
             case StatusEffectType.IfPerfectSquareBonusDmg:
-                dmgMultiplier += DataManager.inst.itemAttributes.perfectSquareBonusDmg_Multiplier - 1f;
+                dmgMultiplier += CombatInfos.itemAttributes.perfectSquareBonusDmg_Multiplier - 1f;
                 break;
             case StatusEffectType.KillAndBoost:
                 if (statusEffects[i].killAndBoost_flag) {
-                    dmgMultiplier += DataManager.inst.itemAttributes.killAndBoostBoost_Multiplier - 1f;
+                    dmgMultiplier += CombatInfos.itemAttributes.killAndBoostBoost_Multiplier - 1f;
                     var se = statusEffects[i];
                     se.killAndBoost_flag = false;
                     statusEffects[i] = se;
                 }
                 break;
             case StatusEffectType.FirstRowBuff:
-                dmgMultiplier += DataManager.inst.itemAttributes.firstRowBuffDmg_Multiplier - 1f;
+                dmgMultiplier += CombatInfos.itemAttributes.firstRowBuffDmg_Multiplier - 1f;
                 break;
             case StatusEffectType.Gunslinger_OneEyeClosed:
                 damage = damageMax;
@@ -122,7 +122,7 @@ public static class CombatFunctions
         } else if (attacker.weapon.attachment == AttachmentType.Round) {
             dmgAddAmount += attacker.roundCount;
         } else if (attacker.weapon.attachment == AttachmentType.RowMoreDamage) {
-            dmgAddAmount += (allyRowsList[attacker.rowNumber - 1].Count - 1) * DataManager.inst.attachmentAttributes.rowMoreDamage_Value;
+            dmgAddAmount += (allyRowsList[attacker.rowNumber - 1].Count - 1) * CombatInfos.attachmentAttributes.rowMoreDamage_Value;
         }
 
         if (finalDmgMultiplier < 0f)
@@ -381,14 +381,14 @@ public static class CombatFunctions
     {
         target.ReceiveAction(combatAction);
         if (attacker.weapon.attachment == AttachmentType.Lifesteal) {
-            attacker.healthPoint += MathCustom.RoundToInt(combatAction.damageDealt * DataManager.inst.attachmentAttributes.lifesteal_Multiplier);
+            attacker.healthPoint += MathCustom.RoundToInt(combatAction.damageDealt * CombatInfos.attachmentAttributes.lifesteal_Multiplier);
             if (attacker.healthPoint > attacker.maxHealthPoint) {
                 attacker.healthPoint = attacker.maxHealthPoint;
             }
         }
         if (target.isDead) {
             if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
-                attacker.damageShield += DataManager.inst.itemAttributes.killAndShieldShield_Value;
+                attacker.damageShield += CombatInfos.itemAttributes.killAndShieldShield_Value;
             var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
             if (killAndBoostEffect.statusEffectType != StatusEffectType.Null)
                 killAndBoostEffect.killAndBoost_flag = true;
@@ -406,7 +406,7 @@ public static class CombatFunctions
         // }
         damage = MathCustom.RoundToInt(damage * damageReceivedMultiplier);
         if (cw.weapon.attachment == AttachmentType.ReceiveLessDmg) {
-            damage -= DataManager.inst.attachmentAttributes.receiveLessDmg_Value;
+            damage -= CombatInfos.attachmentAttributes.receiveLessDmg_Value;
         }
 
         if (cw.attachment_dodgeAvailable) {
@@ -443,14 +443,14 @@ public static class CombatFunctions
             var responseAction = new CombatAction(DataManager.inst.rnd.NextInt(responseDamageMin, responseDamageMax + 1), attacker.isPlayer, attacker.weapon.matchRosterIndex);
             target.ReceiveAction(responseAction);
             if (attacker.weapon.attachment == AttachmentType.Lifesteal) {
-                attacker.healthPoint += MathCustom.RoundToInt(responseAction.damageDealt * DataManager.inst.attachmentAttributes.lifesteal_Multiplier);
+                attacker.healthPoint += MathCustom.RoundToInt(responseAction.damageDealt * CombatInfos.attachmentAttributes.lifesteal_Multiplier);
                 if (attacker.healthPoint > attacker.maxHealthPoint) {
                     attacker.healthPoint = attacker.maxHealthPoint;
                 }
             }
             if (target.isDead) {
                 if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
-                    attacker.damageShield += DataManager.inst.itemAttributes.killAndShieldShield_Value;
+                    attacker.damageShield += CombatInfos.itemAttributes.killAndShieldShield_Value;
                 var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
                 if (killAndBoostEffect.statusEffectType == StatusEffectType.KillAndBoost)
                     killAndBoostEffect.killAndBoost_flag = true;
