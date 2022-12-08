@@ -72,6 +72,18 @@ public enum TacticType : byte
     Guardian_BelatedAssistance,
 }
 
+public enum TacticUseType {
+    Null,
+    Nonusable,
+    NoTarget,
+    AllWeapons,
+    AllyWeapons,
+    EnemyWeapons,
+    AllRows,
+    AllyRows,
+    EnemyRows
+}
+
 public enum ItemType : byte
 {
     //Passives / other = 7

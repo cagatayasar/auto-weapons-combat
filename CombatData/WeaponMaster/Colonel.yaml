@@ -1,0 +1,131 @@
+weaponMasterTypeStr: Colonel
+displayName: Colonel
+passiveTactic:
+  tacticTypeStr: Mobility
+  weaponMasterTypeStr: Colonel
+  useTypeStr: Nonusable
+  useCost: 0
+  uses: 0
+  cooldown: 0
+  description: The first position change in each round costs 0.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+tactics:
+- tacticTypeStr: Command
+  weaponMasterTypeStr: Colonel
+  useTypeStr: AllyWeapons,
+  useCost: 0
+  uses: 3
+  cooldown: 0
+  description: Order a weapon to attack.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: Fusillade
+  weaponMasterTypeStr: Colonel
+  useTypeStr: NoTarget
+  useCost: 1
+  uses: 1
+  cooldown: 0
+  description: Order your ranged weapons to attack.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: Retreat
+  weaponMasterTypeStr: Colonel
+  useTypeStr: AllyWeapons
+  useCost: 0
+  uses: 1
+  cooldown: 0
+  description: Remove a weapon of yours to gain its AP cost back.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: TacticalManeuver
+  weaponMasterTypeStr: Colonel
+  useTypeStr: Nonusable
+  useCost: 0
+  uses: 0
+  cooldown: 0
+  description: Whenever the formation changes, give your weapons <shield> damage
+    shield.
+  bulletCost: 0
+  damage: 0
+  shield: 2
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: Ceasefire
+  weaponMasterTypeStr: Colonel
+  useTypeStr: NoTarget
+  useCost: 0
+  uses: 1
+  cooldown: 0
+  description: Weapons do not battle this round.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: DisorientingSmoke
+  weaponMasterTypeStr: Colonel
+  useTypeStr: NoTarget
+  useCost: 0
+  uses: 1
+  cooldown: 0
+  description: All weapons swap their positions randomly.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: Promotion
+  weaponMasterTypeStr: Colonel
+  useTypeStr: AllWeapons
+  useCost: 1
+  uses: 3
+  cooldown: 0
+  description: Upgrade a weapon for this match only.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0
+- tacticTypeStr: Mark
+  weaponMasterTypeStr: Colonel
+  useTypeStr: EnemyWeapons
+  useCost: 0
+  uses: 4
+  cooldown: 0
+  description: Select an enemy weapon, your weapons target it.
+  bulletCost: 0
+  damage: 0
+  shield: 0
+  totalHP: 0
+  delay: 0
+  percent: 0
+  speedToAdd: 0

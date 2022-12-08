@@ -1,0 +1,14 @@
+tacticTypeStr: QuickDraw
+weaponMasterTypeStr: Gunslinger
+useTypeStr: Nonusable
+useCost: 0
+uses: 0
+cooldown: 0
+description: Your ranged weapons have +<speedToAdd> speed.
+bulletCost: 0
+damage: 0
+shield: 0
+totalHP: 0
+delay: 0
+percent: 0
+speedToAdd: 0.1

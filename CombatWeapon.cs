@@ -236,7 +236,7 @@ public class CombatWeapon
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.ThirdRowBonusActionSpeed)) // item16
             actionSpeedMultiplier += CombatMain.itemAttributes.thirdRowSpeed_Multiplier - 1f;
         if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.Gunslinger_QuickDraw))
-            actionSpeedToAdd += DataManager.inst.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_QuickDraw).speedToAdd;
+            actionSpeedToAdd += CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_QuickDraw).speedToAdd;
         if (weapon.attachment == AttachmentType.Speed)
             actionSpeedToAdd += CombatMain.attachmentAttributes.speed_Value;
         actionTimePeriod /= (actionSpeedMultiplier + actionSpeedToAdd);
@@ -301,7 +301,7 @@ public class CombatWeapon
                 }
                 break;
             case StatusEffectType.Gunslinger_CorrosiveShot:
-                var dmg = DataManager.inst.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
+                var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                 ReceiveAction(new CombatAction(dmg, false, -1));
                 OnUpdateHealthBar(0f);
                 break;
@@ -325,7 +325,7 @@ public class CombatWeapon
                     }
                     break;
                 case StatusEffectType.Gunslinger_CorrosiveShot:
-                    var dmg = DataManager.inst.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
+                    var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                     ReceiveAction(new CombatAction(dmg, false, -1));
                     OnUpdateHealthBar(0f);
                     break;
