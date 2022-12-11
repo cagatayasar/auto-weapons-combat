@@ -52,6 +52,7 @@ public static class CombatMain
 
     public static float combatAreaScale = 1.56f;
 
+    public static bool isRandomized;
     public static Random rnd = new Random();
 
     //------------------------------------------------------------------------
