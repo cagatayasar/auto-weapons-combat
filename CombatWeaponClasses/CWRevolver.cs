@@ -225,7 +225,7 @@ public class CWRevolver : CombatWeapon
             isFirstMoment = false;
         }
 
-        if (DataManager.inst.isRandomized) {
+        if (CombatMain.isRandomized) {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax, finalDmgMultiplierParameter: finalDmgMultiplier);
         } else {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed, finalDmgMultiplierParameter: finalDmgMultiplier);

@@ -308,7 +308,7 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     // Copy GetCombatAction() to other CW classes
     public override CombatAction GetCombatAction()
     {
-        if (DataManager.inst.isRandomized) {
+        if (CombatMain.isRandomized) {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax);
         } else {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed);

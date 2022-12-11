@@ -133,7 +133,7 @@ public class CWDagger : CombatWeapon, ICWCancelTransition
 
     public override CombatAction GetCombatAction()
     {
-        if (DataManager.inst.isRandomized) {
+        if (CombatMain.isRandomized) {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax);
         } else {
             return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed);

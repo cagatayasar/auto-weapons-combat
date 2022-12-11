@@ -232,7 +232,7 @@ public class CWPumpShotgun : CombatWeapon
     public override CombatAction GetCombatAction()
     {
         CombatAction combatAction;
-        if (DataManager.inst.isRandomized) {
+        if (CombatMain.isRandomized) {
             combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax);
         } else {
             combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed);
