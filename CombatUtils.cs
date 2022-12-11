@@ -37,15 +37,14 @@ public static partial class Utils
         return result;
     }
 
-    public static int ToMultiplier(this bool value)
+    public static string GetWithDecimalZero(float num)
     {
-        return value ? 1 : -1;
+        var str = num.ToString(Game.decimalSeperator);
+        return str.Length == 1 ? str + ".0" : str;
     }
 
-    public static int ToBinary(this bool value)
-    {
-        return value ? 1 : 0;
-    }
+    public static int ToMultiplier(this bool value) => value ? 1 : -1;
+    public static int ToBinary(this bool value)     => value ? 1 :  0;
 
     public static void Repeat(this int count, Action action)
     {
