@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 public static partial class Utils
 {
+    public static NumberFormatInfo decimalSeperator = new NumberFormatInfo();
     public static float Rad2Deg => 180f / MathF.PI;
 
     public static R To<T, R>(this T item, Func<T, R> func)
@@ -39,7 +41,7 @@ public static partial class Utils
 
     public static string GetWithDecimalZero(float num)
     {
-        var str = num.ToString(Game.decimalSeperator);
+        var str = num.ToString(decimalSeperator);
         return str.Length == 1 ? str + ".0" : str;
     }
 
