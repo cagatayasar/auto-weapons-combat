@@ -1,0 +1,20 @@
+className: Green Staff
+actionDescription: 'Heals allies by (heal)
+  Targets all allies in its front row'
+otherDescription:
+cost1: 2
+cost2: 2
+isThrown: n
+healthPoint1: 15
+healthPoint2: 20
+actionSpeed1: 2
+actionSpeed2: 2.7
+damage1Fixed: 0
+damage2Fixed: 0
+damage1Min: 0
+damage1Max: 0
+damage2Min: 0
+damage2Max: 0
+attackPerAnimation: 1
+heal1: 2
+heal2: 2

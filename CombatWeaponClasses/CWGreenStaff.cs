@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWGreenStaff : CombatWeapon
 {
-    public StatsGreenStaff stats;
+    public new WInfoGreenStaff weaponInfo => base.weaponInfo as WInfoGreenStaff;
     public int healAmount;
     public List<CombatWeapon> targetWeapons = new List<CombatWeapon>();
 
@@ -14,8 +14,6 @@ public class CWGreenStaff : CombatWeapon
     public CWGreenStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.greenStaff;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -29,9 +27,9 @@ public class CWGreenStaff : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            healAmount = stats.heal1;
+            healAmount = weaponInfo.heal1;
         } else if (weapon.combatLevel == 2) {
-            healAmount = stats.heal2;
+            healAmount = weaponInfo.heal2;
         }
     }
 

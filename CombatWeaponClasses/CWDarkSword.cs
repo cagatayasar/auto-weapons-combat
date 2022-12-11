@@ -5,10 +5,11 @@ using System.Linq;
 
 public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
 {
+    public new WInfoDarkSword weaponInfo => base.weaponInfo as WInfoDarkSword;
+
     public MeleeDoubleAttackState meleeDoubleAttackState = MeleeDoubleAttackState.Idle;
     MeleeTargetType targetType = MeleeTargetType.Null;
 
-    StatsDarkSword stats;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -31,8 +32,6 @@ public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
     public CWDarkSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.darkSword;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -40,25 +39,25 @@ public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            maxStacks = stats.maxStackAmount1;
-            damagePerStack = stats.damagePerStack1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            maxStacks = weaponInfo.maxStackAmount1;
+            damagePerStack = weaponInfo.damagePerStack1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            maxStacks = stats.maxStackAmount2;
-            damagePerStack = stats.damagePerStack2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            maxStacks = weaponInfo.maxStackAmount2;
+            damagePerStack = weaponInfo.damagePerStack2;
         }
     }
 
@@ -99,20 +98,20 @@ public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForAnimationMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForAnimationMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForAnimationMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForAnimationMin) / (stats.actionSpeedForAnimationMax - stats.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damageUpward1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationUpwardDamage1Portion;
-        damageUpward2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationUpwardDamage2Portion;
-        damageFront1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationFrontDamage1Portion;
-        damageFront2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationFrontDamage2Portion;
+        damageUpward1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamage1Portion;
+        damageUpward2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamage2Portion;
+        damageFront1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage1Portion;
+        damageFront2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage2Portion;
 
         OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
         OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));

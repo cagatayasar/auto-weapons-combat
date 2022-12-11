@@ -1,0 +1,17 @@
+className: Dynamite
+actionDescription:
+otherDescription: 'Thrown to the enemy area at the start of the combat. After some time, it explodes.;'
+cost1: 1
+cost2: 1
+isThrown: y
+healthPoint1: 5
+healthPoint2: 5
+actionSpeed1: 0
+actionSpeed2: 0
+damage1Fixed: 5
+damage2Fixed: 5
+damage1Min: 5
+damage1Max: 5
+damage2Min: 5
+damage2Max: 5
+attackPerAnimation: 1

@@ -1,0 +1,32 @@
+className: Greataxe
+actionDescription: '(damageMin)-(damageMax) damage
+  Melee'
+otherDescription: 'Does a rotating attack that damages up to 2 enemies.'
+cost1: 3
+cost2: 3
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 32
+healthPoint2: 32
+actionSpeed1: 0.5
+actionSpeed2: 0.6
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 9
+damage2Fixed: 10
+damage1Min: 6
+damage1Max: 8
+damage2Min: 7
+damage2Max: 10
+attackPerAnimation: 1
+cancelingSpeed: 0
+commandAttackWait1: 0
+commandAttackWait2: 0.3
+animationNonidlePortionMin: 0.7
+animationNonidlePortionMax: 0.9
+actionSpeedForNonidleMin: 0.5
+actionSpeedForNonidleMax: 0.7
+attack1DamageEnemyPortion: 0.35
+attack2DamageEnemyPortion: 0.44
+attack3DamageEnemyPortion: 0.58

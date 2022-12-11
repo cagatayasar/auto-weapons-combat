@@ -1,0 +1,31 @@
+className: Sword
+actionDescription: '(damageMin)-(damageMax) damage
+  Melee'
+otherDescription:
+cost1: 2
+cost2: 2
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 28
+healthPoint2: 34
+actionSpeed1: 0.4
+actionSpeed2: 0.5
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 12
+damage2Fixed: 13
+damage1Min: 8
+damage1Max: 10
+damage2Min: 9
+damage2Max: 11
+attackPerAnimation: 1
+cancelingSpeed: 1
+commandAttackWait1: 0
+commandAttackWait2: 0.4
+animationNonidlePortionMin: 0.98
+animationNonidlePortionMax: 0.99
+actionSpeedForAnimationMin: 0.55
+actionSpeedForAnimationMax: 0.75
+animationUpwardDamageEnemyPortion: 0.42
+animationFrontDamageEnemyPortion: 0.34

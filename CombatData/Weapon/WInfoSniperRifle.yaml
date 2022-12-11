@@ -1,0 +1,37 @@
+className: Rifle
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription:
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 10
+healthPoint2: 12
+actionSpeed1: 0.4
+actionSpeed2: 0.5
+startingActionTimePassed1: 10
+startingActionTimePassed2: 10
+damage1Fixed: 8
+damage2Fixed: 10
+damage1Min: 7
+damage1Max: 10
+damage2Min: 10
+damage2Max: 13
+attackPerAnimation: 1
+cancelingSpeed: 0
+range1: 4
+range2: 5
+bullets: 8
+doFirstShotAfter: 0.5
+reloadTimePerBullet: 0.7
+reloadAnimationUIPortion: 0.6
+waitLengthAfterReload: 0.8
+playAfterReloadSoundAfter: 0
+animationNonidleMultiplierMin: 0.6
+animationNonidleMultiplierMax: 0.95
+actionSpeedForNonidleMin: 0.6
+actionSpeedForNonidleMax: 1
+projectileSpeed: 4
+_30DegreesRotationDuration: 1

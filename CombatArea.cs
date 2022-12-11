@@ -49,7 +49,7 @@ public class CombatArea
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 combatAreaPositions[i][j] = new Vec2(
-                    halfWidth * (1f - rowScales[i]),
+                    halfWidth * rowScales[i],
                     height * colScales[j]
                 );
             }

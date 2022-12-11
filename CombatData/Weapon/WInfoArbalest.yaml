@@ -1,0 +1,31 @@
+className: Arbalest
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged'
+otherDescription: 'Fires a bolt that damages everything in its way.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 12
+healthPoint2: 15
+actionSpeed1: 0.6
+actionSpeed2: 0.7
+damage1Fixed: 7
+damage2Fixed: 8
+damage1Min: 5
+damage1Max: 9
+damage2Min: 6
+damage2Max: 11
+attackPerAnimation: 1
+touchDamageMultiplier1: 0.5
+touchDamageMultiplier2: 0.5
+friendlyDamageMultiplier: 0.5
+animationNonidlePortionMin: 0.7
+animationNonidlePortionMax: 0.9
+actionSpeedForNonidleMin: 0.8
+actionSpeedForNonidleMax: 1.8
+animationAttackDrawPortion: 0.5
+animationAttackReleaseTime: 0.06
+projectileSpeed: 1
+arrowImaginaryStartingOffset: 0.0675

@@ -20,9 +20,10 @@ public enum GreataxeState
 
 public class CWGreataxe : CombatWeapon
 {
+    public new WInfoGreataxe weaponInfo => base.weaponInfo as WInfoGreataxe;
+
     public GreataxeState greataxeState = GreataxeState.IdleUpward;
 
-    StatsGreataxe stats;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -44,8 +45,6 @@ public class CWGreataxe : CombatWeapon
     public CWGreataxe(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.greataxe;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -53,20 +52,20 @@ public class CWGreataxe : CombatWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
         }
     }
 
@@ -94,19 +93,19 @@ public class CWGreataxe : CombatWeapon
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damage1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.attack1DamageEnemyPortion;
-        damage2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.attack2DamageEnemyPortion;
-        damage3TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.attack3DamageEnemyPortion;
+        damage1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack1DamageEnemyPortion;
+        damage2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack2DamageEnemyPortion;
+        damage3TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack3DamageEnemyPortion;
 
         OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
     }

@@ -28,7 +28,7 @@ public class CombatWeapon
     //------------------------------------------------------------------------
     public float yellowBarShrinkingSpeed = 10f;
 
-    public _StatsGeneral statsGeneral;
+    public WeaponInfo weaponInfo;
     public int coordX = 0;
     public int coordY = 0;
     public int id;
@@ -146,6 +146,8 @@ public class CombatWeapon
         this.combatMode = combatMode;
         this.rnd = rnd;
 
+        weaponInfo = CombatMain.weaponInfosDict[weapon.weaponType];
+
         statusEffects = new List<StatusEffect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
             damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
@@ -200,15 +202,15 @@ public class CombatWeapon
     //------------------------------------------------------------------------
     public virtual void UpdateLevelBasedStats()
     {
-        healthPoint = statsGeneral.GetHP(weapon.combatLevel);
-        actionTimePassed = weapon.combatLevel == 1 ? statsGeneral.startingActionTimePassed1 : statsGeneral.startingActionTimePassed2;
+        healthPoint = weaponInfo.GetHP(weapon.combatLevel);
+        actionTimePassed = weapon.combatLevel == 1 ? weaponInfo.startingActionTimePassed1 : weaponInfo.startingActionTimePassed2;
         maxHealthPoint = healthPoint;
         healthPointForYellowBar = healthPoint;
 
         if (weapon.combatLevel == 1) {
-            actionTimePeriod = statsGeneral.actionTimePeriod1;
+            actionTimePeriod = weaponInfo.actionTimePeriod1;
         } else {
-            actionTimePeriod = statsGeneral.actionTimePeriod2;
+            actionTimePeriod = weaponInfo.actionTimePeriod2;
         }
     }
 
@@ -349,7 +351,7 @@ public class CombatWeapon
     //------------------------------------------------------------------------
     public void CancelTransition()
     {
-        transitionTimeTotal = seActionSpeedMultiplier / (actionTimePeriod * statsGeneral.cancelingSpeed);
+        transitionTimeTotal = seActionSpeedMultiplier / (actionTimePeriod * weaponInfo.cancelingSpeed);
         transitionTimePassed = 0f;
         OnCancelTransition(transitionTimeTotal);
     }

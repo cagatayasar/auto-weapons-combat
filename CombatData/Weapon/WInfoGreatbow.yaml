@@ -1,0 +1,32 @@
+className: Greatbow
+actionDescription: '(healthPercent)% damage
+  Ranged: (range)'
+otherDescription: 'Deals percent health damage.'
+cost1: 3
+cost2: 3
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 20
+healthPoint2: 20
+actionSpeed1: 1
+actionSpeed2: 1
+damage1Fixed: 5
+damage2Fixed: 5
+damage1Min: 5
+damage1Max: 5
+damage2Min: 5
+damage2Max: 5
+attackPerAnimation: 1
+healthPercent1: 0
+healthPercent2: 0
+range1: 0
+range2: 0
+animationNonidlePortionMin: 0
+animationNonidlePortionMax: 0
+actionSpeedForNonidleMin: 0
+actionSpeedForNonidleMax: 0
+animationAttackDrawPortion: 0
+animationAttackReleaseTime: 0
+projectileSpeed: 0
+_30DegreesRotationDuration: 0

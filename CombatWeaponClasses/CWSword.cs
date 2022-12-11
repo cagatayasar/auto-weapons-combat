@@ -5,9 +5,10 @@ using System.Linq;
 
 public class CWSword : CombatWeapon, ICWCancelTransition
 {
+    public new WInfoSword weaponInfo => base.weaponInfo as WInfoSword;
+
     MeleeTargetType targetType = MeleeTargetType.Null;
 
-    StatsSword stats;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -23,8 +24,6 @@ public class CWSword : CombatWeapon, ICWCancelTransition
     public CWSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.sword;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -32,21 +31,21 @@ public class CWSword : CombatWeapon, ICWCancelTransition
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
         }
     }
 
@@ -81,18 +80,18 @@ public class CWSword : CombatWeapon, ICWCancelTransition
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForAnimationMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForAnimationMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForAnimationMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForAnimationMin) / (stats.actionSpeedForAnimationMax - stats.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damageUpwardTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationUpwardDamageEnemyPortion;
-        damageFrontTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationFrontDamageEnemyPortion;
+        damageUpwardTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamageEnemyPortion;
+        damageFrontTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamageEnemyPortion;
 
         OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
         OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));

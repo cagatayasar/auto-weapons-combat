@@ -5,13 +5,11 @@ using System.Linq;
 
 public class CWShield : CombatWeapon
 {
-    StatsShield stats;
+    public new WInfoShield weaponInfo => base.weaponInfo as WInfoShield;
 
     public CWShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.shield;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }

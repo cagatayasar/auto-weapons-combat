@@ -79,15 +79,14 @@ public static partial class Utils
         return false;
     }
 
-    public static IList<TResult> SelectWhere_<TSource, TResult>(this IList<TSource> list, Func<TSource, TResult> selector, Func<TSource, bool> predicate)
+    public static List<TResult> SelectWhere_<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, Func<TSource, bool> predicate)
     {
-        var count = list.Count;
         var result = new List<TResult>();
-        for (int i = 0; i < count; i++) {
-            var item = list[i];
+        foreach (var item in enumerable) {
             if (predicate(item))
                 result.Add(selector(item));
         }
+
         return result;
     }
 

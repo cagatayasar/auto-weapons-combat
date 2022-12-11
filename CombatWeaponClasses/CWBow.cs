@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWBow : CombatWeapon
 {
-    StatsBow stats;
+    public new WInfoBow weaponInfo => base.weaponInfo as WInfoBow;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -27,34 +27,32 @@ public class CWBow : CombatWeapon
     public CWBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.bow;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f / (actionTimePeriod * stats.animationNonidlePortionMin * stats.animationAttackDrawPortion));
-        OnAnimatorSetFloat("releaseSpeed", "bow_anim_release", 1f / stats.animationAttackReleaseTime);
+        OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin * weaponInfo.animationAttackDrawPortion));
+        OnAnimatorSetFloat("releaseSpeed", "bow_anim_release", 1f / weaponInfo.animationAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            range = stats.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            range = stats.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            range = weaponInfo.range2;
         }
     }
 
@@ -117,21 +115,21 @@ public class CWBow : CombatWeapon
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         drawTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        releaseTriggerTime = actionTimePeriod - stats.animationAttackReleaseTime;
-        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * stats.animationAttackDrawPortion;
+        releaseTriggerTime = actionTimePeriod - weaponInfo.animationAttackReleaseTime;
+        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animationAttackDrawPortion;
 
         OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f /
-            (((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion - stats.animationAttackReleaseTime) * stats.animationAttackDrawPortion));
+            (((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion - weaponInfo.animationAttackReleaseTime) * weaponInfo.animationAttackDrawPortion));
     }
 
     public override void ActIfReady()

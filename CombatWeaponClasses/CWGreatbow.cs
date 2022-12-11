@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWGreatbow : CombatWeapon
 {
-    StatsGreatbow stats;
+    public new WInfoGreatbow weaponInfo => base.weaponInfo as WInfoGreatbow;
     int healthPercent;
 
     // animation variables
@@ -25,30 +25,28 @@ public class CWGreatbow : CombatWeapon
     public CWGreatbow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.greatbow;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "greatbow_anim_draw", 1f / (actionTimePeriod * stats.animationNonidlePortionMin * stats.animationAttackDrawPortion));
-        OnAnimatorSetFloat("releaseSpeed", "greatbow_anim_release", 1f / stats.animationAttackReleaseTime);
+        OnAnimatorSetFloat("drawSpeed", "greatbow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin * weaponInfo.animationAttackDrawPortion));
+        OnAnimatorSetFloat("releaseSpeed", "greatbow_anim_release", 1f / weaponInfo.animationAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            healthPercent = stats.healthPercent1;
-            range = stats.range1;
+            healthPercent = weaponInfo.healthPercent1;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            healthPercent = stats.healthPercent2;
-            range = stats.range2;
+            healthPercent = weaponInfo.healthPercent2;
+            range = weaponInfo.range2;
         }
     }
 
@@ -111,21 +109,21 @@ public class CWGreatbow : CombatWeapon
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         drawTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        releaseTriggerTime = actionTimePeriod - stats.animationAttackReleaseTime;
-        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * stats.animationAttackDrawPortion;
+        releaseTriggerTime = actionTimePeriod - weaponInfo.animationAttackReleaseTime;
+        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animationAttackDrawPortion;
 
         OnAnimatorSetFloat("drawSpeed", "greatbow_anim_draw", 1f /
-            (((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion - stats.animationAttackReleaseTime) * stats.animationAttackDrawPortion));
+            (((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion - weaponInfo.animationAttackReleaseTime) * weaponInfo.animationAttackDrawPortion));
     }
 
     public override void ActIfReady()

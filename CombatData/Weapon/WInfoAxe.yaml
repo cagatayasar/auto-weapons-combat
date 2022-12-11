@@ -1,0 +1,33 @@
+className: Axe
+actionDescription: '(healthPercent)% damage
+  Melee'
+otherDescription: 'Deals percent health damage.'
+cost1: 2
+cost2: 2
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 16
+healthPoint2: 20
+actionSpeed1: 0.6
+actionSpeed2: 0.7
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 0
+damage2Fixed: 0
+damage1Min: 0
+damage1Max: 0
+damage2Min: 0
+damage2Max: 0
+attackPerAnimation: 1
+cancelingSpeed: 3
+commandAttackWait1: 0
+commandAttackWait2: 0.3
+healthPercent1: 40
+healthPercent2: 40
+animationNonidlePortionMin: 0.98
+animationNonidlePortionMax: 0.99
+actionSpeedForNonidleMin: 0.9
+actionSpeedForNonidleMax: 1.3
+animationDamageEnemyPortion: 0.45
+_30DegreesRotationDuration: 0.2

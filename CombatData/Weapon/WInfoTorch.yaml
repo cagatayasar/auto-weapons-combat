@@ -1,0 +1,22 @@
+className: Torch
+actionDescription: '(damageMin)-(damageMax) damage
+  Melee'
+otherDescription: 'Deals damage to all enemies in the targeted row.'
+cost1: 2
+cost2: 2
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 20
+healthPoint2: 24
+actionSpeed1: 1.4
+actionSpeed2: 1.8
+damage1Fixed: 2
+damage2Fixed: 2
+damage1Min: 2
+damage1Max: 2
+damage2Min: 2
+damage2Max: 2
+attackPerAnimation: 1
+damage1: 2
+damage2: 2

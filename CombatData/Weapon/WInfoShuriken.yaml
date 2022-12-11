@@ -1,0 +1,30 @@
+className: Shuriken
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Thrown to the furthest enemy at the start of the combat.'
+cost1: 1
+cost2: 1
+isMelee: n
+isRanged: n
+isThrown: y
+healthPoint1: 5
+healthPoint2: 5
+actionSpeed1: 0
+actionSpeed2: 0
+damage1Fixed: 8
+damage2Fixed: 11
+damage1Min: 6
+damage1Max: 10
+damage2Min: 9
+damage2Max: 13
+attackPerAnimation: 1
+wInfoThrown:
+  rotationsBaseCount: 0
+  rotationsPerDistance: 1.4
+  rotationOffsetDegrees: 0
+  projectileSpeed: 2
+range1: 5
+range2: 5
+animationThrowPrepare1Length: 0.4
+animationThrowPrepare2Length: 0.15
+_30DegreesRotationDuration: 0.1

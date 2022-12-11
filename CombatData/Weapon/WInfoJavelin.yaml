@@ -1,0 +1,27 @@
+className: Javelin
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged'
+otherDescription: 'Thrown forward at the start of the combat, damaging enemies in its way.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: n
+isThrown: y
+healthPoint1: 15
+healthPoint2: 15
+actionSpeed1: 0
+actionSpeed2: 0
+damage1Fixed: 7
+damage2Fixed: 10
+damage1Min: 5
+damage1Max: 9
+damage2Min: 8
+damage2Max: 12
+attackPerAnimation: 1
+touchDamageMultiplier1: 0.5
+touchDamageMultiplier2: 0.5
+friendlyDamageMultiplier: 0.5
+animationThrowPrepare1Length: 0.3
+animationThrowPrepare2Length: 0.5
+projectileSpeed: 2
+damagePointOffset: 0.14

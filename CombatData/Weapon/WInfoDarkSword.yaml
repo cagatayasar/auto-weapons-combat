@@ -1,0 +1,37 @@
+className: Dark Sword
+actionDescription: '(damageMin)-(damageMax) damage
+  Melee'
+otherDescription: 'After each round, gain 1 damage.'
+cost1: 2
+cost2: 2
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 15
+healthPoint2: 20
+actionSpeed1: 0.45
+actionSpeed2: 0.55
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 5
+damage2Fixed: 5
+damage1Min: 4
+damage1Max: 7
+damage2Min: 5
+damage2Max: 9
+attackPerAnimation: 2
+cancelingSpeed: 1.3
+commandAttackWait1: 0
+commandAttackWait2: 0.4
+maxStackAmount1: 5
+maxStackAmount2: 5
+damagePerStack1: 1
+damagePerStack2: 1
+animationNonidlePortionMin: 0.98
+animationNonidlePortionMax: 0.99
+actionSpeedForAnimationMin: 0.55
+actionSpeedForAnimationMax: 0.75
+animationUpwardDamage1Portion: 0.28
+animationUpwardDamage2Portion: 0.47
+animationFrontDamage1Portion: 0.28
+animationFrontDamage2Portion: 0.6

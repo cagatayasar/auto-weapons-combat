@@ -1,0 +1,32 @@
+className: Crimson Bow
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Gains (speedBuffPercent)% speed with each attack.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 10
+healthPoint2: 12
+actionSpeed1: 0.7
+actionSpeed2: 0.8
+damage1Fixed: 5
+damage2Fixed: 6
+damage1Min: 5
+damage1Max: 6
+damage2Min: 6
+damage2Max: 7
+attackPerAnimation: 1
+range1: 2
+range2: 3
+speedBuffPercent1: 15
+speedBuffPercent2: 15
+animationNonidlePortionMin: 0.7
+animationNonidlePortionMax: 0.8
+actionSpeedForNonidleMin: 0.8
+actionSpeedForNonidleMax: 1.8
+animationAttackDrawPortion: 0.8
+animationAttackReleaseTime: 0.1
+projectileSpeed: 1
+_30DegreesRotationDuration: 0.6

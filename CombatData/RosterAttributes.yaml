@@ -1,0 +1,27 @@
+activeWeapons:
+- Arbalest
+- Axe
+- Bow
+- Buckler
+- Cannon
+- Dagger
+- DarkSword
+- Greataxe
+- Hatchet
+- Javelin
+- Katana
+- PumpShotgun
+- RagingBow
+- Revolver
+- SawedOff
+- Scimitar
+- Shield
+- Shuriken
+- SniperRifle
+- SpikedShield
+- Sword
+- Torch
+activeWeaponMasters:
+- Colonel
+- Guardian
+- Gunslinger

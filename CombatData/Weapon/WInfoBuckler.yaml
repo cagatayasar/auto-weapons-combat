@@ -1,0 +1,18 @@
+className: Buckler
+actionDescription: 'Cannot attack.'
+otherDescription: 'After receiving an attack, becomes immune for a short time.'
+cost1: 2
+cost2: 2
+isThrown: n
+healthPoint1: 28
+healthPoint2: 28
+actionSpeed1: 0
+actionSpeed2: 0
+damage1Fixed: 0
+damage2Fixed: 0
+damage1Min: 0
+damage1Max: 0
+damage2Min: 0
+damage2Max: 0
+attackPerAnimation: 1
+immunityLength: 0.6

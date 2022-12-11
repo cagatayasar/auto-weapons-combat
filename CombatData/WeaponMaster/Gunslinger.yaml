@@ -1,6 +1,6 @@
 weaponMasterTypeStr: Gunslinger
 displayName: Gunslinger
-passiveTacticStr:
+passiveTactic:
   tacticTypeStr: '45'
   weaponMasterTypeStr: Gunslinger
   useTypeStr: Nonusable
@@ -17,7 +17,7 @@ passiveTacticStr:
   delay: 0
   percent: 0
   speedToAdd: 0
-tacticsStr:
+tactics:
 - tacticTypeStr: QuickShot
   weaponMasterTypeStr: Gunslinger
   useTypeStr: AllWeapons

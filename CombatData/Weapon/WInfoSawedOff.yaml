@@ -1,0 +1,35 @@
+className: Sawed-off
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription:
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 10
+healthPoint2: 12
+actionSpeed1: 1.1
+actionSpeed2: 1.2
+damage1Fixed: 12
+damage2Fixed: 15
+damage1Min: 8
+damage1Max: 14
+damage2Min: 10
+damage2Max: 18
+attackPerAnimation: 1
+range1: 1
+range2: 1
+bullets: 2
+doFirstShotAfter: 0.4
+firstReloadLength: 1.8
+secondReloadLength: 1.4
+reloadAnimationLength: 0.4
+waitLengthAfterReload: 0.7
+playAfterReloadSoundAfter: 0
+animationNonidlePortionMin: 0.6
+animationNonidlePortionMax: 0.95
+actionSpeedForNonidleMin: 0.7
+actionSpeedForNonidleMax: 1.5
+projectileSpeed: 4
+_30DegreesRotationDuration: 0.2

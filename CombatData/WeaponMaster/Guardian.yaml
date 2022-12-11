@@ -1,9 +1,8 @@
 weaponMasterTypeStr: Guardian
 displayName: Guardian
-passiveTacticStr:
+passiveTactic:
   tacticTypeStr: Armored
   weaponMasterTypeStr: Guardian
-  spriteMedRes: {fileID: 21300000, guid: 4ac5536ecb1aa0c478e3033bc1f1d7d1, type: 3}
   useTypeStr: Nonusable
   useCost: 0
   uses: 0
@@ -16,7 +15,7 @@ passiveTacticStr:
   delay: 0
   percent: 0
   speedToAdd: 0
-tacticsStr:
+tactics:
 - tacticTypeStr: Protect
   weaponMasterTypeStr: Guardian
   useTypeStr: AllWeapons

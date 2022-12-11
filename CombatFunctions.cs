@@ -372,7 +372,7 @@ public static class CombatFunctions
         int colIndex = coordY + 2;
         Vec2 pos = CombatArea.combatAreaPositions[rowIndex][colIndex];
 
-        Vec2 differenceVector = isPlayer ? Vec2.zero : Vec2.right * (CombatArea.combatAreaWidth / 2f);
+        Vec2 differenceVector = Vec2.right * CombatArea.combatAreaWidth * (isPlayer ? -1f/4f : 1f/4f);
         return pos + differenceVector;
     }
 

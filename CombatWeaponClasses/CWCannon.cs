@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWCannon : CombatWeapon, ICWHoldsRowPositions
 {
-    StatsCannon stats;
+    public new WInfoCannon weaponInfo => base.weaponInfo as WInfoCannon;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -27,11 +27,9 @@ public class CWCannon : CombatWeapon, ICWHoldsRowPositions
     public CWCannon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.cannon;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        projectileMaxHeightOverDistance = stats.projectileMaxHeightOverDistance * CombatMain.combatAreaScale;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        projectileMaxHeightOverDistance = weaponInfo.projectileMaxHeightOverDistance * CombatMain.combatAreaScale;
         UpdateRowPositions(false);
         ApplyExistingPermanentStatusEffects();
     }
@@ -39,22 +37,22 @@ public class CWCannon : CombatWeapon, ICWHoldsRowPositions
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            range = stats.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            range = stats.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            range = weaponInfo.range2;
         }
     }
 
@@ -67,7 +65,7 @@ public class CWCannon : CombatWeapon, ICWHoldsRowPositions
             actionTimePassed += deltaTime * seActionSpeedMultiplier;
             if (!didFirstShot) {
                 firstShotTimer += deltaTime * seActionSpeedMultiplier;
-                if (firstShotTimer > stats.doFirstShotAfter) {
+                if (firstShotTimer > weaponInfo.doFirstShotAfter) {
                     didFirstShot = true;
                 }
             }
@@ -109,17 +107,17 @@ public class CWCannon : CombatWeapon, ICWHoldsRowPositions
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForAnimationMin) {
-            animationAttackPortion = stats.animationNonidlePortionMin;
-            actionSpeedClamped = stats.actionSpeedForAnimationMin;
+        if (actionSpeed < weaponInfo.actionSpeedForAnimationMin) {
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+            actionSpeedClamped = weaponInfo.actionSpeedForAnimationMin;
         }
-        else if (actionSpeed > stats.actionSpeedForAnimationMax) {
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax) {
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         }
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForAnimationMin) / (stats.actionSpeedForAnimationMax - stats.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f * actionSpeedClamped / animationAttackPortion);

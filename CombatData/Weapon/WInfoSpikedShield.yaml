@@ -1,0 +1,21 @@
+className: Spiked Shield
+actionDescription: 'Cannot attack.'
+otherDescription: 'When it receives an attack, deals (responseDamageMin)-(responseDamageMax) response damage to the attacker.'
+cost1: 2
+cost2: 2
+isThrown: n
+healthPoint1: 30
+healthPoint2: 40
+actionSpeed1: 0
+actionSpeed2: 0
+damage1Fixed: 0
+damage2Fixed: 0
+damage1Min: 0
+damage1Max: 0
+damage2Min: 0
+damage2Max: 0
+attackPerAnimation: 1
+responseDamage1Min: 2
+responseDamage1Max: 2
+responseDamage2Min: 3
+responseDamage2Max: 4

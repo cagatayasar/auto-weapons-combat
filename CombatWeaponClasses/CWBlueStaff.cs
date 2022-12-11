@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWBlueStaff : CombatWeapon
 {
-    public StatsBlueStaff stats;
+    public new WInfoBlueStaff weaponInfo => base.weaponInfo as WInfoBlueStaff;
     public float actionSpeedMultiplier;
     public List<CombatWeapon> targetWeapons;
 
@@ -14,8 +14,6 @@ public class CWBlueStaff : CombatWeapon
     public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.blueStaff;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         targetWeapons = new List<CombatWeapon>();
         ApplyExistingPermanentStatusEffects();
@@ -30,9 +28,9 @@ public class CWBlueStaff : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            actionSpeedMultiplier = stats.actionSpeedMultiplier1;
+            actionSpeedMultiplier = weaponInfo.actionSpeedMultiplier1;
         } else if (weapon.combatLevel == 2) {
-            actionSpeedMultiplier = stats.actionSpeedMultiplier2;
+            actionSpeedMultiplier = weaponInfo.actionSpeedMultiplier2;
         }
     }
 

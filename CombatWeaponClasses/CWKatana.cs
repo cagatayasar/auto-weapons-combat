@@ -19,9 +19,10 @@ public enum KatanaState
 
 public class CWKatana : CombatWeapon, ICWStackWeapon
 {
+    public new WInfoKatana weaponInfo => base.weaponInfo as WInfoKatana;
+
     public KatanaState katanaState = KatanaState.IdleFirst;
 
-    public StatsKatana stats;
     public int damageFixed;
     public int damageMin;
     public int damageMax;
@@ -34,34 +35,32 @@ public class CWKatana : CombatWeapon, ICWStackWeapon
     public CWKatana(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.katana;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedFirst", "katana_anim_firstattack", 1f / stats.firstAttackLength);
-        OnAnimatorSetFloat("attackSpeedUpward", "katana_anim_upwardattack", 1f / stats.upwardAttackLength);
-        OnAnimatorSetFloat("attackSpeedDownward", "katana_anim_downwardattack", 1f / stats.downwardAttackLength);
+        OnAnimatorSetFloat("attackSpeedFirst", "katana_anim_firstattack", 1f / weaponInfo.firstAttackLength);
+        OnAnimatorSetFloat("attackSpeedUpward", "katana_anim_upwardattack", 1f / weaponInfo.upwardAttackLength);
+        OnAnimatorSetFloat("attackSpeedDownward", "katana_anim_downwardattack", 1f / weaponInfo.downwardAttackLength);
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            maxStacks = stats.maxStackAmount1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            maxStacks = weaponInfo.maxStackAmount1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            maxStacks = stats.maxStackAmount2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            maxStacks = weaponInfo.maxStackAmount2;
         }
     }
 
@@ -129,47 +128,47 @@ public class CWKatana : CombatWeapon, ICWStackWeapon
             katanaState = KatanaState.AttackingFirstPhase1;
             OnAnimatorSetTrigger("attackFirst");
         }
-        else if (katanaState == KatanaState.AttackingFirstPhase1 && attackTimer >= stats.firstAttackLength * stats.firstAttackDamageEnemyPortion)
+        else if (katanaState == KatanaState.AttackingFirstPhase1 && attackTimer >= weaponInfo.firstAttackLength * weaponInfo.firstAttackDamageEnemyPortion)
         {
             katanaState = KatanaState.AttackingFirstPhase2;
             AttackIfAble();
         }
-        else if (katanaState == KatanaState.AttackingFirstPhase2 && attackTimer >= stats.firstAttackLength)
+        else if (katanaState == KatanaState.AttackingFirstPhase2 && attackTimer >= weaponInfo.firstAttackLength)
         {
             attackTimer = 0f;
             katanaState = KatanaState.IdleAfterUpward;
         }
         else if (katanaState == KatanaState.IdleAfterUpward && targetEnemy != null
-            && stacks > 0 && attackTimer >= stats.waitTimeBetweenAttacks)
+            && stacks > 0 && attackTimer >= weaponInfo.waitTimeBetweenAttacks)
         {
             attackTimer = 0f;
             katanaState = KatanaState.AttackingDownwardPhase1;
             OnAnimatorSetTrigger("attackDownward");
         }
-        else if (katanaState == KatanaState.AttackingDownwardPhase1 && attackTimer >= stats.downwardAttackLength * stats.downwardAttackDamageEnemyPortion) 
+        else if (katanaState == KatanaState.AttackingDownwardPhase1 && attackTimer >= weaponInfo.downwardAttackLength * weaponInfo.downwardAttackDamageEnemyPortion) 
         {
             katanaState = KatanaState.AttackingDownwardPhase2;
             AttackIfAble();
         }
-        else if (katanaState == KatanaState.AttackingDownwardPhase2 && attackTimer >= stats.downwardAttackLength)
+        else if (katanaState == KatanaState.AttackingDownwardPhase2 && attackTimer >= weaponInfo.downwardAttackLength)
         {
             attackTimer = 0f;
             katanaState = KatanaState.IdleAfterDownward;
         }
         else if (katanaState == KatanaState.IdleAfterDownward && targetEnemy != null
-            && stacks > 0 && attackTimer >= stats.waitTimeBetweenAttacks)
+            && stacks > 0 && attackTimer >= weaponInfo.waitTimeBetweenAttacks)
         {
             attackTimer = 0f;
             katanaState = KatanaState.AttackingUpwardPhase1;
             OnAnimatorSetTrigger("attackUpward");
         }
-        else if (katanaState == KatanaState.AttackingUpwardPhase1 && attackTimer >= stats.upwardAttackLength * stats.upwardAttackDamageEnemyPortion)
+        else if (katanaState == KatanaState.AttackingUpwardPhase1 && attackTimer >= weaponInfo.upwardAttackLength * weaponInfo.upwardAttackDamageEnemyPortion)
         {
             katanaState = KatanaState.AttackingUpwardPhase2;
             AttackIfAble();
         }
         else if (katanaState == KatanaState.AttackingUpwardPhase2 &&
-                 attackTimer >= stats.upwardAttackLength)
+                 attackTimer >= weaponInfo.upwardAttackLength)
         {
             attackTimer = 0f;
             katanaState = KatanaState.IdleAfterUpward;

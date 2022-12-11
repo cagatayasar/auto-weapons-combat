@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWBuckler : CombatWeapon
 {
-    public StatsBuckler stats;
+    public new WInfoBuckler weaponInfo => base.weaponInfo as WInfoBuckler;
     bool isImmunityActive;
     float immunityTimer;
 
@@ -14,8 +14,6 @@ public class CWBuckler : CombatWeapon
     public CWBuckler(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.buckler;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -48,11 +46,11 @@ public class CWBuckler : CombatWeapon
     public void UpdateImmunity(float deltaTime)
     {
         immunityTimer += deltaTime;
-        if (immunityTimer > stats.immunityLength) {
+        if (immunityTimer > weaponInfo.immunityLength) {
             isImmunityActive = false;
             immunityTimer = 0f;
         }
-        onUpdateImmunity?.Invoke(immunityTimer / stats.immunityLength);
+        onUpdateImmunity?.Invoke(immunityTimer / weaponInfo.immunityLength);
     }
 
     public override void ActIfReady(){}
@@ -80,7 +78,7 @@ public class CWBuckler : CombatWeapon
             OnUpdateHealthBar(0f);
             isImmunityActive = true;
             if (action.isAttackerThrown) {
-                immunityTimer = stats.immunityLength * 0.25f;
+                immunityTimer = weaponInfo.immunityLength * 0.25f;
                 UpdateImmunity(0f);
             }
         }

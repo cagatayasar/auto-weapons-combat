@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
 {
-    public StatsJavelin stats;
+    public new WInfoJavelin weaponInfo => base.weaponInfo as WInfoJavelin;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -22,12 +22,10 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
     public CWJavelin(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.javelin;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
         if (combatMode == CombatMode.Object) {
-            damagePointOffset = Vec3.right * stats.damagePointOffset * CombatMain.combatAreaScale * isPlayer.ToMultiplier();
+            damagePointOffset = Vec3.right * weaponInfo.damagePointOffset * CombatMain.combatAreaScale * isPlayer.ToMultiplier();
         }
         UpdateRowPositions(false);
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
@@ -45,15 +43,15 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            touchDamageMultiplier = stats.touchDamageMultiplier1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            touchDamageMultiplier = weaponInfo.touchDamageMultiplier1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            touchDamageMultiplier = stats.touchDamageMultiplier2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            touchDamageMultiplier = weaponInfo.touchDamageMultiplier2;
         }
     }
 
@@ -82,7 +80,7 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
     {
         var multiplier = isTouched ? touchDamageMultiplier : 1f;
         if (target.isPlayer == isPlayer) {
-            multiplier *= stats.friendlyDamageMultiplier;
+            multiplier *= weaponInfo.friendlyDamageMultiplier;
         }
         return new CombatAction((int)(combatAction.damage * multiplier), combatAction.isSenderPlayersWeapon, combatAction.senderId);
     }

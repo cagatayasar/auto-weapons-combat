@@ -1,0 +1,37 @@
+className: Pump Shotgun
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Pushes the opponent.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 14
+healthPoint2: 16
+actionSpeed1: 0.6
+actionSpeed2: 0.7
+startingActionTimePassed1: 10
+startingActionTimePassed2: 10
+damage1Fixed: 5
+damage2Fixed: 6
+damage1Min: 5
+damage1Max: 6
+damage2Min: 6
+damage2Max: 7
+attackPerAnimation: 1
+cancelingSpeed: 0
+range1: 2
+range2: 3
+bullets: 5
+doFirstShotAfter: 1
+reloadTimePerBullet: 0.8
+reloadAnimationUIPortion: 0.6
+waitLengthAfterReload: 0.7
+playAfterReloadSoundAfter: 0
+animationNonidleMultiplierMin: 0.4
+animationNonidleMultiplierMax: 0.6
+actionSpeedForNonidleMin: 0.4
+actionSpeedForNonidleMax: 1
+projectileSpeed: 2.3
+_30DegreesRotationDuration: 0.5

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
 {
-    StatsArbalest stats;
+    public new WInfoArbalest weaponInfo => base.weaponInfo as WInfoArbalest;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -35,11 +35,9 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.arbalest;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        arrowImaginaryStartingOffset = stats.arrowImaginaryStartingOffset * CombatMain.combatAreaScale;
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
+        arrowImaginaryStartingOffset = weaponInfo.arrowImaginaryStartingOffset * CombatMain.combatAreaScale;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
         UpdateRowPositions(false);
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
         combatAreaBoundaryLeft = leftAreaRows[2].x - distancePerRow;
@@ -50,23 +48,23 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * stats.animationNonidlePortionMin * stats.animationAttackDrawPortion));
-        OnAnimatorSetFloat("releaseSpeed", "arbalest_anim_release", 1f / stats.animationAttackReleaseTime);
+        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin * weaponInfo.animationAttackDrawPortion));
+        OnAnimatorSetFloat("releaseSpeed", "arbalest_anim_release", 1f / weaponInfo.animationAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            touchDamageMultiplier = stats.touchDamageMultiplier1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            touchDamageMultiplier = weaponInfo.touchDamageMultiplier1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            touchDamageMultiplier = stats.touchDamageMultiplier2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            touchDamageMultiplier = weaponInfo.touchDamageMultiplier2;
         }
     }
 
@@ -233,21 +231,21 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationNonidlePortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationNonidlePortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationNonidlePortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationNonidlePortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationNonidlePortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationNonidlePortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationNonidlePortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         drawTriggerTime = actionTimePeriod * (1f - animationNonidlePortion);
-        releaseTriggerTime = actionTimePeriod - stats.animationAttackReleaseTime;
-        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * stats.animationAttackDrawPortion;
+        releaseTriggerTime = actionTimePeriod - weaponInfo.animationAttackReleaseTime;
+        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animationAttackDrawPortion;
 
         OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f /
-            (((actionTimePeriod / seActionSpeedMultiplier) * animationNonidlePortion - stats.animationAttackReleaseTime) * stats.animationAttackDrawPortion));
+            (((actionTimePeriod / seActionSpeedMultiplier) * animationNonidlePortion - weaponInfo.animationAttackReleaseTime) * weaponInfo.animationAttackDrawPortion));
     }
 
     public override void ActIfReady()
@@ -294,7 +292,7 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     {
         var multiplier = isTouched ? touchDamageMultiplier : 1f;
         if (target.isPlayer == isPlayer) {
-            multiplier *= stats.friendlyDamageMultiplier;
+            multiplier *= weaponInfo.friendlyDamageMultiplier;
         }
         return new CombatAction((int)(combatAction.damage * multiplier), combatAction.isSenderPlayersWeapon, combatAction.senderId);
     }

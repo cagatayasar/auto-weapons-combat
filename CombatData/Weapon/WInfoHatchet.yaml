@@ -1,0 +1,34 @@
+className: Hatchet
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Thrown to the closest enemy at the start of the combat.'
+cost1: 1
+cost2: 1
+isMelee: n
+isRanged: n
+isThrown: y
+healthPoint1: 5
+healthPoint2: 5
+actionSpeed1: 0
+actionSpeed2: 0
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 8
+damage2Fixed: 11
+damage1Min: 6
+damage1Max: 10
+damage2Min: 9
+damage2Max: 13
+attackPerAnimation: 1
+cancelingSpeed: 0
+commandAttackWait1: 0
+commandAttackWait2: 0
+wInfoThrown:
+  rotationsBaseCount: 0
+  rotationsPerDistance: 2.2
+  rotationOffsetDegrees: 0
+  projectileSpeed: 1.2
+range1: 5
+range2: 5
+animationThrowPrepareSpeed: 1.3
+_30DegreesRotationDuration: 0.1

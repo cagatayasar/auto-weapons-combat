@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWSniperRifle : CombatWeapon
 {
-    public StatsSniperRifle stats;
+    public new WInfoSniperRifle weaponInfo => base.weaponInfo as WInfoSniperRifle;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -31,14 +31,12 @@ public class CWSniperRifle : CombatWeapon
     public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.sniperRifle;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        bullets = stats.bullets;
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        bullets = weaponInfo.bullets;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
+            weaponInfo.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }
@@ -46,22 +44,22 @@ public class CWSniperRifle : CombatWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "sniper_anim_attack", 1f / (actionTimePeriod * stats.animationNonidleMultiplierMin));
+        OnAnimatorSetFloat("speed", "sniper_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidleMultiplierMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            range = stats.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            range = stats.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            range = weaponInfo.range2;
         }
     }
 
@@ -74,7 +72,7 @@ public class CWSniperRifle : CombatWeapon
             actionTimePassed += deltaTime * seActionSpeedMultiplier;
             if (!didFirstShot) {
                 firstShotTimer += deltaTime * seActionSpeedMultiplier;
-                if (firstShotTimer > stats.doFirstShotAfter) didFirstShot = true;
+                if (firstShotTimer > weaponInfo.doFirstShotAfter) didFirstShot = true;
             }
 
             UpdateTarget();
@@ -105,17 +103,17 @@ public class CWSniperRifle : CombatWeapon
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationNonidleMultiplier;
-        if (actionSpeed < stats.actionSpeedForNonidleMin) {
-            animationNonidleMultiplier = stats.animationNonidleMultiplierMin;
-            actionSpeedClamped = stats.actionSpeedForNonidleMin;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin) {
+            animationNonidleMultiplier = weaponInfo.animationNonidleMultiplierMin;
+            actionSpeedClamped = weaponInfo.actionSpeedForNonidleMin;
         }
-        else if (actionSpeed > stats.actionSpeedForNonidleMax) {
-            animationNonidleMultiplier = stats.animationNonidleMultiplierMax;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax) {
+            animationNonidleMultiplier = weaponInfo.animationNonidleMultiplierMax;
         }
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidleMultiplierMax - stats.animationNonidleMultiplierMin);
-            animationNonidleMultiplier = stats.animationNonidleMultiplierMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidleMultiplierMax - weaponInfo.animationNonidleMultiplierMin);
+            animationNonidleMultiplier = weaponInfo.animationNonidleMultiplierMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "sniper_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
@@ -163,18 +161,18 @@ public class CWSniperRifle : CombatWeapon
         }
         else if (reloadState == ReloadState.Reload) {
             reloadTimer += deltaTime;
-            float t = reloadTimer / stats.reloadTimePerBullet;
-            onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + stats.reloadAnimationUIPortion) / stats.reloadAnimationUIPortion);
-            if (!reloadSoundPlayed && t - 1f + stats.reloadAnimationUIPortion > 0f) {
+            float t = reloadTimer / weaponInfo.reloadTimePerBullet;
+            onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + weaponInfo.reloadAnimationUIPortion) / weaponInfo.reloadAnimationUIPortion);
+            if (!reloadSoundPlayed && t - 1f + weaponInfo.reloadAnimationUIPortion > 0f) {
                 reloadSoundPlayed = true;
                 OnSfxTrigger("reloadSound");
             }
 
-            if (reloadTimer > stats.reloadTimePerBullet) {
+            if (reloadTimer > weaponInfo.reloadTimePerBullet) {
                 reloadSoundPlayed = false;
                 reloadTimer = 0f;
                 bullets++;
-                if (bullets == stats.bullets) {
+                if (bullets == weaponInfo.bullets) {
                     reloadState = ReloadState.WaitAfterReload;
                     reloadTimer = 0f;
                 }
@@ -182,11 +180,11 @@ public class CWSniperRifle : CombatWeapon
         }
         else if (reloadState == ReloadState.WaitAfterReload) {
             reloadTimer += deltaTime;
-            if (!afterReloadSoundPlayed && reloadTimer >= stats.playAfterReloadSoundAfter) {
+            if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
                 afterReloadSoundPlayed = true;
                 OnSfxTrigger("cockSound");
             }
-            if (reloadTimer > stats.waitLengthAfterReload) {
+            if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
                 reloadState = ReloadState.Shoot;
             }

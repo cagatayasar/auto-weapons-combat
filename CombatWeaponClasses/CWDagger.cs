@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWDagger : CombatWeapon, ICWCancelTransition
 {
-    StatsDagger stats;
+    public new WInfoDagger weaponInfo => base.weaponInfo as WInfoDagger;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -16,30 +16,28 @@ public class CWDagger : CombatWeapon, ICWCancelTransition
     public CWDagger(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.dagger;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
         }
     }
 
@@ -77,17 +75,17 @@ public class CWDagger : CombatWeapon, ICWCancelTransition
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationDamageEnemyPortion;
+        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationDamageEnemyPortion;
 
         OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
     }

@@ -1,0 +1,31 @@
+className: Dagger
+actionDescription: '(damageMin)-(damageMax) damage
+  Melee'
+otherDescription:
+cost1: 2
+cost2: 2
+isMelee: y
+isRanged: n
+isThrown: n
+healthPoint1: 14
+healthPoint2: 18
+actionSpeed1: 1.3
+actionSpeed2: 1.5
+startingActionTimePassed1: 0
+startingActionTimePassed2: 0
+damage1Fixed: 6
+damage2Fixed: 7
+damage1Min: 4
+damage1Max: 6
+damage2Min: 5
+damage2Max: 7
+attackPerAnimation: 1
+cancelingSpeed: 3
+commandAttackWait1: 0.2
+commandAttackWait2: 0.3
+animationNonidlePortionMin: 0.98
+animationNonidlePortionMax: 0.99
+actionSpeedForNonidleMin: 1.3
+actionSpeedForNonidleMax: 1.9
+animationDamageEnemyPortion: 0.37
+_30DegreesRotationDuration: 0.2

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWSawedOff : CombatWeapon
 {
-    public StatsSawedOff stats;
+    public new WInfoSawedOff weaponInfo => base.weaponInfo as WInfoSawedOff;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -29,16 +29,14 @@ public class CWSawedOff : CombatWeapon
     public CWSawedOff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.sawedOff;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        bullets = stats.bullets;
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        bullets = weaponInfo.bullets;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         actionTimePassed = 10f;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.firstReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
-            stats.secondReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
+            weaponInfo.firstReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
+            weaponInfo.secondReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }
@@ -46,22 +44,22 @@ public class CWSawedOff : CombatWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "sawedoff_anim_attack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("speed", "sawedoff_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            range = stats.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            range = stats.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            range = weaponInfo.range2;
         }
     }
 
@@ -74,7 +72,7 @@ public class CWSawedOff : CombatWeapon
             actionTimePassed += deltaTime * seActionSpeedMultiplier;
             if (!didFirstShot) {
                 firstShotTimer += deltaTime * seActionSpeedMultiplier;
-                if (firstShotTimer > stats.doFirstShotAfter) didFirstShot = true;
+                if (firstShotTimer > weaponInfo.doFirstShotAfter) didFirstShot = true;
             }
 
             UpdateTarget();
@@ -104,17 +102,17 @@ public class CWSawedOff : CombatWeapon
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationNonidleMultiplier;
-        if (actionSpeed < stats.actionSpeedForNonidleMin) {
-            animationNonidleMultiplier = stats.animationNonidlePortionMin;
-            actionSpeedClamped = stats.actionSpeedForNonidleMin;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin) {
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin;
+            actionSpeedClamped = weaponInfo.actionSpeedForNonidleMin;
         }
-        else if (actionSpeed > stats.actionSpeedForNonidleMax) {
-            animationNonidleMultiplier = stats.animationNonidlePortionMax;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax) {
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMax;
         }
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationNonidleMultiplier = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "sawedoff_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
@@ -160,11 +158,11 @@ public class CWSawedOff : CombatWeapon
             }
         }
         else if (reloadState == ReloadState.Reload) {
-            float reloadLength = bullets == 0 ? stats.firstReloadLength : stats.secondReloadLength;
+            float reloadLength = bullets == 0 ? weaponInfo.firstReloadLength : weaponInfo.secondReloadLength;
             reloadTimer += deltaTime;
             if (combatMode == CombatMode.Object) {
-                onUpdateBulletFillAmount?.Invoke(bullets, (reloadTimer - reloadLength + stats.reloadAnimationLength) / stats.reloadAnimationLength);
-                if (!reloadSoundPlayed && reloadTimer > reloadLength - stats.reloadAnimationLength) {
+                onUpdateBulletFillAmount?.Invoke(bullets, (reloadTimer - reloadLength + weaponInfo.reloadAnimationLength) / weaponInfo.reloadAnimationLength);
+                if (!reloadSoundPlayed && reloadTimer > reloadLength - weaponInfo.reloadAnimationLength) {
                     reloadSoundPlayed = true;
                     OnSfxTrigger("reloadSound");
                 }
@@ -173,7 +171,7 @@ public class CWSawedOff : CombatWeapon
                 reloadSoundPlayed = false;
                 reloadTimer = 0f;
                 bullets++;
-                if (bullets == stats.bullets) {
+                if (bullets == weaponInfo.bullets) {
                     reloadState = ReloadState.WaitAfterReload;
                     reloadTimer = 0f;
                 }
@@ -182,12 +180,12 @@ public class CWSawedOff : CombatWeapon
         else if (reloadState == ReloadState.WaitAfterReload) {
             reloadTimer += deltaTime;
             if (combatMode == CombatMode.Object) {
-                if (!afterReloadSoundPlayed && reloadTimer >= stats.playAfterReloadSoundAfter) {
+                if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
                     afterReloadSoundPlayed = true;
                     OnSfxTrigger("cockSound");
                 }
             }
-            if (reloadTimer > stats.waitLengthAfterReload) {
+            if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
                 reloadState = ReloadState.Shoot;
             }

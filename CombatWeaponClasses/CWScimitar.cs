@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWScimitar : CombatWeapon, ICWCancelTransition, ICWStackWeapon
 {
-    public StatsScimitar stats;
+    public new WInfoScimitar weaponInfo => base.weaponInfo as WInfoScimitar;
     public int damageFixed;
     public int damageMin;
     public int damageMax;
@@ -20,34 +20,32 @@ public class CWScimitar : CombatWeapon, ICWCancelTransition, ICWStackWeapon
     public CWScimitar(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.scimitar;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "scimitar_anim_attack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeed", "scimitar_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            maxStacks = stats.maxStackAmount1;
-            damagePerStack = stats.damagePerStack1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            maxStacks = weaponInfo.maxStackAmount1;
+            damagePerStack = weaponInfo.damagePerStack1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            maxStacks = stats.maxStackAmount2;
-            damagePerStack = stats.damagePerStack2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            maxStacks = weaponInfo.maxStackAmount2;
+            damagePerStack = weaponInfo.damagePerStack2;
         }
     }
 
@@ -93,17 +91,17 @@ public class CWScimitar : CombatWeapon, ICWCancelTransition, ICWStackWeapon
 
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < stats.actionSpeedForNonidleMin)
-            animationAttackPortion = stats.animationNonidlePortionMin;
-        else if (actionSpeed > stats.actionSpeedForNonidleMax)
-            animationAttackPortion = stats.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
+            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationAttackPortion = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * stats.animationDamageEnemyPortion;
+        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationDamageEnemyPortion;
 
         OnAnimatorSetFloat("attackSpeed", "scimitar_anim_attack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
     }

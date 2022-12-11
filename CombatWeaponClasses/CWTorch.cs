@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWTorch : CombatWeapon
 {
-    public StatsTorch stats;
+    public new WInfoTorch weaponInfo => base.weaponInfo as WInfoTorch;
     public int damage;
     public List<CombatWeapon> targetEnemies = new List<CombatWeapon>();
 
@@ -14,8 +14,6 @@ public class CWTorch : CombatWeapon
     public CWTorch(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.torch;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -29,9 +27,9 @@ public class CWTorch : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damage = stats.damage1;
+            damage = weaponInfo.damage1;
         } else if (weapon.combatLevel == 2) {
-            damage = stats.damage2;
+            damage = weaponInfo.damage2;
         }
     }
 

@@ -1,0 +1,33 @@
+className: Revolver
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Its first attack deals double damage.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 12
+healthPoint2: 15
+actionSpeed1: 0.8
+actionSpeed2: 0.9
+damage1Fixed: 6
+damage2Fixed: 7
+damage1Min: 4
+damage1Max: 8
+damage2Min: 4
+damage2Max: 12
+attackPerAnimation: 1
+range1: 2
+range2: 2
+bullets: 6
+reloadTimePerBullet: 0.5
+reloadAnimationUIPortion: 0.3
+waitLengthAfterReload: 0.5
+playAfterReloadSoundAfter: 0.1
+animationNonidlePortionMin: 0.6
+animationNonidlePortionMax: 0.95
+actionSpeedForNonidleMin: 0.6
+actionSpeedForNonidleMax: 2
+projectileSpeed: 4
+_30DegreesRotationDuration: 0.25

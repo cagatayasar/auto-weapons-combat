@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 [Serializable]
-public class TacticInfo
+public class TacticInfo : IYamlObject
 {
     public string tacticTypeStr;
     public string weaponMasterTypeStr;
@@ -25,53 +26,41 @@ public class TacticInfo
     public int percent;
     public float speedToAdd;
 
-    TacticType _tacticType;
-    WeaponMasterType _weaponMasterType;
-    TacticUseType _useType;
+    public TacticType TacticType { get; set; }
+    public WeaponMasterType WeaponMasterType { get; set; }
+    public TacticUseType TacticUseType { get; set; }
+    public bool Usable => TacticUseType != TacticUseType.Nonusable;
+    public string InsertedDescription { get; set; }
 
-    public TacticType tacticType { get {
-        if (_tacticType == TacticType.Null) {
-            _tacticType = (TacticType) Enum.Parse(typeof(TacticType), weaponMasterType + "_" + tacticTypeStr);
-        }
-        return _tacticType;
-    }}
+    public void Initialize()
+    {
+        WeaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
+        TacticType       = (TacticType)       Enum.Parse(typeof(TacticType), WeaponMasterType + "_" + tacticTypeStr);
+        TacticUseType    = (TacticUseType)    Enum.Parse(typeof(TacticUseType), useTypeStr);
 
-    public WeaponMasterType weaponMasterType { get {
-        if (_weaponMasterType == WeaponMasterType.Null) {
-            _weaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
-        }
-        return _weaponMasterType;
-    }}
-
-    public TacticUseType useType { get {
-        if (_useType == TacticUseType.Null) {
-            _useType = (TacticUseType) Enum.Parse(typeof(TacticUseType), useTypeStr);
-        }
-        return _useType;
-    }}
-
-    public bool usable => useType != TacticUseType.Nonusable;
-
-    public string insertedDescription { get {
-        var desc = description.Clone() as string;
+        InsertedDescription = description.Clone() as string;
         for (int i = 0; i < 10; i++) {
-            if (!ReplaceVariable(ref desc)) break;
+            InsertedDescription = ReplaceVariable(InsertedDescription, out var success);
+            if (success) break;
         }
-        return desc;
-    }}
+    }
 
-    bool ReplaceVariable(ref string desc)
+    string ReplaceVariable(string desc, out bool success)
     {
         var startIndex = desc.IndexOf('<', 0);
         if (startIndex != -1) {
             var endIndex = desc.IndexOf('>', startIndex);
             if (endIndex != -1) {
-                desc = desc.Substring(0, startIndex) + GetVariable(desc.Substring(startIndex + 1, endIndex - startIndex - 1)) +
-                    desc.Substring(endIndex + 1, desc.Length - endIndex - 1);
-                return true;
+                var sb = new StringBuilder();
+                sb.Append(desc.Substring(0, startIndex));
+                sb.Append(GetVariable(desc.Substring(startIndex + 1, endIndex - startIndex - 1)));
+                sb.Append(desc.Substring(endIndex + 1, desc.Length - endIndex - 1));
+                success = true;
+                return sb.ToString();
             }
         }
-        return false;
+        success = false;
+        return desc;
     }
 
     string GetVariable(string variable)

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWRevolver : CombatWeapon
 {
-    public StatsRevolver stats;
+    public new WInfoRevolver weaponInfo => base.weaponInfo as WInfoRevolver;
 
     int damageFixed;
     int damageMin;
@@ -29,14 +29,12 @@ public class CWRevolver : CombatWeapon
     public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.revolver;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        projectileSpeed = stats.projectileSpeed * CombatMain.combatAreaScale;
-        bullets = stats.bullets;
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
+        bullets = weaponInfo.bullets;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         if (weapon.attachment == AttachmentType.FasterReload) {
-            stats.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
+            weaponInfo.reloadTimePerBullet /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
         ApplyExistingPermanentStatusEffects();
     }
@@ -44,22 +42,22 @@ public class CWRevolver : CombatWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "revolver_anim_attack", 1f / (actionTimePeriod * stats.animationNonidlePortionMin));
+        OnAnimatorSetFloat("speed", "revolver_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
-            range = stats.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
+            range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
-            range = stats.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
+            range = weaponInfo.range2;
         }
     }
 
@@ -98,17 +96,17 @@ public class CWRevolver : CombatWeapon
         float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationNonidleMultiplier;
-        if (actionSpeed < stats.actionSpeedForNonidleMin) {
-            animationNonidleMultiplier = stats.animationNonidlePortionMin;
-            actionSpeedClamped = stats.actionSpeedForNonidleMin;
+        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin) {
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin;
+            actionSpeedClamped = weaponInfo.actionSpeedForNonidleMin;
         }
-        else if (actionSpeed > stats.actionSpeedForNonidleMax) {
-            animationNonidleMultiplier = stats.animationNonidlePortionMax;
+        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax) {
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMax;
         }
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - stats.actionSpeedForNonidleMin) / (stats.actionSpeedForNonidleMax - stats.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (stats.animationNonidlePortionMax - stats.animationNonidlePortionMin);
-            animationNonidleMultiplier = stats.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
+            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "revolver_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
@@ -155,18 +153,18 @@ public class CWRevolver : CombatWeapon
         }
         else if (reloadState == ReloadState.Reload) {
             reloadTimer += deltaTime;
-            float t = reloadTimer / stats.reloadTimePerBullet;
-            onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + stats.reloadAnimationUIPortion) / stats.reloadAnimationUIPortion);
-            if (!reloadSoundPlayed && t - 1f + stats.reloadAnimationUIPortion > 0f) {
+            float t = reloadTimer / weaponInfo.reloadTimePerBullet;
+            onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + weaponInfo.reloadAnimationUIPortion) / weaponInfo.reloadAnimationUIPortion);
+            if (!reloadSoundPlayed && t - 1f + weaponInfo.reloadAnimationUIPortion > 0f) {
                 reloadSoundPlayed = true;
                 OnSfxTrigger("reloadSound");
             }
 
-            if (reloadTimer > stats.reloadTimePerBullet) {
+            if (reloadTimer > weaponInfo.reloadTimePerBullet) {
                 reloadSoundPlayed = false;
                 reloadTimer = 0f;
                 bullets++;
-                if (bullets == stats.bullets) {
+                if (bullets == weaponInfo.bullets) {
                     reloadState = ReloadState.WaitAfterReload;
                     reloadTimer = 0f;
                 }
@@ -175,12 +173,12 @@ public class CWRevolver : CombatWeapon
         else if (reloadState == ReloadState.WaitAfterReload) {
             reloadTimer += deltaTime;
             if (combatMode == CombatMode.Object) {
-                if (!afterReloadSoundPlayed && reloadTimer >= stats.playAfterReloadSoundAfter) {
+                if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
                     afterReloadSoundPlayed = true;
                     OnSfxTrigger("wheelSound");
                 }
             }
-            if (reloadTimer > stats.waitLengthAfterReload) {
+            if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
                 reloadState = ReloadState.Shoot;
             }

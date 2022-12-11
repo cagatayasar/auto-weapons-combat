@@ -5,15 +5,13 @@ using System.Linq;
 
 public class CWSpikedShield : CombatWeapon
 {
-    StatsSpikedShield stats;
+    public new WInfoSpikedShield weaponInfo => base.weaponInfo as WInfoSpikedShield;
     int responseDamageMin;
     int responseDamageMax;
 
     public CWSpikedShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.spikedShield;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();
     }
@@ -27,11 +25,11 @@ public class CWSpikedShield : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            responseDamageMin = stats.responseDamage1Min;
-            responseDamageMax = stats.responseDamage1Max;
+            responseDamageMin = weaponInfo.responseDamage1Min;
+            responseDamageMax = weaponInfo.responseDamage1Max;
         } else if (weapon.combatLevel == 2) {
-            responseDamageMin = stats.responseDamage2Min;
-            responseDamageMax = stats.responseDamage2Max;
+            responseDamageMin = weaponInfo.responseDamage2Min;
+            responseDamageMax = weaponInfo.responseDamage2Max;
         }
     }
 

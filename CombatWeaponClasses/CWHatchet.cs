@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CWHatchet : CombatWeapon, ICWThrown
 {
-    public StatsHatchet stats;
+    public new WInfoHatchet weaponInfo => base.weaponInfo as WInfoHatchet;
     int damageFixed;
     int damageMin;
     int damageMax;
@@ -15,32 +15,30 @@ public class CWHatchet : CombatWeapon, ICWThrown
     public CWHatchet(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
     {
-        stats = DataManager.inst.weaponsPackage.hatchet;
-        statsGeneral = stats.statsGeneral;
         UpdateLevelBasedStats();
-        _30DegreesRotationDuration = stats._30DegreesRotationDuration;
+        _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
         ApplyExistingPermanentStatusEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("prepareSpeed", "hatchet_anim_prepare", stats.animationThrowPrepareSpeed);
+        OnAnimatorSetFloat("prepareSpeed", "hatchet_anim_prepare", weaponInfo.animationThrowPrepareSpeed);
     }
 
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            range = stats.range1;
-            damageFixed = statsGeneral.damage1Fixed;
-            damageMin = statsGeneral.damage1Min;
-            damageMax = statsGeneral.damage1Max;
+            range = weaponInfo.range1;
+            damageFixed = base.weaponInfo.damage1Fixed;
+            damageMin = base.weaponInfo.damage1Min;
+            damageMax = base.weaponInfo.damage1Max;
         } else if (weapon.combatLevel == 2) {
-            range = stats.range2;
-            damageFixed = statsGeneral.damage2Fixed;
-            damageMin = statsGeneral.damage2Min;
-            damageMax = statsGeneral.damage2Max;
+            range = weaponInfo.range2;
+            damageFixed = base.weaponInfo.damage2Fixed;
+            damageMin = base.weaponInfo.damage2Min;
+            damageMax = base.weaponInfo.damage2Max;
         }
     }
 

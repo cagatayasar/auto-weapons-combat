@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 
 [Serializable]
-public class WeaponMasterInfo
+public class WeaponMasterInfo : IYamlObject
 {
     public string weaponMasterTypeStr;
     public string displayName;
     public TacticInfo passiveTactic;
     public List<TacticInfo> tactics;
 
-    WeaponMasterType _weaponMasterType;
+    public WeaponMasterType WeaponMasterType { get; set; }
 
-    public WeaponMasterType weaponMasterType { get {
-        if (_weaponMasterType == WeaponMasterType.Null) {
-            _weaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
-        }
-        return _weaponMasterType;
-    }}
+    public void Initialize()
+    {
+        WeaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
+
+        passiveTactic.Initialize();
+        tactics.ForEach(t => t.Initialize());
+    }
 }

@@ -1,0 +1,32 @@
+className: Cannon
+actionDescription: '(damageMin)-(damageMax) damage
+  Ranged: (range)'
+otherDescription: 'Deals damage to all enemies in the targeted row.'
+cost1: 2
+cost2: 2
+isMelee: n
+isRanged: y
+isThrown: n
+healthPoint1: 7
+healthPoint2: 9
+actionSpeed1: 0.6
+actionSpeed2: 0.7
+startingActionTimePassed1: 10
+startingActionTimePassed2: 10
+damage1Fixed: 5
+damage2Fixed: 6
+damage1Min: 5
+damage1Max: 9
+damage2Min: 7
+damage2Max: 11
+attackPerAnimation: 1
+cancelingSpeed: 0
+range1: 2
+range2: 3
+doFirstShotAfter: 0.85
+animationNonidlePortionMin: 0.7
+animationNonidlePortionMax: 0.95
+actionSpeedForAnimationMin: 0.5
+actionSpeedForAnimationMax: 2
+projectileSpeed: 0.5
+projectileMaxHeightOverDistance: 0.15

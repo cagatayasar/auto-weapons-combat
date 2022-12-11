@@ -1,0 +1,20 @@
+className: Blue Staff
+actionDescription: 'Boosts speed by (actionSpeedMultiplier)%
+  Targets all allies in its front row'
+otherDescription:
+cost1: 2
+cost2: 2
+isThrown: n
+healthPoint1: 15
+healthPoint2: 20
+actionSpeed1: 1.5
+actionSpeed2: 1.7
+damage1Fixed: 0
+damage2Fixed: 0
+damage1Min: 0
+damage1Max: 0
+damage2Min: 0
+damage2Max: 0
+attackPerAnimation: 1
+actionSpeedMultiplier1: 1.5
+actionSpeedMultiplier2: 1.7
