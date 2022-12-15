@@ -1,5 +1,6 @@
 className: Dark Sword
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription: 'After each round, gain 1 damage.'
 cost1: 2

@@ -1,5 +1,6 @@
 className: Scimitar
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription: 'After an attack, gain 1 stack. Deal 2 more damage per stack.'
 cost1: 2

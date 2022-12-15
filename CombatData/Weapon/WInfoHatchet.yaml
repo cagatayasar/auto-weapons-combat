@@ -1,5 +1,6 @@
 className: Hatchet
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription: 'Thrown to the closest enemy at the start of the combat.'
 cost1: 1

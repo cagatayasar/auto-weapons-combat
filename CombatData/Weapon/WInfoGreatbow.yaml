@@ -1,5 +1,6 @@
 className: Greatbow
 actionDescription: '(healthPercent)% damage
+
   Ranged: (range)'
 otherDescription: 'Deals percent health damage.'
 cost1: 3

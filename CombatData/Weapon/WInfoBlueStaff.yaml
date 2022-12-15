@@ -1,5 +1,6 @@
 className: Blue Staff
 actionDescription: 'Boosts speed by (actionSpeedMultiplier)%
+
   Targets all allies in its front row'
 otherDescription:
 cost1: 2

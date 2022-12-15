@@ -1,5 +1,6 @@
 className: Arbalest
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged'
 otherDescription: 'Fires a bolt that damages everything in its way.'
 cost1: 2

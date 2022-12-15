@@ -1,7 +1,9 @@
 className: Katana
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription: 'When idle, it stacks its next attack.
+
   Max stack amount: (maxStackAmount)'
 cost1: 2
 cost2: 2

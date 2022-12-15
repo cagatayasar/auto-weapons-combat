@@ -1,5 +1,6 @@
 className: Green Staff
 actionDescription: 'Heals allies by (heal)
+
   Targets all allies in its front row'
 otherDescription:
 cost1: 2

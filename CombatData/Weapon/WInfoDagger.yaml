@@ -1,5 +1,6 @@
 className: Dagger
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription:
 cost1: 2

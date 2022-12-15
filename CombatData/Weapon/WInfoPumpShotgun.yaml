@@ -1,5 +1,6 @@
 className: Pump Shotgun
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription: 'Pushes the opponent.'
 cost1: 2

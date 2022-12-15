@@ -1,5 +1,6 @@
 className: Shuriken
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription: 'Thrown to the furthest enemy at the start of the combat.'
 cost1: 1

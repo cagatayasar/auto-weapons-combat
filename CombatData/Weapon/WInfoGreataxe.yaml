@@ -1,5 +1,6 @@
 className: Greataxe
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription: 'Does a rotating attack that damages up to 2 enemies.'
 cost1: 3

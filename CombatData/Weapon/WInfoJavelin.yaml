@@ -1,5 +1,6 @@
 className: Javelin
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged'
 otherDescription: 'Thrown forward at the start of the combat, damaging enemies in its way.'
 cost1: 2

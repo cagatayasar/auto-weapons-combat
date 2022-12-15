@@ -1,5 +1,6 @@
 className: Rifle
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription:
 cost1: 2

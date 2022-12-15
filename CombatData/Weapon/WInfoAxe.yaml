@@ -1,5 +1,6 @@
 className: Axe
 actionDescription: '(healthPercent)% damage
+
   Melee'
 otherDescription: 'Deals percent health damage.'
 cost1: 2

@@ -1,5 +1,6 @@
 className: Crimson Bow
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription: 'Gains (speedBuffPercent)% speed with each attack.'
 cost1: 2

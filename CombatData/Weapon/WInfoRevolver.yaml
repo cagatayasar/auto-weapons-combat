@@ -1,5 +1,6 @@
 className: Revolver
 actionDescription: '(damageMin)-(damageMax) damage
+
   Ranged: (range)'
 otherDescription: 'Its first attack deals double damage.'
 cost1: 2

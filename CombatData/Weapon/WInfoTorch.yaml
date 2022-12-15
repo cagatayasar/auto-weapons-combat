@@ -1,5 +1,6 @@
 className: Torch
 actionDescription: '(damageMin)-(damageMax) damage
+
   Melee'
 otherDescription: 'Deals damage to all enemies in the targeted row.'
 cost1: 2
