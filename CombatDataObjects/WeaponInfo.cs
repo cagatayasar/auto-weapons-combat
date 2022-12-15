@@ -21,12 +21,12 @@ public class WeaponInfo
     public float startingActionTimePassed1;
     public float startingActionTimePassed2;
 
-    public int damage1Fixed;
-    public int damage2Fixed;
-    public int damage1Min;
-    public int damage1Max;
-    public int damage2Min;
-    public int damage2Max;
+    public int damageFixed1;
+    public int damageFixed2;
+    public int damageMin1;
+    public int damageMax1;
+    public int damageMin2;
+    public int damageMax2;
 
     public int attackPerAnimation;
 

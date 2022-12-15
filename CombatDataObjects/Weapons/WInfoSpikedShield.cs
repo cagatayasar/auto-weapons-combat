@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class WInfoSpikedShield : WeaponInfo
 {
-    public int responseDamage1Min;
-    public int responseDamage1Max;
-    public int responseDamage2Min;
-    public int responseDamage2Max;
+    public int responsedamageMin1;
+    public int responsedamageMax1;
+    public int responsedamageMin2;
+    public int responsedamageMax2;
 }

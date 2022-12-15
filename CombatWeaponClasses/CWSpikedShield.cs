@@ -25,11 +25,11 @@ public class CWSpikedShield : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            responseDamageMin = weaponInfo.responseDamage1Min;
-            responseDamageMax = weaponInfo.responseDamage1Max;
+            responseDamageMin = weaponInfo.responsedamageMin1;
+            responseDamageMax = weaponInfo.responsedamageMax1;
         } else if (weapon.combatLevel == 2) {
-            responseDamageMin = weaponInfo.responseDamage2Min;
-            responseDamageMax = weaponInfo.responseDamage2Max;
+            responseDamageMin = weaponInfo.responsedamageMin2;
+            responseDamageMax = weaponInfo.responsedamageMax2;
         }
     }
 

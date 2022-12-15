@@ -11,12 +11,12 @@ healthPoint1: 5
 healthPoint2: 5
 actionSpeed1: 0
 actionSpeed2: 0
-damage1Fixed: 8
-damage2Fixed: 11
-damage1Min: 6
-damage1Max: 10
-damage2Min: 9
-damage2Max: 13
+damageFixed1: 8
+damageFixed2: 11
+damageMin1: 6
+damageMax1: 10
+damageMin2: 9
+damageMax2: 13
 attackPerAnimation: 1
 wInfoThrown:
   rotationsBaseCount: 0

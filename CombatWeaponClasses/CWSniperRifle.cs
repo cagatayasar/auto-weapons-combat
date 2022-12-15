@@ -51,14 +51,14 @@ public class CWSniperRifle : CombatWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damage1Fixed;
-            damageMin = base.weaponInfo.damage1Min;
-            damageMax = base.weaponInfo.damage1Max;
+            damageFixed = base.weaponInfo.damageFixed1;
+            damageMin = base.weaponInfo.damageMin1;
+            damageMax = base.weaponInfo.damageMax1;
             range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damage2Fixed;
-            damageMin = base.weaponInfo.damage2Min;
-            damageMax = base.weaponInfo.damage2Max;
+            damageFixed = base.weaponInfo.damageFixed2;
+            damageMin = base.weaponInfo.damageMin2;
+            damageMax = base.weaponInfo.damageMax2;
             range = weaponInfo.range2;
         }
     }
