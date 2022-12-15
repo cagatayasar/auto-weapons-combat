@@ -7,8 +7,8 @@ public class CWShield : CombatWeapon
 {
     public new WInfoShield weaponInfo => base.weaponInfo as WInfoShield;
 
-    public CWShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();

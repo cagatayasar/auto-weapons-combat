@@ -11,8 +11,8 @@ public class CWTorch : CombatWeapon
 
     public event Action onUpdateLines;
 
-    public CWTorch(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWTorch(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();

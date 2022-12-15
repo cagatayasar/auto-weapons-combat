@@ -11,8 +11,8 @@ public class CWBlueStaff : CombatWeapon
 
     public event Action onUpdateLines;
 
-    public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         targetWeapons = new List<CombatWeapon>();

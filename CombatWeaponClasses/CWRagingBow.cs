@@ -26,8 +26,8 @@ public class CWRagingBow : CombatWeapon, ICWStackWeapon
     public event Action<POneTarget> onDestroyProjectile;
     public event Action<POneTarget, float> onUpdateProjectile;
 
-    public CWRagingBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWRagingBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;

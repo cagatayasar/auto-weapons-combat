@@ -6,8 +6,8 @@ using System.Linq;
 public class CWGladius : CombatWeapon
 {
 
-    public CWGladius(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWGladius(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();

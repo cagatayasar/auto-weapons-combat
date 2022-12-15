@@ -9,8 +9,8 @@ public class CWSpikedShield : CombatWeapon
     int responseDamageMin;
     int responseDamageMax;
 
-    public CWSpikedShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWSpikedShield(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         ApplyExistingPermanentStatusEffects();

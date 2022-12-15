@@ -12,8 +12,8 @@ public class CWHatchet : CombatWeapon, ICWThrown
 
     float animationPrepareClipLength;
 
-    public CWHatchet(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWHatchet(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;

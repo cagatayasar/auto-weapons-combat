@@ -19,14 +19,12 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
     public float combatAreaBoundaryLeft;
     public float combatAreaBoundaryRight;
 
-    public CWJavelin(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWJavelin(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
-        if (combatMode == CombatMode.Object) {
-            damagePointOffset = Vec3.right * weaponInfo.damagePointOffset * CombatMain.combatAreaScale * isPlayer.ToMultiplier();
-        }
+        damagePointOffset = Vec3.right * weaponInfo.damagePointOffset * CombatMain.combatAreaScale * isPlayer.ToMultiplier();
         UpdateRowPositions(false);
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
         combatAreaBoundaryLeft = leftAreaRows[2].x - distancePerRow;

@@ -26,8 +26,8 @@ public class CWSawedOff : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWSawedOff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWSawedOff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
@@ -160,12 +160,10 @@ public class CWSawedOff : CombatWeapon
         else if (reloadState == ReloadState.Reload) {
             float reloadLength = bullets == 0 ? weaponInfo.firstReloadLength : weaponInfo.secondReloadLength;
             reloadTimer += deltaTime;
-            if (combatMode == CombatMode.Object) {
-                onUpdateBulletFillAmount?.Invoke(bullets, (reloadTimer - reloadLength + weaponInfo.reloadAnimationLength) / weaponInfo.reloadAnimationLength);
-                if (!reloadSoundPlayed && reloadTimer > reloadLength - weaponInfo.reloadAnimationLength) {
-                    reloadSoundPlayed = true;
-                    OnSfxTrigger("reloadSound");
-                }
+            onUpdateBulletFillAmount?.Invoke(bullets, (reloadTimer - reloadLength + weaponInfo.reloadAnimationLength) / weaponInfo.reloadAnimationLength);
+            if (!reloadSoundPlayed && reloadTimer > reloadLength - weaponInfo.reloadAnimationLength) {
+                reloadSoundPlayed = true;
+                OnSfxTrigger("reloadSound");
             }
             if (reloadTimer > reloadLength) {
                 reloadSoundPlayed = false;
@@ -179,11 +177,9 @@ public class CWSawedOff : CombatWeapon
         }
         else if (reloadState == ReloadState.WaitAfterReload) {
             reloadTimer += deltaTime;
-            if (combatMode == CombatMode.Object) {
-                if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
-                    afterReloadSoundPlayed = true;
-                    OnSfxTrigger("cockSound");
-                }
+            if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
+                afterReloadSoundPlayed = true;
+                OnSfxTrigger("cockSound");
             }
             if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;

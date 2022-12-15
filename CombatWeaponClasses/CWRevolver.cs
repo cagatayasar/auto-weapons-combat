@@ -26,8 +26,8 @@ public class CWRevolver : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
@@ -172,11 +172,9 @@ public class CWRevolver : CombatWeapon
         }
         else if (reloadState == ReloadState.WaitAfterReload) {
             reloadTimer += deltaTime;
-            if (combatMode == CombatMode.Object) {
-                if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
-                    afterReloadSoundPlayed = true;
-                    OnSfxTrigger("wheelSound");
-                }
+            if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
+                afterReloadSoundPlayed = true;
+                OnSfxTrigger("wheelSound");
             }
             if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
@@ -191,11 +189,9 @@ public class CWRevolver : CombatWeapon
             actionTimePassed = 0f;
             ReleaseProjectile();
             bullets--;
-            if (combatMode == CombatMode.Object) {
-                OnSfxTrigger("shotSound");
-                OnAnimatorSetTrigger("attack");
-                onUpdateBulletFillAmount?.Invoke(bullets, 0f);
-            }
+            OnSfxTrigger("shotSound");
+            OnAnimatorSetTrigger("attack");
+            onUpdateBulletFillAmount?.Invoke(bullets, 0f);
         }
     }
 

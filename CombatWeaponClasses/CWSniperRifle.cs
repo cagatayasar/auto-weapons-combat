@@ -28,8 +28,8 @@ public class CWSniperRifle : CombatWeapon
     public event Action<POneTarget, float> onUpdateProjectile;
     public event Action<int, float> onUpdateBulletFillAmount;
 
-    public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
@@ -198,19 +198,17 @@ public class CWSniperRifle : CombatWeapon
             actionTimePassed = 0f;
             ReleaseProjectile();
             bullets--;
-            if (combatMode == CombatMode.Object) {
-                if (bullets == 0)
-                    OnSfxTrigger("shotSound");
-                else if (actionTimePeriod / seActionSpeedMultiplier > shotAndCockSlowLength) {
-                    OnSfxTrigger("shotAndCockSoundSlow");
-                } else if (actionTimePeriod / seActionSpeedMultiplier > shotAndCockMedLength) {
-                    OnSfxTrigger("shotAndCockSoundMed");
-                } else {
-                    OnSfxTrigger("shotAndCockSoundFast");
-                }
-                OnAnimatorSetTrigger("attack");
-                onUpdateBulletFillAmount?.Invoke(bullets, 0f);
+            if (bullets == 0)
+                OnSfxTrigger("shotSound");
+            else if (actionTimePeriod / seActionSpeedMultiplier > shotAndCockSlowLength) {
+                OnSfxTrigger("shotAndCockSoundSlow");
+            } else if (actionTimePeriod / seActionSpeedMultiplier > shotAndCockMedLength) {
+                OnSfxTrigger("shotAndCockSoundMed");
+            } else {
+                OnSfxTrigger("shotAndCockSoundFast");
             }
+            OnAnimatorSetTrigger("attack");
+            onUpdateBulletFillAmount?.Invoke(bullets, 0f);
         }
     }
 

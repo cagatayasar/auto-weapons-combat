@@ -151,14 +151,6 @@ public enum StatusEffectType : byte
     Gunslinger_QuickDraw,
 }
 
-public enum CombatMode : byte
-{
-    Simulation,
-    Object,
-    NoCombat,
-    Null
-}
-
 public enum BowState : byte
 {
     Idle,

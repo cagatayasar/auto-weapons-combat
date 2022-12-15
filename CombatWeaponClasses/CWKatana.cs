@@ -32,8 +32,8 @@ public class CWKatana : CombatWeapon, ICWStackWeapon
 
     public event Action onUpdateStackUI;
 
-    public CWKatana(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWKatana(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;

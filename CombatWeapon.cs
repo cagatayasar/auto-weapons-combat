@@ -33,7 +33,6 @@ public class CombatWeapon
     public int coordY = 0;
     public int id;
     public Weapon weapon;
-    public CombatMode combatMode;
 
     public System.Random rnd;
 
@@ -137,13 +136,12 @@ public class CombatWeapon
     public void OnReceiveAction(CombatAction combatAction) => onReceiveAction?.Invoke(this, combatAction);
 
     //------------------------------------------------------------------------
-    public CombatWeapon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
+    public CombatWeapon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
     {
         this.weapon = weapon;
         this.playerEnemyData = playerEnemyData;
         this.id = id;
         this.isPlayer = isPlayer;
-        this.combatMode = combatMode;
         this.rnd = rnd;
 
         weaponInfo = CombatMain.weaponInfosDict[weapon.weaponType];

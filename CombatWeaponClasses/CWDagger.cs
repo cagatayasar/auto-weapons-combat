@@ -13,8 +13,8 @@ public class CWDagger : CombatWeapon, ICWCancelTransition
     float attackTriggerTime;
     float damageTriggerTime;
 
-    public CWDagger(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWDagger(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;

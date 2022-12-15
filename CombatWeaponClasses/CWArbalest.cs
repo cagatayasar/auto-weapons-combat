@@ -32,8 +32,8 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
     public event Action<PArbalest> onDestroyProjectile;
     public event Action<PArbalest, float> onUpdateProjectile;
 
-    public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, CombatMode combatMode, ref System.Random rnd)
-        : base(weapon, playerEnemyData, id, isPlayer, combatMode, ref rnd)
+    public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+        : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
         arrowImaginaryStartingOffset = weaponInfo.arrowImaginaryStartingOffset * CombatMain.combatAreaScale;
