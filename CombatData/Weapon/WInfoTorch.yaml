@@ -1,5 +1,5 @@
 className: Torch
-actionDescription: '(damageMin)-(damageMax) damage
+actionDescription: '(damageMin) damage
 
   Melee'
 otherDescription: 'Deals damage to all enemies in the targeted row.'

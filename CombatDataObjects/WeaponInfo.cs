@@ -39,4 +39,19 @@ public class WeaponInfo
     public float actionTimePeriod2 => actionSpeed2 > 0f ? (1f / actionSpeed2) : 0f;
 
     public int GetHP(int level) => level == 1 ? healthPoint1 : healthPoint2;
+
+    public string GetActionDescription(int level) => GetDescriptionWithLevel(actionDescription?.Clone() as string, level);
+    public string GetOtherDescription(int level)  => GetDescriptionWithLevel(otherDescription?.Clone() as string, level);
+
+    protected string GetDescriptionWithLevel(string desc, int level)
+    {
+        if (string.IsNullOrEmpty(desc))
+            return desc;
+
+        var success = true;
+        while (success) {
+            desc = desc.ReplaceVariable(this, '(', ')', out success, str => str + level);
+        }
+        return desc;
+    }
 }
