@@ -64,8 +64,8 @@ tactics:
   useCost: 0
   uses: 0
   cooldown: 0
-  description: Whenever the formation changes, give your weapons <shield> damage
-    shield.
+  description: In the preparation phase, whenever the formation changes,
+    give your weapons <shield> damage shield.
   bulletCost: 0
   damage: 0
   shield: 2
@@ -105,7 +105,7 @@ tactics:
   weaponMasterTypeStr: Colonel
   useTypeStr: AllWeapons
   useCost: 1
-  uses: 3
+  uses: 2
   cooldown: 0
   description: Upgrade a weapon for this match only.
   bulletCost: 0
@@ -119,9 +119,9 @@ tactics:
   weaponMasterTypeStr: Colonel
   useTypeStr: EnemyWeapons
   useCost: 0
-  uses: 4
+  uses: 3
   cooldown: 0
-  description: Select an enemy weapon, your weapons target it.
+  description: Select an enemy weapon, order your weapons to target it.
   bulletCost: 0
   damage: 0
   shield: 0
