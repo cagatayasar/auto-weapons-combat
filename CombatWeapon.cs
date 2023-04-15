@@ -19,10 +19,6 @@ public interface ICWThrown {
     void Throw_Simulation();
 }
 
-public interface ICWThrown_Object {
-    IEnumerator Throw_Object(System.Action callback = null);
-}
-
 public class CombatWeapon
 {
     //------------------------------------------------------------------------
@@ -191,8 +187,8 @@ public class CombatWeapon
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
-            var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
-            var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
+            var opponentCombatWeapons = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
+            var target = opponentCombatWeapons.FirstOrDefault(cw => cw.id == action.senderId);
             CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
     }

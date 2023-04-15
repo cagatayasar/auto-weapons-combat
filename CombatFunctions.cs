@@ -396,7 +396,8 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static void ReceiveAction(CombatWeapon cw, CombatAction action) {
+    public static void ReceiveAction(CombatWeapon cw, CombatAction action)
+    {
         int damage = action.damage;
         damage += MathCustom.RoundToInt((action.healthPercentDamage * cw.maxHealthPoint) / 100.0f);
 
@@ -438,23 +439,24 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static void ApplyResponseAction(CombatWeapon target, CombatWeapon attacker, int responseDamageMin, int responseDamageMax) {
-        if (target != null) {
-            var responseAction = new CombatAction(CombatMain.rnd.Next(responseDamageMin, responseDamageMax + 1), attacker.isPlayer, attacker.weapon.matchRosterIndex);
-            target.ReceiveAction(responseAction);
-            if (attacker.weapon.attachment == AttachmentType.Lifesteal) {
-                attacker.healthPoint += MathCustom.RoundToInt(responseAction.damageDealt * CombatMain.attachmentAttributes.lifesteal_Multiplier);
-                if (attacker.healthPoint > attacker.maxHealthPoint) {
-                    attacker.healthPoint = attacker.maxHealthPoint;
-                }
+    public static void ApplyResponseAction(CombatWeapon target, CombatWeapon attacker, int responseDamageMin, int responseDamageMax)
+    {
+        if (target == null) return;
+
+        var responseAction = new CombatAction(CombatMain.rnd.Next(responseDamageMin, responseDamageMax + 1), attacker.isPlayer, attacker.weapon.matchRosterIndex);
+        target.ReceiveAction(responseAction);
+        if (attacker.weapon.attachment == AttachmentType.Lifesteal) {
+            attacker.healthPoint += MathCustom.RoundToInt(responseAction.damageDealt * CombatMain.attachmentAttributes.lifesteal_Multiplier);
+            if (attacker.healthPoint > attacker.maxHealthPoint) {
+                attacker.healthPoint = attacker.maxHealthPoint;
             }
-            if (target.isDead) {
-                if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
-                    attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
-                var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
-                if (killAndBoostEffect.statusEffectType == StatusEffectType.KillAndBoost)
-                    killAndBoostEffect.killAndBoost_flag = true;
-            }
+        }
+        if (target.isDead) {
+            if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
+                attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
+            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
+            if (killAndBoostEffect.statusEffectType == StatusEffectType.KillAndBoost)
+                killAndBoostEffect.killAndBoost_flag = true;
         }
     }
 }

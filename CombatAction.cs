@@ -34,7 +34,7 @@ public class CombatAction
     }
 
     //------------------------------------------------------------------------
-    public void SetHealthPercentDamage(int percent, int dmgAddAmount=0)
+    public void SetHealthPercentDamage(int percent, int dmgAddAmount = 0)
     {
         healthPercentDamage = percent;
         damage = dmgAddAmount;
