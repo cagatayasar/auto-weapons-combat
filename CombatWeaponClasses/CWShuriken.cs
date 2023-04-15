@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWShuriken : CombatWeapon, ICWThrown
+public class CWShuriken : CW, ICWThrown
 {
     public new WInfoShuriken weaponInfo => base.weaponInfo as WInfoShuriken;
     int damageFixed;

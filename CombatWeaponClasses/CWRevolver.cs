@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWRevolver : CombatWeapon
+public class CWRevolver : CW
 {
     public new WInfoRevolver weaponInfo => base.weaponInfo as WInfoRevolver;
 

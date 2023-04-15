@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWSword : CombatWeapon, ICWCancelTransition
+public class CWSword : CW, ICWCancelTransition
 {
     public new WInfoSword weaponInfo => base.weaponInfo as WInfoSword;
 

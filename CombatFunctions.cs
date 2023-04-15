@@ -6,7 +6,7 @@ using System.Linq;
 public static class CombatFunctions
 {
     //------------------------------------------------------------------------
-    public static float HandleStatusEffects(CombatWeapon cw, float deltaTime)
+    public static float HandleStatusEffects(CW cw, float deltaTime)
     {
         float seActionSpeedMultiplier = 1f;
         for (int i = 0; i < cw.statusEffects.Count; i++)
@@ -29,7 +29,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static string GetFormation(List<List<CombatWeapon>> rowsList)
+    public static string GetFormation(List<List<CW>> rowsList)
     {
         string formation = "";
         foreach (var list in rowsList) {
@@ -39,7 +39,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static string GetCombatState(List<List<CombatWeapon>> rowsList)
+    public static string GetCombatState(List<List<CW>> rowsList)
     {
         string state = GetFormation(rowsList) + "_";
 
@@ -52,7 +52,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static int GetRangeToAddOrSubstract(CombatWeapon cw, int range, float timePassed, bool oneLessRangeForXSeconds)
+    public static int GetRangeToAddOrSubstract(CW cw, int range, float timePassed, bool oneLessRangeForXSeconds)
     {
         int rangeToAddOrSubstract = 0;
         if (timePassed < CombatMain.itemAttributes.oneLessRange_Duration && oneLessRangeForXSeconds)
@@ -65,7 +65,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CombatWeapon attacker, List<CombatWeapon> allyCombatWeapons, List<List<CombatWeapon>> allyRowsList,
+    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List<CW> allyCombatWeapons, List<List<CW>> allyRowsList,
         int damageMin, int damageMax, int healthPercent = 0, float finalDmgMultiplierParameter = 1f)
     {
         int dmgAddAmount = 0;
@@ -139,14 +139,14 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatWeapon TargetEnemyMelee(CombatWeapon attacker, CombatWeapon prevTargetEnemy,
-        List<List<CombatWeapon>> targetRowsList, bool canAttackDownwards = true)
+    public static CW TargetEnemyMelee(CW attacker, CW prevTargetEnemy,
+        List<List<CW>> targetRowsList, bool canAttackDownwards = true)
     {
         if (targetRowsList.Count == 0)
             return null;
 
         bool redirectActive = attacker.itemRedirect_active && canAttackDownwards;
-        CombatWeapon targetEnemy = null;
+        CW targetEnemy = null;
         if (attacker.rowNumber == 1)
         {
             var targetRow = targetRowsList[0];
@@ -193,8 +193,8 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatWeapon TargetEnemyRanged(CombatWeapon attacker, int range, CombatWeapon prevTargetEnemy,
-        List<List<CombatWeapon>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
+    public static CW TargetEnemyRanged(CW attacker, int range, CW prevTargetEnemy,
+        List<List<CW>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
     {
         int rangeToAddOrSubstract = CombatFunctions.GetRangeToAddOrSubstract(attacker, range, timePassed, oneLessRangeForXSeconds);
         if (attacker.weapon.attachment == AttachmentType.Furthest) {
@@ -205,14 +205,14 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatWeapon TargetEnemyRangedClosest(CombatWeapon attacker, int range, CombatWeapon prevTargetEnemy,
-        List<List<CombatWeapon>> targetRowsList)
+    public static CW TargetEnemyRangedClosest(CW attacker, int range, CW prevTargetEnemy,
+        List<List<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
 
         bool redirectActive = attacker.itemRedirect_active;
-        CombatWeapon targetEnemy = null;
+        CW targetEnemy = null;
         if (prevTargetEnemy == null)
         {
             var targetRow = targetRowsList[0];
@@ -259,17 +259,17 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatWeapon TargetEnemyRangedFurthest(CombatWeapon attacker, int range, CombatWeapon prevTargetEnemy,
-        List<List<CombatWeapon>> targetRowsList)
+    public static CW TargetEnemyRangedFurthest(CW attacker, int range, CW prevTargetEnemy,
+        List<List<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
 
         bool redirectActive = attacker.itemRedirect_active;
-        CombatWeapon targetEnemy = null;
+        CW targetEnemy = null;
         if (prevTargetEnemy == null)
         {
-            var targetRow = new List<CombatWeapon>();
+            var targetRow = new List<CW>();
             for (int i = targetRowsList.Count - 1; i >= 0; i--)
             {
                 if (range - attacker.rowNumber >= i)
@@ -350,7 +350,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static int GetCompFormation(List<List<CombatWeapon>> rowsList)
+    public static int GetCompFormation(List<List<CW>> rowsList)
     {
         int formation = 0;
         if (rowsList.Count == 0)
@@ -377,7 +377,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static void ApplyActionToTarget(CombatWeapon target, CombatWeapon attacker, CombatAction combatAction)
+    public static void ApplyActionToTarget(CW target, CW attacker, CombatAction combatAction)
     {
         target.ReceiveAction(combatAction);
         if (attacker.weapon.attachment == AttachmentType.Lifesteal) {
@@ -396,7 +396,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static void ReceiveAction(CombatWeapon cw, CombatAction action)
+    public static void ReceiveAction(CW cw, CombatAction action)
     {
         int damage = action.damage;
         damage += MathCustom.RoundToInt((action.healthPercentDamage * cw.maxHealthPoint) / 100.0f);
@@ -439,7 +439,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static void ApplyResponseAction(CombatWeapon target, CombatWeapon attacker, int responseDamageMin, int responseDamageMax)
+    public static void ApplyResponseAction(CW target, CW attacker, int responseDamageMin, int responseDamageMax)
     {
         if (target == null) return;
 

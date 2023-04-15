@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWBuckler : CombatWeapon
+public class CWBuckler : CW
 {
     public new WInfoBuckler weaponInfo => base.weaponInfo as WInfoBuckler;
     bool isImmunityActive;

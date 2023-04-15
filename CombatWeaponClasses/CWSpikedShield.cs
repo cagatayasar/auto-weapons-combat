@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWSpikedShield : CombatWeapon
+public class CWSpikedShield : CW
 {
     public new WInfoSpikedShield weaponInfo => base.weaponInfo as WInfoSpikedShield;
     int responseDamageMin;

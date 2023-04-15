@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class PlayerEnemyData
 {
-    public List<List<CombatWeapon>> playerRowsList;
-    public List<List<CombatWeapon>> enemyRowsList;
-    public List<CombatWeapon> playerCombatWeapons;
-    public List<CombatWeapon> enemyCombatWeapons;
+    public List<List<CW>> playerRowsList;
+    public List<List<CW>> enemyRowsList;
+    public List<CW> playerCombatWeapons;
+    public List<CW> enemyCombatWeapons;
 }

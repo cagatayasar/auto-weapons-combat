@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWDynamite : CombatWeapon
+public class CWDynamite : CW
 {
     public CWDynamite(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)

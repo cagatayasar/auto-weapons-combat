@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
+public class CWArbalest : CW, ICWHoldsRowPositions
 {
     public new WInfoArbalest weaponInfo => base.weaponInfo as WInfoArbalest;
     int damageFixed;
@@ -131,8 +131,8 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
             projectile.position = added;
             onUpdateProjectile?.Invoke(projectile, deltaTime);
 
-            var targets = new List<CombatWeapon>();
-            var touched = new List<CombatWeapon>();
+            var targets = new List<CW>();
+            var touched = new List<CW>();
             if (rowToDamage > 0 && enemyRowsList.Count >= rowToDamage)
             {
                 var rowSize = enemyRowsList[rowToDamage - 1].Count;
@@ -288,7 +288,7 @@ public class CWArbalest : CombatWeapon, ICWHoldsRowPositions
         onReleaseProjectile?.Invoke(projectile);
     }
 
-    public CombatAction ModifyCombatAction(CombatWeapon target, CombatAction combatAction, bool isTouched)
+    public CombatAction ModifyCombatAction(CW target, CombatAction combatAction, bool isTouched)
     {
         var multiplier = isTouched ? touchDamageMultiplier : 1f;
         if (target.isPlayer == isPlayer) {

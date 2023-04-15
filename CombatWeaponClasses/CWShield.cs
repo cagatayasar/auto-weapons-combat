@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWShield : CombatWeapon
+public class CWShield : CW
 {
     public new WInfoShield weaponInfo => base.weaponInfo as WInfoShield;
 

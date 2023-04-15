@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWTorch : CombatWeapon
+public class CWTorch : CW
 {
     public new WInfoTorch weaponInfo => base.weaponInfo as WInfoTorch;
     public int damage;
-    public List<CombatWeapon> targetEnemies = new List<CombatWeapon>();
+    public List<CW> targetEnemies = new List<CW>();
 
     public event Action onUpdateLines;
 
@@ -51,7 +51,7 @@ public class CWTorch : CombatWeapon
     public override void UpdateTarget()
     {
         if (rowNumber > 1 || targetRowsList.Count == 0) {
-            targetEnemies = new List<CombatWeapon>();
+            targetEnemies = new List<CW>();
         } else {
             targetEnemies = targetRowsList[0];
         }

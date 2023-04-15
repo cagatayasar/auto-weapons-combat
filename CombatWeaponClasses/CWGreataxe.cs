@@ -18,7 +18,7 @@ public enum GreataxeState
     Null
 }
 
-public class CWGreataxe : CombatWeapon
+public class CWGreataxe : CW
 {
     public new WInfoGreataxe weaponInfo => base.weaponInfo as WInfoGreataxe;
 
@@ -27,8 +27,8 @@ public class CWGreataxe : CombatWeapon
     int damageFixed;
     int damageMin;
     int damageMax;
-    CombatWeapon damagedEnemy1;
-    CombatWeapon damagedEnemy2;
+    CW damagedEnemy1;
+    CW damagedEnemy2;
 
     // animation variables
     float animationAttackClipLength;
@@ -210,7 +210,7 @@ public class CWGreataxe : CombatWeapon
         }
     }
 
-    public static CombatWeapon GetTargetWithRelativePos(List<CombatWeapon> row, int positionFromBottom)
+    public static CW GetTargetWithRelativePos(List<CW> row, int positionFromBottom)
     {
         for (int i = 0; i < row.Count; i++) {
             if (row[i].positionFromBottom == positionFromBottom) {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWHatchet : CombatWeapon, ICWThrown
+public class CWHatchet : CW, ICWThrown
 {
     public new WInfoHatchet weaponInfo => base.weaponInfo as WInfoHatchet;
     int damageFixed;

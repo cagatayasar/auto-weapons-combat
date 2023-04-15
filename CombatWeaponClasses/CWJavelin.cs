@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
+public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
 {
     public new WInfoJavelin weaponInfo => base.weaponInfo as WInfoJavelin;
     int damageFixed;
@@ -74,7 +74,7 @@ public class CWJavelin : CombatWeapon, ICWThrown, ICWHoldsRowPositions
 
     public override void ActIfReady(){}
 
-    public CombatAction ModifyCombatAction(CombatWeapon target, CombatAction combatAction, bool isTouched)
+    public CombatAction ModifyCombatAction(CW target, CombatAction combatAction, bool isTouched)
     {
         var multiplier = isTouched ? touchDamageMultiplier : 1f;
         if (target.isPlayer == isPlayer) {

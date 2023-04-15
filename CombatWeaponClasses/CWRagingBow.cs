@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWRagingBow : CombatWeapon, ICWStackWeapon
+public class CWRagingBow : CW, ICWStackWeapon
 {
     public new WInfoRagingBow weaponInfo => base.weaponInfo as WInfoRagingBow;
     int damageFixed;

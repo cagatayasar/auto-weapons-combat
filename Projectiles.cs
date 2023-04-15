@@ -10,14 +10,14 @@ public interface IProjectile
 
 public class POneTarget : IProjectile
 {
-    public CombatWeapon target;
+    public CW target;
     public float currentTravelTime;
     public float totalTravelTime;
 
     public CombatAction combatAction { get; set; }
     public float speed { get; set; }
 
-    public POneTarget(CombatWeapon target, CombatAction combatAction, float speed, float totalTravelTime)
+    public POneTarget(CW target, CombatAction combatAction, float speed, float totalTravelTime)
     {
         this.target = target;
         this.combatAction = combatAction;

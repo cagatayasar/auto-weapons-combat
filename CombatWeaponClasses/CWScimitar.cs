@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWScimitar : CombatWeapon, ICWCancelTransition, ICWStackWeapon
+public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
 {
     public new WInfoScimitar weaponInfo => base.weaponInfo as WInfoScimitar;
     public int damageFixed;

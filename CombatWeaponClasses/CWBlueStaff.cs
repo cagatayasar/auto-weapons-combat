@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWBlueStaff : CombatWeapon
+public class CWBlueStaff : CW
 {
     public new WInfoBlueStaff weaponInfo => base.weaponInfo as WInfoBlueStaff;
     public float actionSpeedMultiplier;
-    public List<CombatWeapon> targetWeapons;
+    public List<CW> targetWeapons;
 
     public event Action onUpdateLines;
 
@@ -15,7 +15,7 @@ public class CWBlueStaff : CombatWeapon
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        targetWeapons = new List<CombatWeapon>();
+        targetWeapons = new List<CW>();
         ApplyExistingPermanentStatusEffects();
     }
 
@@ -52,7 +52,7 @@ public class CWBlueStaff : CombatWeapon
     public override void UpdateTarget()
     {
         if (rowNumber == 1) {
-            targetWeapons = new List<CombatWeapon>();
+            targetWeapons = new List<CW>();
         } else if (rowNumber == 2) {
             targetWeapons = allyRowsList[0];
         } else if (rowNumber == 3) {

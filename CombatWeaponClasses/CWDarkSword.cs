@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
+public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
 {
     public new WInfoDarkSword weaponInfo => base.weaponInfo as WInfoDarkSword;
 
@@ -13,7 +13,7 @@ public class CWDarkSword : CombatWeapon, ICWCancelTransition, ICWStackWeapon
     int damageFixed;
     int damageMin;
     int damageMax;
-    CombatWeapon damagedTargetEnemy;
+    CW damagedTargetEnemy;
 
     int damagePerStack;
 

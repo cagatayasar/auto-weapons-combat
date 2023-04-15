@@ -6,10 +6,10 @@ using System.Linq;
 public class CombatArea
 {
     //------------------------------------------------------------------------
-    public List<List<CombatWeapon>> playerRowsList = new List<List<CombatWeapon>>();
-    public List<CombatWeapon> playerCombatWeapons = new List<CombatWeapon>();
-    public List<List<CombatWeapon>> enemyRowsList = new List<List<CombatWeapon>>();
-    public List<CombatWeapon> enemyCombatWeapons = new List<CombatWeapon>();
+    public List<List<CW>> playerRowsList = new List<List<CW>>();
+    public List<CW> playerCombatWeapons = new List<CW>();
+    public List<List<CW>> enemyRowsList = new List<List<CW>>();
+    public List<CW> enemyCombatWeapons = new List<CW>();
     public int rowCapacity = 3;
 
     //------------------------------------------------------------------------
@@ -57,19 +57,19 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void UpdateCoords(bool isPreparationPhase, bool isPlayer, List<List<CombatWeapon>> rowsList = null)
+    public void UpdateCoords(bool isPreparationPhase, bool isPlayer, List<List<CW>> rowsList = null)
     {
         rowsList ??= isPlayer ? playerRowsList : enemyRowsList;
 
         // DELETE EMPTY ROWS
-        var listsToRemove = new List<List<CombatWeapon>>();
+        var listsToRemove = new List<List<CW>>();
         for (int i = rowsList.Count - 1; i >= 0; i--) {
             if (rowsList[i].Count == 0) {
                 rowsList.RemoveAt(i);
             }
         }
 
-        foreach (List<CombatWeapon> row in rowsList) {
+        foreach (List<CW> row in rowsList) {
             row.Sort((x, y) => x.coordY - y.coordY);
         }
         rowsList.Sort((x, y) => (y[0].coordX - x[0].coordX) * isPlayer.ToMultiplier());
@@ -93,11 +93,11 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void PullCombatWeapon(bool isPreparationPhase, List<List<CombatWeapon>> rowsList, CombatWeapon combatWeapon)
+    public void PullCombatWeapon(bool isPreparationPhase, List<List<CW>> rowsList, CW combatWeapon)
     {
         if (rowsList[combatWeapon.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
             combatWeapon.coordX = rowsList[0][0].coordX + combatWeapon.isPlayer.ToMultiplier();
-            rowsList.Add(new List<CombatWeapon> { combatWeapon });
+            rowsList.Add(new List<CW> { combatWeapon });
             rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
         } else {
             if (combatWeapon.rowNumber - 1 == 0) return;
@@ -117,11 +117,11 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void PushCombatWeapon(bool isPreparationPhase, List<List<CombatWeapon>> rowsList, CombatWeapon combatWeapon)
+    public void PushCombatWeapon(bool isPreparationPhase, List<List<CW>> rowsList, CW combatWeapon)
     {
         if (rowsList[combatWeapon.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
             combatWeapon.coordX = rowsList[rowsList.Count-1][0].coordX - combatWeapon.isPlayer.ToMultiplier();
-            rowsList.Add(new List<CombatWeapon> { combatWeapon });
+            rowsList.Add(new List<CW> { combatWeapon });
             rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
         } else {
             if (combatWeapon.rowNumber == 3) return;
@@ -141,7 +141,7 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void SetKnockbackPosition(bool isPreparationPhase, CombatWeapon cw)
+    public void SetKnockbackPosition(bool isPreparationPhase, CW cw)
     {
         var rowsList = cw.isPlayer ? playerRowsList : enemyRowsList;
         if (rowsList.Count >= cw.rowNumber + 1) {
@@ -151,7 +151,7 @@ public class CombatArea
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             cw.coordX = cw.coordX - cw.isPlayer.ToMultiplier();
-            rowsList.Add(new List<CombatWeapon> { cw });
+            rowsList.Add(new List<CW> { cw });
             rowsList[cw.rowNumber - 1].Remove(cw);
         }
         UpdateCoords(isPreparationPhase, cw.isPlayer);

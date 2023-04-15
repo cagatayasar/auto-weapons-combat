@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWDagger : CombatWeapon, ICWCancelTransition
+public class CWDagger : CW, ICWCancelTransition
 {
     public new WInfoDagger weaponInfo => base.weaponInfo as WInfoDagger;
     int damageFixed;

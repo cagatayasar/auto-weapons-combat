@@ -19,7 +19,7 @@ public interface ICWThrown {
     void Throw_Simulation();
 }
 
-public class CombatWeapon
+public class CW
 {
     //------------------------------------------------------------------------
     public float yellowBarShrinkingSpeed = 10f;
@@ -32,14 +32,14 @@ public class CombatWeapon
 
     public System.Random rnd;
 
-    public List<List<CombatWeapon>> playerRowsList;
-    public List<List<CombatWeapon>> enemyRowsList;
-    public List<List<CombatWeapon>> allyRowsList;
-    public List<List<CombatWeapon>> targetRowsList;
-    public List<CombatWeapon> playerCombatWeapons;
-    public List<CombatWeapon> enemyCombatWeapons;
-    public List<CombatWeapon> allyCombatWeapons;
-    public List<CombatWeapon> targetCombatWeapons;
+    public List<List<CW>> playerRowsList;
+    public List<List<CW>> enemyRowsList;
+    public List<List<CW>> allyRowsList;
+    public List<List<CW>> targetRowsList;
+    public List<CW> playerCombatWeapons;
+    public List<CW> enemyCombatWeapons;
+    public List<CW> allyCombatWeapons;
+    public List<CW> targetCombatWeapons;
     public PlayerEnemyData playerEnemyData;
 
     public List<StatusEffect> statusEffects;
@@ -64,8 +64,8 @@ public class CombatWeapon
 
     public bool itemRedirect_active = false;
 
-    public CombatWeapon targetEnemy;
-    public CombatWeapon prevTargetEnemy;
+    public CW targetEnemy;
+    public CW prevTargetEnemy;
     public MeleeState meleeState = MeleeState.Idle;
     public BowState bowState = BowState.Idle;
     public ReloadState reloadState = ReloadState.Shoot;
@@ -113,7 +113,7 @@ public class CombatWeapon
     public event System.Action<string, string, float> onAnimatorSetFloat;
     public event System.Action<string> onSfxTrigger;
 
-    public event System.Action<CombatWeapon, CombatAction> onReceiveAction;
+    public event System.Action<CW, CombatAction> onReceiveAction;
 
     //------------------------------------------------------------------------
     public void OnUpdate()                           => onUpdate?.Invoke();
@@ -132,7 +132,7 @@ public class CombatWeapon
     public void OnReceiveAction(CombatAction combatAction) => onReceiveAction?.Invoke(this, combatAction);
 
     //------------------------------------------------------------------------
-    public CombatWeapon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
+    public CW(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
     {
         this.weapon = weapon;
         this.playerEnemyData = playerEnemyData;
@@ -163,7 +163,7 @@ public class CombatWeapon
     }
 
     //------------------------------------------------------------------------
-    public CombatWeapon(){}
+    public CW(){}
 
     //------------------------------------------------------------------------
     // this will be a problem for CombatWeaponMaster.cs, fix before committing
@@ -370,7 +370,7 @@ public class CombatWeapon
     }
 
     //------------------------------------------------------------------------
-    public void RotateIfNeeded(CombatWeapon targetEnemy)
+    public void RotateIfNeeded(CW targetEnemy)
     {
         // rotate to default position
         float nextAngle = 0f;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWSniperRifle : CombatWeapon
+public class CWSniperRifle : CW
 {
     public new WInfoSniperRifle weaponInfo => base.weaponInfo as WInfoSniperRifle;
     int damageFixed;

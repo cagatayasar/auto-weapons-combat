@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWGreatbow : CombatWeapon
+public class CWGreatbow : CW
 {
     public new WInfoGreatbow weaponInfo => base.weaponInfo as WInfoGreatbow;
     int healthPercent;

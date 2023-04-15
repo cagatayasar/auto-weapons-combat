@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWCannon : CombatWeapon, ICWHoldsRowPositions
+public class CWCannon : CW, ICWHoldsRowPositions
 {
     public new WInfoCannon weaponInfo => base.weaponInfo as WInfoCannon;
     int damageFixed;

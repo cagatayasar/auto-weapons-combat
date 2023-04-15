@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWAxe : CombatWeapon, ICWCancelTransition
+public class CWAxe : CW, ICWCancelTransition
 {
     public new WInfoAxe weaponInfo => base.weaponInfo as WInfoAxe;
     int healthPercent;

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CWGreenStaff : CombatWeapon
+public class CWGreenStaff : CW
 {
     public new WInfoGreenStaff weaponInfo => base.weaponInfo as WInfoGreenStaff;
     public int healAmount;
-    public List<CombatWeapon> targetWeapons = new List<CombatWeapon>();
+    public List<CW> targetWeapons = new List<CW>();
 
     public event Action onUpdateLines;
 
@@ -51,7 +51,7 @@ public class CWGreenStaff : CombatWeapon
     public override void UpdateTarget()
     {
         if (rowNumber == 1) {
-            targetWeapons = new List<CombatWeapon>();
+            targetWeapons = new List<CW>();
         } else if (rowNumber == 2) {
             targetWeapons = allyRowsList[0];
         } else if (rowNumber == 3) {

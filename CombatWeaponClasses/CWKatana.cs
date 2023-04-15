@@ -17,7 +17,7 @@ public enum KatanaState
     Null
 }
 
-public class CWKatana : CombatWeapon, ICWStackWeapon
+public class CWKatana : CW, ICWStackWeapon
 {
     public new WInfoKatana weaponInfo => base.weaponInfo as WInfoKatana;
 
