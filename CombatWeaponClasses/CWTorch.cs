@@ -79,7 +79,7 @@ public class CWTorch : CW
 
     public override CombatAction GetCombatAction()
     {
-        return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damage, damage);
+        return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damage, damage);
     }
 
     public override void ReceiveAction(CombatAction action)

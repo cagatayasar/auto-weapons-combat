@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CombatWeaponSaved
+public class CWSaved
 {
     public Weapon weapon;
     public int coordX = 0;
@@ -14,7 +14,7 @@ public class CombatWeaponSaved
     public int lastCoordY;
 
     //------------------------------------------------------------------------
-    public CombatWeaponSaved(Weapon weapon, int coordX, int coordY, int id, int matchRosterIndex)
+    public CWSaved(Weapon weapon, int coordX, int coordY, int id, int matchRosterIndex)
     {
         this.weapon = weapon;
         this.coordX = coordX;

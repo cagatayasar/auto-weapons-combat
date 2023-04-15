@@ -91,7 +91,7 @@ public static partial class Utils
         return result;
     }
 
-    public static CombatWeaponSaved FindCWS(this List<List<CombatWeaponSaved>> rowsList, int matchRosterIndex)
+    public static CWSaved FindCWS(this List<List<CWSaved>> rowsList, int matchRosterIndex)
     {
         for (int i = 0; i < rowsList.Count; i++) {
             for (int j = 0; j < rowsList[i].Count; j++) {

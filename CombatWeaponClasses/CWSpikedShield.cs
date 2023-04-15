@@ -68,7 +68,7 @@ public class CWSpikedShield : CW
         if (isPlayer == action.isSenderPlayersWeapon)
             return;
 
-        var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
+        var enemyList = isPlayer ? enemyCWs : playerCWs;
         var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
         if (target != null) {
             var responseAction = new CombatAction(rnd.Next(responseDamageMin + addToResponseDamage, responseDamageMax + addToResponseDamage + 1),

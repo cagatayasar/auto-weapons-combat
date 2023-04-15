@@ -65,7 +65,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List<CW> allyCombatWeapons, List<List<CW>> allyRowsList,
+    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List<CW> allyCWs, List<List<CW>> allyRowsList,
         int damageMin, int damageMax, int healthPercent = 0, float finalDmgMultiplierParameter = 1f)
     {
         int dmgAddAmount = 0;
@@ -90,7 +90,7 @@ public static class CombatFunctions
                 i--;
                 break;
             case StatusEffectType.IfAloneBonusDmg:
-                if (allyCombatWeapons.Count == 1)
+                if (allyCWs.Count == 1)
                     dmgMultiplier += CombatMain.itemAttributes.ifAloneBonusDmg_Multiplier - 1f;
                 break;
             case StatusEffectType.IfPerfectSquareBonusDmg:

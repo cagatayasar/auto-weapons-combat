@@ -98,7 +98,7 @@ public class CWBlueStaff : CW
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
-            var enemyList = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
+            var enemyList = isPlayer ? enemyCWs : playerCWs;
             var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
             CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }

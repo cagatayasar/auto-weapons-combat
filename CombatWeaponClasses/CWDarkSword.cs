@@ -197,10 +197,10 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
                 damageMin + stacks * damagePerStack, damageMax + stacks * damagePerStack);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
                 damageFixed + stacks * damagePerStack, damageFixed + stacks * damagePerStack);
         }
     }

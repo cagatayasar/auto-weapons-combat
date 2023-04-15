@@ -36,10 +36,10 @@ public class CW
     public List<List<CW>> enemyRowsList;
     public List<List<CW>> allyRowsList;
     public List<List<CW>> targetRowsList;
-    public List<CW> playerCombatWeapons;
-    public List<CW> enemyCombatWeapons;
-    public List<CW> allyCombatWeapons;
-    public List<CW> targetCombatWeapons;
+    public List<CW> playerCWs;
+    public List<CW> enemyCWs;
+    public List<CW> allyCWs;
+    public List<CW> targetCWs;
     public PlayerEnemyData playerEnemyData;
 
     public List<StatusEffect> statusEffects;
@@ -154,19 +154,19 @@ public class CW
 
         playerRowsList = playerEnemyData.playerRowsList;
         enemyRowsList = playerEnemyData.enemyRowsList;
-        playerCombatWeapons = playerEnemyData.playerCombatWeapons;
-        enemyCombatWeapons = playerEnemyData.enemyCombatWeapons;
+        playerCWs = playerEnemyData.playerCWs;
+        enemyCWs = playerEnemyData.enemyCWs;
         targetRowsList = isPlayer ? enemyRowsList : playerRowsList;
         allyRowsList = isPlayer ? playerRowsList : enemyRowsList;
-        allyCombatWeapons = isPlayer ? playerCombatWeapons : enemyCombatWeapons;
-        targetCombatWeapons = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
+        allyCWs = isPlayer ? playerCWs : enemyCWs;
+        targetCWs = isPlayer ? enemyCWs : playerCWs;
     }
 
     //------------------------------------------------------------------------
     public CW(){}
 
     //------------------------------------------------------------------------
-    // this will be a problem for CombatWeaponMaster.cs, fix before committing
+    // this will be a problem for CWMaster.cs, fix before committing
     // public abstract void UpdateObjectReferencesExclusive();
     public virtual void InvokeInitializationEvents(){}
     public virtual void Update(float deltaTime){}
@@ -187,8 +187,8 @@ public class CW
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
-            var opponentCombatWeapons = isPlayer ? enemyCombatWeapons : playerCombatWeapons;
-            var target = opponentCombatWeapons.FirstOrDefault(cw => cw.id == action.senderId);
+            var opponentCWs = isPlayer ? enemyCWs : playerCWs;
+            var target = opponentCWs.FirstOrDefault(cw => cw.id == action.senderId);
             CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
     }

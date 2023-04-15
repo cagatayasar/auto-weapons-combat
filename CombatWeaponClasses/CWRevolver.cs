@@ -222,9 +222,9 @@ public class CWRevolver : CW
         }
 
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax, finalDmgMultiplierParameter: finalDmgMultiplier);
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax, finalDmgMultiplierParameter: finalDmgMultiplier);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed, finalDmgMultiplierParameter: finalDmgMultiplier);
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed, finalDmgMultiplierParameter: finalDmgMultiplier);
         }
     }
 

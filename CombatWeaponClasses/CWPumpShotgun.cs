@@ -232,9 +232,9 @@ public class CWPumpShotgun : CW
     {
         CombatAction combatAction;
         if (CombatMain.isRandomized) {
-            combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageMin, damageMax);
+            combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, damageFixed, damageFixed);
+            combatAction = CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
         combatAction.isKnockbackAction = true;
         return combatAction;

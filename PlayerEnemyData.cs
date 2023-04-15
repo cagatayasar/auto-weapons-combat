@@ -6,6 +6,6 @@ public class PlayerEnemyData
 {
     public List<List<CW>> playerRowsList;
     public List<List<CW>> enemyRowsList;
-    public List<CW> playerCombatWeapons;
-    public List<CW> enemyCombatWeapons;
+    public List<CW> playerCWs;
+    public List<CW> enemyCWs;
 }

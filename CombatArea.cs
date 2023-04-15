@@ -7,9 +7,9 @@ public class CombatArea
 {
     //------------------------------------------------------------------------
     public List<List<CW>> playerRowsList = new List<List<CW>>();
-    public List<CW> playerCombatWeapons = new List<CW>();
+    public List<CW> playerCWs = new List<CW>();
     public List<List<CW>> enemyRowsList = new List<List<CW>>();
-    public List<CW> enemyCombatWeapons = new List<CW>();
+    public List<CW> enemyCWs = new List<CW>();
     public int rowCapacity = 3;
 
     //------------------------------------------------------------------------
@@ -93,51 +93,51 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void PullCombatWeapon(bool isPreparationPhase, List<List<CW>> rowsList, CW combatWeapon)
+    public void PullCW(bool isPreparationPhase, List<List<CW>> rowsList, CW cw)
     {
-        if (rowsList[combatWeapon.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
-            combatWeapon.coordX = rowsList[0][0].coordX + combatWeapon.isPlayer.ToMultiplier();
-            rowsList.Add(new List<CW> { combatWeapon });
-            rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+        if (rowsList[cw.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
+            cw.coordX = rowsList[0][0].coordX + cw.isPlayer.ToMultiplier();
+            rowsList.Add(new List<CW> { cw });
+            rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
-            if (combatWeapon.rowNumber - 1 == 0) return;
+            if (cw.rowNumber - 1 == 0) return;
             if (rowsList[0].Count == rowCapacity) {
                 if (rowsList[1].Count != rowCapacity) {
-                    combatWeapon.coordX = rowsList[1][0].coordX;
-                    rowsList[1].Add(combatWeapon);
-                    rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+                    cw.coordX = rowsList[1][0].coordX;
+                    rowsList[1].Add(cw);
+                    rowsList[cw.rowNumber - 1].Remove(cw);
                 }
             } else {
-                combatWeapon.coordX = rowsList[0][0].coordX;
-                rowsList[0].Add(combatWeapon);
-                rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+                cw.coordX = rowsList[0][0].coordX;
+                rowsList[0].Add(cw);
+                rowsList[cw.rowNumber - 1].Remove(cw);
             }
         }
-        UpdateCoords(isPreparationPhase, combatWeapon.isPlayer);
+        UpdateCoords(isPreparationPhase, cw.isPlayer);
     }
 
     //------------------------------------------------------------------------
-    public void PushCombatWeapon(bool isPreparationPhase, List<List<CW>> rowsList, CW combatWeapon)
+    public void PushCW(bool isPreparationPhase, List<List<CW>> rowsList, CW cw)
     {
-        if (rowsList[combatWeapon.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
-            combatWeapon.coordX = rowsList[rowsList.Count-1][0].coordX - combatWeapon.isPlayer.ToMultiplier();
-            rowsList.Add(new List<CW> { combatWeapon });
-            rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+        if (rowsList[cw.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
+            cw.coordX = rowsList[rowsList.Count-1][0].coordX - cw.isPlayer.ToMultiplier();
+            rowsList.Add(new List<CW> { cw });
+            rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
-            if (combatWeapon.rowNumber == 3) return;
+            if (cw.rowNumber == 3) return;
             if (rowsList[2].Count == rowCapacity) {
                 if (rowsList[1].Count != rowCapacity) {
-                    combatWeapon.coordX = rowsList[1][0].coordX;
-                    rowsList[1].Add(combatWeapon);
-                    rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+                    cw.coordX = rowsList[1][0].coordX;
+                    rowsList[1].Add(cw);
+                    rowsList[cw.rowNumber - 1].Remove(cw);
                 }
             } else {
-                combatWeapon.coordX = rowsList[2][0].coordX;
-                rowsList[2].Add(combatWeapon);
-                rowsList[combatWeapon.rowNumber - 1].Remove(combatWeapon);
+                cw.coordX = rowsList[2][0].coordX;
+                rowsList[2].Add(cw);
+                rowsList[cw.rowNumber - 1].Remove(cw);
             }
         }
-        UpdateCoords(isPreparationPhase, combatWeapon.isPlayer);
+        UpdateCoords(isPreparationPhase, cw.isPlayer);
     }
 
     //------------------------------------------------------------------------

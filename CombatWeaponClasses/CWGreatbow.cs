@@ -173,7 +173,7 @@ public class CWGreatbow : CW
 
     public override CombatAction GetCombatAction()
     {
-        return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList, 0, 0, healthPercent);
+        return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, 0, 0, healthPercent);
     }
 
     public override void ReceiveAction(CombatAction action)

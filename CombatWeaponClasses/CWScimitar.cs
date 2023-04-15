@@ -151,10 +151,10 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
                 damageMin + damagePerStack * stacks, damageMax + damagePerStack * stacks);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCombatWeapons, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
                 damageFixed + damagePerStack * stacks, damageFixed + damagePerStack * stacks);
         }
     }
