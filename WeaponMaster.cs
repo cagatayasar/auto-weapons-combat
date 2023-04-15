@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum WeaponMasterType : byte {
     Null,
@@ -15,31 +16,16 @@ public class WeaponMaster
 {
     //------------------------------------------------------------------------
     public WeaponMasterType weaponMasterType;
-    public List<bool> unlockedTactics;
+    public bool[] unlockedTactics = new bool[10];
     public int unlocksAvailable;
     public bool isPlayer;
 
-    public int totalSkillsUnlocked {
-        get {
-            var i = 0;
-            foreach (var isUnlocked in unlockedTactics) {
-                if (isUnlocked)
-                    i++;
-            }
-            return i;
-        }
-    }
+    public int TotalSkillsUnlocked => unlockedTactics.Sum(t => t.ToBinary());
 
     //------------------------------------------------------------------------
     public WeaponMaster(WeaponMasterType weaponMasterType, bool isPlayer)
     {
         this.weaponMasterType = weaponMasterType;
         this.isPlayer = isPlayer;
-
-        unlockedTactics = new List<bool>();
-        for (int i = 0; i < 10; i++) {
-            unlockedTactics.Add(false);
-        }
-        unlocksAvailable = 0;
     }
 }
