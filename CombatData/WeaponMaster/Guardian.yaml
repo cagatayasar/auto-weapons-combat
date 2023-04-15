@@ -74,11 +74,11 @@ tactics:
   speedToAdd: 0
 - tacticTypeStr: ShieldBash
   weaponMasterTypeStr: Guardian
-  useTypeStr: EnemyWeapons
-  useCost: 1
-  uses: 2
+  useTypeStr: AllWeapons
+  useCost: 0
+  uses: 3
   cooldown: 0
-  description: Push an enemy weapon to the back.
+  description: Push a weapon.
   bulletCost: 0
   damage: 0
   shield: 0

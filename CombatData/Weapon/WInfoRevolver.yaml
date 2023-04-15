@@ -2,7 +2,7 @@ className: Revolver
 actionDescription: '(damageMin)-(damageMax) damage
 
   Ranged: (range)'
-otherDescription: 'It''s first attack deals double damage.'
+otherDescription: 'Its first attack deals double damage.'
 cost1: 2
 cost2: 2
 isMelee: n

@@ -108,7 +108,7 @@ tactics:
   useCost: 0
   uses: 999
   cooldown: 1
-  description: After <delay> seconds, deal <damage> to the selected weapon.
+  description: Select a weapon. After <delay> seconds, deal <damage> damage to it.
   bulletCost: 1
   damage: 12
   shield: 0

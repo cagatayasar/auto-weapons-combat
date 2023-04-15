@@ -2,7 +2,7 @@ className: Arbalest
 actionDescription: '(damageMin)-(damageMax) damage
 
   Ranged'
-otherDescription: 'Fires a bolt that damages everything in its way.'
+otherDescription: 'Fires a piercing bolt forward direction.'
 cost1: 2
 cost2: 2
 isMelee: n
