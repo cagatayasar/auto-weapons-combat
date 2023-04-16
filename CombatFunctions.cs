@@ -166,14 +166,15 @@ public static class CombatFunctions
                 }
                 else if (targetRowCount == 3)
                 {
-                    switch (attacker.positionFromBottom)
+                    targetEnemy = attacker.positionFromBottom switch
                     {
-                        case 1: targetEnemy = targetRow[0];                      break;
-                        case 2: targetEnemy = targetRow[redirectActive ? 0 : 1]; break;
-                        case 3: targetEnemy = targetRow[1];                      break;
-                        case 4: targetEnemy = targetRow[redirectActive ? 1 : 2]; break;
-                        case 5: targetEnemy = targetRow[2];                      break;
-                    }
+                        1 => targetRow[0],
+                        2 => targetRow[redirectActive ? 0 : 1],
+                        3 => targetRow[1],
+                        4 => targetRow[redirectActive ? 1 : 2],
+                        5 => targetRow[2],
+                        _ => targetEnemy
+                    };
                 }
             }
             else if (!targetRow.Contains_(prevTargetEnemy)
@@ -230,14 +231,15 @@ public static class CombatFunctions
             }
             else if (targetRow.Count == 3)
             {
-                switch (attacker.positionFromBottom)
+                targetEnemy = attacker.positionFromBottom switch
                 {
-                    case 1: targetEnemy = targetRow[0];                      break;
-                    case 2: targetEnemy = targetRow[redirectActive ? 0 : 1]; break;
-                    case 3: targetEnemy = targetRow[1];                      break;
-                    case 4: targetEnemy = targetRow[redirectActive ? 1 : 2]; break;
-                    case 5: targetEnemy = targetRow[2];                      break;
-                }
+                    1 => targetRow[0],
+                    2 => targetRow[redirectActive ? 0 : 1],
+                    3 => targetRow[1],
+                    4 => targetRow[redirectActive ? 1 : 2],
+                    5 => targetRow[2],
+                    _ => targetEnemy
+                };
             }
         }
         else
