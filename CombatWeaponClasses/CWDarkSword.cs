@@ -10,9 +10,7 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     public MeleeDoubleAttackState meleeDoubleAttackState = MeleeDoubleAttackState.Idle;
     MeleeTargetType targetType = MeleeTargetType.Null;
 
-    int damageFixed;
-    int damageMin;
-    int damageMax;
+
     CW damagedTargetEnemy;
 
     int damagePerStack;
@@ -47,15 +45,9 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             maxStacks = weaponInfo.maxStackAmount1;
             damagePerStack = weaponInfo.damagePerStack1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             maxStacks = weaponInfo.maxStackAmount2;
             damagePerStack = weaponInfo.damagePerStack2;
         }

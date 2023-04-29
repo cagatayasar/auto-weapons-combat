@@ -6,9 +6,6 @@ using System.Linq;
 public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
 {
     public new WInfoJavelin weaponInfo => base.weaponInfo as WInfoJavelin;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
 
     public float touchDamageMultiplier;
     public float projectileSpeed;
@@ -41,14 +38,8 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             touchDamageMultiplier = weaponInfo.touchDamageMultiplier1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             touchDamageMultiplier = weaponInfo.touchDamageMultiplier2;
         }
     }

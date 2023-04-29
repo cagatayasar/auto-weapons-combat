@@ -6,9 +6,6 @@ using System.Linq;
 public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
 {
     public new WInfoScimitar weaponInfo => base.weaponInfo as WInfoScimitar;
-    public int damageFixed;
-    public int damageMin;
-    public int damageMax;
 
     public int damagePerStack;
 
@@ -35,15 +32,9 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             maxStacks = weaponInfo.maxStackAmount1;
             damagePerStack = weaponInfo.damagePerStack1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             maxStacks = weaponInfo.maxStackAmount2;
             damagePerStack = weaponInfo.damagePerStack2;
         }

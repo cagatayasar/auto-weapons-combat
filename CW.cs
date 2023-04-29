@@ -46,6 +46,10 @@ public class CW
     public int healthPoint;
     public int maxHealthPoint;
     public float actionTimePeriod;
+    public int damageFixed;
+    public int damageMin;
+    public int damageMax;
+
     public float healthPointForYellowBar;
     public int damageShield;
     public int stacks;
@@ -203,8 +207,14 @@ public class CW
 
         if (weapon.combatLevel == 1) {
             actionTimePeriod = weaponInfo.actionTimePeriod1;
+            damageFixed = weaponInfo.damageFixed1;
+            damageMin = weaponInfo.damageMin1;
+            damageMax = weaponInfo.damageMax1;
         } else {
             actionTimePeriod = weaponInfo.actionTimePeriod2;
+            damageFixed = weaponInfo.damageFixed2;
+            damageMin = weaponInfo.damageMin2;
+            damageMax = weaponInfo.damageMax2;
         }
     }
 

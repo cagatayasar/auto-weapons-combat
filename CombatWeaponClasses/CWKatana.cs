@@ -23,10 +23,6 @@ public class CWKatana : CW, ICWStackWeapon
 
     public KatanaState katanaState = KatanaState.IdleFirst;
 
-    public int damageFixed;
-    public int damageMin;
-    public int damageMax;
-
     public float attackTimer;
     public float stackProgress;
 
@@ -52,14 +48,8 @@ public class CWKatana : CW, ICWStackWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             maxStacks = weaponInfo.maxStackAmount1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             maxStacks = weaponInfo.maxStackAmount2;
         }
     }

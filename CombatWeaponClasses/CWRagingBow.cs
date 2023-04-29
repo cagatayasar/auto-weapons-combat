@@ -6,9 +6,7 @@ using System.Linq;
 public class CWRagingBow : CW, ICWStackWeapon
 {
     public new WInfoRagingBow weaponInfo => base.weaponInfo as WInfoRagingBow;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
+
     int actionTimePeriodBuffPercent;
 
     // animation variables
@@ -46,15 +44,9 @@ public class CWRagingBow : CW, ICWStackWeapon
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             actionTimePeriodBuffPercent = weaponInfo.speedBuffPercent1;
             range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             actionTimePeriodBuffPercent = weaponInfo.speedBuffPercent2;
             range = weaponInfo.range2;
         }

@@ -24,9 +24,7 @@ public class CWGreataxe : CW
 
     public GreataxeState greataxeState = GreataxeState.IdleUpward;
 
-    int damageFixed;
-    int damageMin;
-    int damageMax;
+
     CW damagedEnemy1;
     CW damagedEnemy2;
 
@@ -58,15 +56,6 @@ public class CWGreataxe : CW
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
-        if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
-        } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
-        }
     }
 
     public override void Update(float deltaTime)

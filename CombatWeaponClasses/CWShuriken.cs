@@ -6,9 +6,6 @@ using System.Linq;
 public class CWShuriken : CW, ICWThrown
 {
     public new WInfoShuriken weaponInfo => base.weaponInfo as WInfoShuriken;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
 
     public CWShuriken(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -28,14 +25,8 @@ public class CWShuriken : CW, ICWThrown
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
             range = weaponInfo.range1;
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
         } else if (weapon.combatLevel == 2) {
             range = weaponInfo.range2;
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
         }
     }
 

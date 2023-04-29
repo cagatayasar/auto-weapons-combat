@@ -6,9 +6,6 @@ using System.Linq;
 public class CWPumpShotgun : CW
 {
     public new WInfoPumpShotgun weaponInfo => base.weaponInfo as WInfoPumpShotgun;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
 
     bool didFirstShot;
     float firstShotTimer;
@@ -51,14 +48,8 @@ public class CWPumpShotgun : CW
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             range = weaponInfo.range2;
         }
     }

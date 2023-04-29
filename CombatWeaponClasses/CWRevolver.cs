@@ -7,9 +7,7 @@ public class CWRevolver : CW
 {
     public new WInfoRevolver weaponInfo => base.weaponInfo as WInfoRevolver;
 
-    int damageFixed;
-    int damageMin;
-    int damageMax;
+
     int firstShotDamageMultiplier;
     bool isFirstMoment = true;
 
@@ -49,14 +47,8 @@ public class CWRevolver : CW
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             range = weaponInfo.range2;
         }
     }

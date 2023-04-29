@@ -6,9 +6,6 @@ using System.Linq;
 public class CWArbalest : CW, ICWHoldsRowPositions
 {
     public new WInfoArbalest weaponInfo => base.weaponInfo as WInfoArbalest;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
     float touchDamageMultiplier;
 
     // animation variables
@@ -56,14 +53,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             touchDamageMultiplier = weaponInfo.touchDamageMultiplier1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             touchDamageMultiplier = weaponInfo.touchDamageMultiplier2;
         }
     }

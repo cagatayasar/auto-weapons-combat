@@ -6,9 +6,6 @@ using System.Linq;
 public class CWHatchet : CW, ICWThrown
 {
     public new WInfoHatchet weaponInfo => base.weaponInfo as WInfoHatchet;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
 
     float animationPrepareClipLength;
 
@@ -31,14 +28,8 @@ public class CWHatchet : CW, ICWThrown
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
             range = weaponInfo.range1;
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
         } else if (weapon.combatLevel == 2) {
             range = weaponInfo.range2;
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
         }
     }
 

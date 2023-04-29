@@ -6,9 +6,6 @@ using System.Linq;
 public class CWSawedOff : CW
 {
     public new WInfoSawedOff weaponInfo => base.weaponInfo as WInfoSawedOff;
-    int damageFixed;
-    int damageMin;
-    int damageMax;
 
     bool didFirstShot;
     float firstShotTimer;
@@ -51,14 +48,8 @@ public class CWSawedOff : CW
     {
         base.UpdateLevelBasedStats();
         if (weapon.combatLevel == 1) {
-            damageFixed = base.weaponInfo.damageFixed1;
-            damageMin = base.weaponInfo.damageMin1;
-            damageMax = base.weaponInfo.damageMax1;
             range = weaponInfo.range1;
         } else if (weapon.combatLevel == 2) {
-            damageFixed = base.weaponInfo.damageFixed2;
-            damageMin = base.weaponInfo.damageMin2;
-            damageMax = base.weaponInfo.damageMax2;
             range = weaponInfo.range2;
         }
     }
