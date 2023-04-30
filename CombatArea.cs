@@ -6,11 +6,12 @@ using System.Linq;
 public class CombatArea
 {
     //------------------------------------------------------------------------
-    public List<List<CW>> playerRowsList = new List<List<CW>>();
-    public List<CW> playerCWs = new List<CW>();
-    public List<List<CW>> enemyRowsList = new List<List<CW>>();
-    public List<CW> enemyCWs = new List<CW>();
-    public int rowCapacity = 3;
+    public const int rowCwCapacity = 3;
+    public const int areaRowCapacity = 3;
+    public List<List<CW>> playerRowsList = new List<List<CW>>(areaRowCapacity);
+    public List<CW> playerCWs = new List<CW>(rowCwCapacity);
+    public List<List<CW>> enemyRowsList = new List<List<CW>>(areaRowCapacity);
+    public List<CW> enemyCWs = new List<CW>(rowCwCapacity);
 
     //------------------------------------------------------------------------
     public static Vec2[][] combatAreaPositions;
@@ -101,8 +102,8 @@ public class CombatArea
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             if (cw.rowNumber - 1 == 0) return;
-            if (rowsList[0].Count == rowCapacity) {
-                if (rowsList[1].Count != rowCapacity) {
+            if (rowsList[0].Count == rowCwCapacity) {
+                if (rowsList[1].Count != rowCwCapacity) {
                     cw.coordX = rowsList[1][0].coordX;
                     rowsList[1].Add(cw);
                     rowsList[cw.rowNumber - 1].Remove(cw);
@@ -125,8 +126,8 @@ public class CombatArea
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             if (cw.rowNumber == 3) return;
-            if (rowsList[2].Count == rowCapacity) {
-                if (rowsList[1].Count != rowCapacity) {
+            if (rowsList[2].Count == rowCwCapacity) {
+                if (rowsList[1].Count != rowCwCapacity) {
                     cw.coordX = rowsList[1][0].coordX;
                     rowsList[1].Add(cw);
                     rowsList[cw.rowNumber - 1].Remove(cw);
@@ -145,7 +146,7 @@ public class CombatArea
     {
         var rowsList = cw.isPlayer ? playerRowsList : enemyRowsList;
         if (rowsList.Count >= cw.rowNumber + 1) {
-            if (rowsList[cw.rowNumber].Count == rowCapacity) return;
+            if (rowsList[cw.rowNumber].Count == rowCwCapacity) return;
             cw.coordX = rowsList[cw.rowNumber][0].coordX;
             rowsList[cw.rowNumber].Add(cw);
             rowsList[cw.rowNumber - 1].Remove(cw);

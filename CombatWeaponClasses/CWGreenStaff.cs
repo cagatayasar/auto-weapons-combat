@@ -7,7 +7,7 @@ public class CWGreenStaff : CW
 {
     public new WInfoGreenStaff weaponInfo => base.weaponInfo as WInfoGreenStaff;
     public int healAmount;
-    public List<CW> targetWeapons = new List<CW>();
+    public List<CW> targetWeapons;
 
     public event Action onUpdateLines;
 
@@ -51,7 +51,7 @@ public class CWGreenStaff : CW
     public override void UpdateTarget()
     {
         if (rowNumber == 1) {
-            targetWeapons = new List<CW>();
+            targetWeapons = null;
         } else if (rowNumber == 2) {
             targetWeapons = allyRowsList[0];
         } else if (rowNumber == 3) {
@@ -65,7 +65,7 @@ public class CWGreenStaff : CW
     {
         if (actionTimePassed >= actionTimePeriod) {
             actionTimePassed = 0f;
-            int count = targetWeapons.Count;
+            var count = targetWeapons?.Count;
             for (int i = 0; i < count; i++) {
                 targetWeapons[i].ReceiveAction(GetCombatAction());
             }

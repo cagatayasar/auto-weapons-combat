@@ -271,7 +271,7 @@ public static class CombatFunctions
         CW targetEnemy = null;
         if (prevTargetEnemy == null)
         {
-            var targetRow = new List<CW>();
+            List<CW> targetRow = null;
             for (int i = targetRowsList.Count - 1; i >= 0; i--)
             {
                 if (range - attacker.rowNumber >= i)
@@ -281,7 +281,7 @@ public static class CombatFunctions
                 }
             }
 
-            var targetRowCount = targetRow.Count;
+            var targetRowCount = targetRow?.Count;
             if (targetRowCount == 1)
                 targetEnemy = targetRow[0];
             else if (targetRowCount == 2)
@@ -391,7 +391,7 @@ public static class CombatFunctions
         if (target.isDead) {
             if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
                 attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
-            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
+            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault_(x => x.statusEffectType == StatusEffectType.KillAndBoost);
             if (killAndBoostEffect.statusEffectType != StatusEffectType.Null)
                 killAndBoostEffect.killAndBoost_flag = true;
         }
@@ -456,7 +456,7 @@ public static class CombatFunctions
         if (target.isDead) {
             if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
                 attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
-            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.KillAndBoost);
+            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault_(x => x.statusEffectType == StatusEffectType.KillAndBoost);
             if (killAndBoostEffect.statusEffectType == StatusEffectType.KillAndBoost)
                 killAndBoostEffect.killAndBoost_flag = true;
         }

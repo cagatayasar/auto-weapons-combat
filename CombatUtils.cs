@@ -113,6 +113,17 @@ public static partial class Utils
         return false;
     }
 
+    public static T FirstOrDefault_<T>(this IList<T> list, Func<T, bool> predicate)
+    {
+        var count = list.Count;
+        for (int i = 0; i < count; i++) {
+            var item = list[i];
+            if (predicate(item))
+                return item;
+        }
+        return default(T);
+    }
+
     public static List<TResult> SelectWhere_<TSource, TResult>(this IEnumerable<TSource> enumerable, Func<TSource, TResult> selector, Func<TSource, bool> predicate)
     {
         var result = new List<TResult>();

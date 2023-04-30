@@ -25,6 +25,9 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     float combatAreaBoundaryLeft;
     float combatAreaBoundaryRight;
 
+    List<CW> targets = new List<CW>();
+    List<CW> touched = new List<CW>();
+
     public event Action<PArbalest> onReleaseProjectile;
     public event Action<PArbalest> onDestroyProjectile;
     public event Action<PArbalest, float> onUpdateProjectile;
@@ -91,7 +94,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         for (int i = 0; i < pArbalests.Count; i++)
         {
             var projectile = pArbalests[i];
-            Vec3 added = projectile.position + projectile.directionVector * (deltaTime * projectile.speed);
+            Vec3 added = projectile.position + projectile.directionVector * (deltaTime * projectile.Speed);
 
             if ((projectile.directionVector.x > 0 && added.x > combatAreaBoundaryRight) ||
                 (projectile.directionVector.x < 0 && added.x < combatAreaBoundaryLeft))
@@ -122,8 +125,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
             projectile.position = added;
             onUpdateProjectile?.Invoke(projectile, deltaTime);
 
-            var targets = new List<CW>();
-            var touched = new List<CW>();
+            targets.Clear();
+            touched.Clear();
             if (rowToDamage > 0 && enemyRowsList.Count >= rowToDamage)
             {
                 var rowSize = enemyRowsList[rowToDamage - 1].Count;
