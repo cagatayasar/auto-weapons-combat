@@ -93,11 +93,6 @@ public static partial class Utils
         }
     }
 
-    public static bool IsInBetween<T>(this T num, T lowerBoundary, T upperBoundary) where T : IComparable
-    {
-        return num.CompareTo(lowerBoundary) >= 0 && num.CompareTo(upperBoundary) <= 0;
-    }
-
     public static bool Contains_<T>(this IList<T> list, T item) where T : class
     {
         var count = list.Count;

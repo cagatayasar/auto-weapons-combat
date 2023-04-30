@@ -322,7 +322,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
             return;
 
         if (isPlayer) {
-            foreach (var p in pArbalests) {
+            for (int i = 0; i < pArbalests.Count; i++) {
+                var p = pArbalests[i];
                 if (p.flyingRowToDamage == 1)
                     continue;
                 if (rowNumber == 1 && p.position.x >= rightAreaRows[0].x && p.position.x <= rightAreaRows[1].x)
@@ -333,7 +334,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
                     p.flyingRowToDamage = 0;
             }
         } else {
-            foreach (var p in pArbalests) {
+            for (int i = 0; i < pArbalests.Count; i++) {
+                var p = pArbalests[i];
                 if (p.flyingRowToDamage == 1)
                     continue;
                 if (rowNumber == 1 && p.position.x <= leftAreaRows[0].x && p.position.x >= leftAreaRows[1].x)
