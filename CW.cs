@@ -32,17 +32,17 @@ public class CW
 
     public System.Random rnd;
 
-    public List<List<CW>> playerRowsList;
-    public List<List<CW>> enemyRowsList;
-    public List<List<CW>> allyRowsList;
-    public List<List<CW>> targetRowsList;
-    public List<CW> playerCWs;
-    public List<CW> enemyCWs;
-    public List<CW> allyCWs;
-    public List<CW> targetCWs;
+    public List_<List_<CW>> playerRowsList;
+    public List_<List_<CW>> enemyRowsList;
+    public List_<List_<CW>> allyRowsList;
+    public List_<List_<CW>> targetRowsList;
+    public List_<CW> playerCWs;
+    public List_<CW> enemyCWs;
+    public List_<CW> allyCWs;
+    public List_<CW> targetCWs;
     public PlayerEnemyData playerEnemyData;
 
-    public List<StatusEffect> statusEffects;
+    public List_<StatusEffect> statusEffects;
     public int healthPoint;
     public int maxHealthPoint;
     public float actionTimePeriod;
@@ -63,8 +63,8 @@ public class CW
     public int roundCount;
 
     public int range;
-    public List<POneRow> pOneRows = new List<POneRow>();
-    public List<POneTarget> pOneTargets = new List<POneTarget>();
+    public List_<POneRow> pOneRows = new List_<POneRow>();
+    public List_<POneTarget> pOneTargets = new List_<POneTarget>();
 
     public bool itemRedirect_active = false;
 
@@ -146,7 +146,7 @@ public class CW
 
         weaponInfo = CombatMain.weaponInfosDict[weapon.weaponType];
 
-        statusEffects = new List<StatusEffect>();
+        statusEffects = new List_<StatusEffect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
             damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
             OnUpdateHealthBar(0f);
@@ -318,7 +318,7 @@ public class CW
     public void ApplyExistingPermanentStatusEffects()
     {
         if (weapon.permanentStatusEffects == null) {
-            weapon.permanentStatusEffects = new List<StatusEffect>();
+            weapon.permanentStatusEffects = new List_<StatusEffect>();
             return;
         }
         for (int i = 0; i < weapon.permanentStatusEffects.Count; i++) {

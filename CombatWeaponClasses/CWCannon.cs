@@ -132,7 +132,7 @@ public class CWCannon : CW, ICWHoldsRowPositions
             if (projectile.currentTravelTime + deltaTime >= projectile.totalTravelTime)
             {
                 foreach (var target in targetRowsList[projectile.targetRowNumber - 1]) {
-                    CombatFunctions.ApplyActionToTarget(target, this, projectile.combatAction);
+                    CombatFunctions.ApplyActionToTarget(target, this, projectile.CombatAction);
                 }
                 onDestroyProjectile?.Invoke(projectile);
                 pOneRows.RemoveAt(i);

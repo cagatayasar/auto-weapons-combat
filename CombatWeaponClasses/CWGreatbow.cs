@@ -90,7 +90,7 @@ public class CWGreatbow : CW
 
             if (projectile.currentTravelTime + deltaTime >= projectile.totalTravelTime)
             {
-                CombatFunctions.ApplyActionToTarget(projectile.target, this, projectile.combatAction);
+                CombatFunctions.ApplyActionToTarget(projectile.target, this, projectile.CombatAction);
                 onDestroyProjectile?.Invoke(projectile);
                 pOneTargets.RemoveAt(i);
                 i--;

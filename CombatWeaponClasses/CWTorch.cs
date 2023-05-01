@@ -7,7 +7,7 @@ public class CWTorch : CW
 {
     public new WInfoTorch weaponInfo => base.weaponInfo as WInfoTorch;
     public int damage;
-    public List<CW> targetEnemies;
+    public List_<CW> targetEnemies;
 
     public event Action onUpdateLines;
 

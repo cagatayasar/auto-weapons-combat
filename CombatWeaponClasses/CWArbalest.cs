@@ -25,8 +25,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     float combatAreaBoundaryLeft;
     float combatAreaBoundaryRight;
 
-    List<CW> targets = new List<CW>();
-    List<CW> touched = new List<CW>();
+    List_<CW> targets = new List_<CW>(3);
+    List_<CW> touched = new List_<CW>(3);
 
     public event Action<PArbalest> onReleaseProjectile;
     public event Action<PArbalest> onDestroyProjectile;

@@ -7,7 +7,7 @@ public class CWGreenStaff : CW
 {
     public new WInfoGreenStaff weaponInfo => base.weaponInfo as WInfoGreenStaff;
     public int healAmount;
-    public List<CW> targetWeapons;
+    public List_<CW> targetWeapons;
 
     public event Action onUpdateLines;
 

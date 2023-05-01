@@ -39,7 +39,7 @@ public class Weapon
     public bool isSummonedWeapon = false;
     public bool isPermanentlySummonedWeapon = false;
     public bool isUpgradedForTheMatch = false;
-    public List<StatusEffect> permanentStatusEffects;
+    public List_<StatusEffect> permanentStatusEffects;
 
     public int combatLevel => isUpgradedForTheMatch ? 2 : level;
 
@@ -50,11 +50,11 @@ public class Weapon
         this.level = level;
 
         matchRosterIndex = -1;
-        permanentStatusEffects = new List<StatusEffect>();
+        permanentStatusEffects = new List_<StatusEffect>();
     }
 
     //------------------------------------------------------------------------
-    public Weapon(WeaponStruct weaponStruct, List<StatusEffect> permanentStatusEffects)
+    public Weapon(WeaponStruct weaponStruct, List_<StatusEffect> permanentStatusEffects)
     {
         this.level                       = weaponStruct.level;
         this.matchRosterIndex            = weaponStruct.matchRosterIndex;
@@ -68,6 +68,6 @@ public class Weapon
 
     //------------------------------------------------------------------------
     public void ResetPermanentStatusEffects() {
-        permanentStatusEffects = new List<StatusEffect>();
+        permanentStatusEffects = new List_<StatusEffect>();
     }
 }

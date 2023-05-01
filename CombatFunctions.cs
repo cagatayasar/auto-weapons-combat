@@ -29,7 +29,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static string GetFormation(List<List<CW>> rowsList)
+    public static string GetFormation(List_<List_<CW>> rowsList)
     {
         string formation = "";
         foreach (var list in rowsList) {
@@ -39,7 +39,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static string GetCombatState(List<List<CW>> rowsList)
+    public static string GetCombatState(List_<List_<CW>> rowsList)
     {
         string state = GetFormation(rowsList) + "_";
 
@@ -65,7 +65,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List<CW> allyCWs, List<List<CW>> allyRowsList,
+    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List_<CW> allyCWs, List_<List_<CW>> allyRowsList,
         int damageMin, int damageMax, int healthPercent = 0, float finalDmgMultiplierParameter = 1f)
     {
         int dmgAddAmount = 0;
@@ -140,7 +140,7 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyMelee(CW attacker, CW prevTargetEnemy,
-        List<List<CW>> targetRowsList, bool canAttackDownwards = true)
+        List_<List_<CW>> targetRowsList, bool canAttackDownwards = true)
     {
         if (targetRowsList.Count == 0)
             return null;
@@ -195,7 +195,7 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRanged(CW attacker, int range, CW prevTargetEnemy,
-        List<List<CW>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
+        List_<List_<CW>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
     {
         int rangeToAddOrSubstract = CombatFunctions.GetRangeToAddOrSubstract(attacker, range, timePassed, oneLessRangeForXSeconds);
         if (attacker.weapon.attachment == AttachmentType.Furthest) {
@@ -207,7 +207,7 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRangedClosest(CW attacker, int range, CW prevTargetEnemy,
-        List<List<CW>> targetRowsList)
+        List_<List_<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
@@ -262,7 +262,7 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRangedFurthest(CW attacker, int range, CW prevTargetEnemy,
-        List<List<CW>> targetRowsList)
+        List_<List_<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
@@ -271,7 +271,7 @@ public static class CombatFunctions
         CW targetEnemy = null;
         if (prevTargetEnemy == null)
         {
-            List<CW> targetRow = null;
+            List_<CW> targetRow = null;
             for (int i = targetRowsList.Count - 1; i >= 0; i--)
             {
                 if (range - attacker.rowNumber >= i)
@@ -352,7 +352,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static int GetCompFormation(List<List<CW>> rowsList)
+    public static int GetCompFormation(List_<List_<CW>> rowsList)
     {
         int formation = 0;
         if (rowsList.Count == 0)

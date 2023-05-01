@@ -33,7 +33,7 @@ public static partial class Utils
         return list;
     }
 
-    public static string ToString(this List<List<CW>> rowsList)
+    public static string ToString(this List_<List_<CW>> rowsList)
     {
         var sb = new System.Text.StringBuilder();
         for (int i = 0; i < rowsList.Count; i++)
@@ -93,7 +93,7 @@ public static partial class Utils
         }
     }
 
-    public static bool Contains_<T>(this IList<T> list, T item) where T : class
+    public static bool Contains_<T>(this List_<T> list, T item) where T : class
     {
         var count = list.Count;
         for (int i = 0; i < count; i++) {
@@ -103,7 +103,7 @@ public static partial class Utils
         return false;
     }
 
-    public static bool Any_<T>(this IList<T> list, Func<T, bool> predicate)
+    public static bool Any_<T>(this List_<T> list, Func<T, bool> predicate)
     {
         var count = list.Count;
         for (int i = 0; i < count; i++) {
@@ -113,7 +113,7 @@ public static partial class Utils
         return false;
     }
 
-    public static T FirstOrDefault_<T>(this IList<T> list, Func<T, bool> predicate)
+    public static T FirstOrDefault_<T>(this List_<T> list, Func<T, bool> predicate)
     {
         var count = list.Count;
         for (int i = 0; i < count; i++) {
