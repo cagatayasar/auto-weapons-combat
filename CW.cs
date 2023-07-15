@@ -400,11 +400,11 @@ public class CW
                 MathF.Atan((prevTargetImaginaryPos.y - prevAttackerImaginaryPos.y) / (prevTargetImaginaryPos.x - prevAttackerImaginaryPos.x));
         }
 
-        if (nextAngle >= (wantedAngle-0.1f) && nextAngle <= (wantedAngle+0.1f))
+        if (nextAngle > (wantedAngle-0.1f) && nextAngle < (wantedAngle+0.1f))
             return;
 
         wantedAngle = nextAngle;
-        if (currentAngle >= (wantedAngle-1f) && currentAngle <= (wantedAngle+1f))
+        if (currentAngle < (wantedAngle-1f) || currentAngle > (wantedAngle+1f))
         {
             isRotating = true;
             currentRotationTime = 0.0f;
