@@ -196,8 +196,8 @@ public enum ReloadState : byte
 
 public enum TableEventType : byte
 {
-    WeaponChoiceEvent,
-    BlacksmithEvent,
+    WeaponChoice,
+    Blacksmith,
 }
 
 public enum AttachmentType
