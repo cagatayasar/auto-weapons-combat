@@ -8,12 +8,12 @@ isRanged: n
 isThrown: n
 healthPoint1: 20
 healthPoint2: 20
-actionSpeed1: 1
-actionSpeed2: 1
+speed1: 1
+speed2: 1
 damageFixed1: 5
 damageFixed2: 5
 damageMin1: 5
 damageMax1: 5
 damageMin2: 5
 damageMax2: 5
-attackPerAnimation: 1
+attackPerAnim: 1

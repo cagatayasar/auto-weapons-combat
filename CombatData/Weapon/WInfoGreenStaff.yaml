@@ -8,14 +8,14 @@ cost2: 2
 isThrown: n
 healthPoint1: 15
 healthPoint2: 20
-actionSpeed1: 2
-actionSpeed2: 2.7
+speed1: 2
+speed2: 2.7
 damageFixed1: 0
 damageFixed2: 0
 damageMin1: 0
 damageMax1: 0
 damageMin2: 0
 damageMax2: 0
-attackPerAnimation: 1
+attackPerAnim: 1
 heal1: 2
 heal2: 2

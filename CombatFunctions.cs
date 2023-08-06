@@ -6,29 +6,6 @@ using System.Linq;
 public static class CombatFunctions
 {
     //------------------------------------------------------------------------
-    public static float HandleStatusEffects(CW cw, float deltaTime)
-    {
-        float seActionSpeedMultiplier = 1f;
-        for (int i = 0; i < cw.statusEffects.Count; i++)
-        {
-            var se = cw.statusEffects[i];
-            if (se.statusEffectType == StatusEffectType.BlueStaffBoost) {
-                seActionSpeedMultiplier += se.actionSpeedMultiplier - 1f;
-            }
-
-            if (se.isTimed) {
-                se.timeLeft -= deltaTime;
-                if (se.timeLeft < 0f) {
-                    cw.statusEffects.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        return seActionSpeedMultiplier;
-    }
-
-    //------------------------------------------------------------------------
     public static string GetFormation(List_<List_<CW>> rowsList)
     {
         string formation = "";
@@ -65,49 +42,49 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatAction GetCombatAction(System.Random rnd, List<StatusEffect> statusEffects, CW attacker, List_<CW> allyCWs, List_<List_<CW>> allyRowsList,
+    public static CombatAction GetCombatAction(System.Random rnd, List<Effect> effects, CW attacker, List_<CW> allyCWs, List_<List_<CW>> allyRowsList,
         int damageMin, int damageMax, int healthPercent = 0, float finalDmgMultiplierParameter = 1f)
     {
         int dmgAddAmount = 0;
         float dmgMultiplier = 1f;
         float finalDmgMultiplier = 1f;
         int damage = -1;
-        for (int i = 0; i < statusEffects.Count; i++) {
-            switch (statusEffects[i].statusEffectType)
+        for (int i = 0; i < effects.Count; i++) {
+            switch (effects[i].info.EffectType)
             {
-            case StatusEffectType.BonusAttackDmg:
+            case EffectType.BonusAttackDmg:
                 dmgMultiplier += CombatMain.itemAttributes.bonusDmg_Multiplier - 1f;
                 break;
-            case StatusEffectType.EachAttackOneLess:
+            case EffectType.EachAttackOneLess:
                 dmgAddAmount--;
                 break;
-            case StatusEffectType.EachAttackOneMore:
+            case EffectType.EachAttackOneMore:
                 dmgAddAmount++;
                 break;
-            case StatusEffectType.FirstAttacksDoubleDmg:
+            case EffectType.FirstAttacksDoubleDmg:
                 dmgMultiplier += CombatMain.itemAttributes.firstAttacksBuff_Multiplier - 1f;
-                statusEffects.RemoveAt(i);
+                effects.RemoveAt(i);
                 i--;
                 break;
-            case StatusEffectType.IfAloneBonusDmg:
+            case EffectType.IfAloneBonusDmg:
                 if (allyCWs.Count == 1)
                     dmgMultiplier += CombatMain.itemAttributes.ifAloneBonusDmg_Multiplier - 1f;
                 break;
-            case StatusEffectType.IfPerfectSquareBonusDmg:
+            case EffectType.IfPerfectSquareBonusDmg:
                 dmgMultiplier += CombatMain.itemAttributes.perfectSquareBonusDmg_Multiplier - 1f;
                 break;
-            case StatusEffectType.KillAndBoost:
-                if (statusEffects[i].killAndBoost_flag) {
+            case EffectType.KillAndBoost:
+                if (effects[i].killAndBoost_flag) {
                     dmgMultiplier += CombatMain.itemAttributes.killAndBoostBoost_Multiplier - 1f;
-                    var se = statusEffects[i];
+                    var se = effects[i];
                     se.killAndBoost_flag = false;
-                    statusEffects[i] = se;
+                    effects[i] = se;
                 }
                 break;
-            case StatusEffectType.FirstRowBuff:
+            case EffectType.FirstRowBuff:
                 dmgMultiplier += CombatMain.itemAttributes.firstRowBuffDmg_Multiplier - 1f;
                 break;
-            case StatusEffectType.Gunslinger_OneEyeClosed:
+            case EffectType.Gunslinger_OneEyeClosed:
                 damage = damageMax;
                 break;
             }
@@ -142,52 +119,47 @@ public static class CombatFunctions
     public static CW TargetEnemyMelee(CW attacker, CW prevTargetEnemy,
         List_<List_<CW>> targetRowsList, bool canAttackDownwards = true)
     {
-        if (targetRowsList.Count == 0)
+        if (targetRowsList.Count == 0 || attacker.rowNumber != 1) {
             return null;
+        }
+        if (prevTargetEnemy != null) {
+            if (!canAttackDownwards && attacker.verticalPosition > prevTargetEnemy.verticalPosition) {
+                return null;
+            }
+        }
 
         bool redirectActive = attacker.itemRedirect_active && canAttackDownwards;
         CW targetEnemy = null;
-        if (attacker.rowNumber == 1)
-        {
-            var targetRow = targetRowsList[0];
-            if (prevTargetEnemy == null)
+        var targetRow = targetRowsList[0];
+        if (prevTargetEnemy == null) {
+            if (targetRow.Count == 1 && MathF.Abs(attacker.verticalPosition - 3) <= 1) {
+                targetEnemy = targetRow[0];
+            }
+            else if (targetRow.Count == 2)
             {
-                var targetRowCount = targetRow.Count;
-                if (targetRowCount == 1 && MathF.Abs(attacker.positionFromBottom - 3) <= 1)
+                if (attacker.verticalPosition <= 2)
                     targetEnemy = targetRow[0];
-                else if (targetRowCount == 2)
-                {
-                    if (attacker.positionFromBottom <= 2)
-                        targetEnemy = targetRow[0];
-                    else if (attacker.positionFromBottom >= 4)
-                        targetEnemy = targetRow[1];
-                    else
-                        targetEnemy = targetRow[redirectActive ? 0 : 1];
-                }
-                else if (targetRowCount == 3)
-                {
-                    targetEnemy = attacker.positionFromBottom switch
-                    {
-                        1 => targetRow[0],
-                        2 => targetRow[redirectActive ? 0 : 1],
-                        3 => targetRow[1],
-                        4 => targetRow[redirectActive ? 1 : 2],
-                        5 => targetRow[2],
-                        _ => targetEnemy
-                    };
-                }
+                else if (attacker.verticalPosition >= 4)
+                    targetEnemy = targetRow[1];
+                else
+                    targetEnemy = targetRow[redirectActive ? 0 : 1];
             }
-            else if (!targetRow.Contains_(prevTargetEnemy)
-                   || MathF.Abs(attacker.positionFromBottom - prevTargetEnemy.positionFromBottom) > 1)
-                targetEnemy = null;
-            else
-                targetEnemy = prevTargetEnemy;
-
-            if (prevTargetEnemy != null) {
-                if (!canAttackDownwards && attacker.positionFromBottom > prevTargetEnemy?.positionFromBottom) {
-                    targetEnemy = null;
-                }
+            else if (targetRow.Count == 3)
+            {
+                targetEnemy = attacker.verticalPosition switch
+                {
+                    1 => targetRow[0],
+                    2 => targetRow[redirectActive ? 0 : 1],
+                    3 => targetRow[1],
+                    4 => targetRow[redirectActive ? 1 : 2],
+                    5 => targetRow[2],
+                    _ => targetEnemy
+                };
             }
+        } else if (!targetRow.Contains_(prevTargetEnemy) || MathF.Abs(attacker.verticalPosition - prevTargetEnemy.verticalPosition) > 1) {
+            targetEnemy = null;
+        } else {
+            targetEnemy = prevTargetEnemy;
         }
 
         return targetEnemy;
@@ -222,16 +194,16 @@ public static class CombatFunctions
                 targetEnemy = targetRow[0];
             else if (targetRow.Count == 2)
             {
-                if (attacker.positionFromBottom <= 2)
+                if (attacker.verticalPosition <= 2)
                     targetEnemy = targetRow[0];
-                else if (attacker.positionFromBottom >= 4)
+                else if (attacker.verticalPosition >= 4)
                     targetEnemy = targetRow[1];
                 else
                     targetEnemy = targetRow[redirectActive ? 0 : 1];
             }
             else if (targetRow.Count == 3)
             {
-                targetEnemy = attacker.positionFromBottom switch
+                targetEnemy = attacker.verticalPosition switch
                 {
                     1 => targetRow[0],
                     2 => targetRow[redirectActive ? 0 : 1],
@@ -286,18 +258,18 @@ public static class CombatFunctions
                 targetEnemy = targetRow[0];
             else if (targetRowCount == 2)
             {
-                if (attacker.positionFromBottom <= 2)
+                if (attacker.verticalPosition <= 2)
                     targetEnemy = targetRow[1];
-                else if (attacker.positionFromBottom >= 4)
+                else if (attacker.verticalPosition >= 4)
                     targetEnemy = targetRow[0];
                 else
                     targetEnemy = targetRow[redirectActive ? 0 : 1];
             }
             else if (targetRowCount == 3)
             {
-                if (attacker.positionFromBottom <= 2)
+                if (attacker.verticalPosition <= 2)
                     targetEnemy = targetRow[2];
-                else if (attacker.positionFromBottom >= 4)
+                else if (attacker.verticalPosition >= 4)
                     targetEnemy = targetRow[0];
                 else
                     targetEnemy = targetRow[redirectActive ? 0 : 2];
@@ -389,10 +361,10 @@ public static class CombatFunctions
             }
         }
         if (target.isDead) {
-            if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
+            if (attacker.effects.Any_(x => x.info.EffectType == EffectType.KillAndShield))
                 attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
-            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault_(x => x.statusEffectType == StatusEffectType.KillAndBoost);
-            if (killAndBoostEffect.statusEffectType != StatusEffectType.Null)
+            var killAndBoostEffect = attacker.effects.FirstOrDefault_(x => x.info.EffectType == EffectType.KillAndBoost);
+            if (killAndBoostEffect.info.EffectType != EffectType.Null)
                 killAndBoostEffect.killAndBoost_flag = true;
         }
     }
@@ -404,7 +376,7 @@ public static class CombatFunctions
         damage += MathCustom.RoundToInt((action.healthPercentDamage * cw.maxHealthPoint) / 100.0f);
 
         float damageReceivedMultiplier = 1f;
-        // if (cw.statusEffects.FirstOrDefault(x => x.statusEffectType == StatusEffectType.___________) != null) {
+        // if (cw.effects.FirstOrDefault(x => x.effectType == EffectType.___________) != null) {
         //     damageReceivedMultiplier *= ___________;
         // }
         damage = MathCustom.RoundToInt(damage * damageReceivedMultiplier);
@@ -436,8 +408,8 @@ public static class CombatFunctions
             return;
         }
 
-        if (action.statusEffect.statusEffectType != StatusEffectType.Null)
-            cw.ApplyStatusEffect(action.statusEffect);
+        if (action.effect.info.EffectType != EffectType.Null)
+            cw.ApplyEffect(action.effect);
     }
 
     //------------------------------------------------------------------------
@@ -454,10 +426,10 @@ public static class CombatFunctions
             }
         }
         if (target.isDead) {
-            if (attacker.statusEffects.Any_(x => x.statusEffectType == StatusEffectType.KillAndShield))
+            if (attacker.effects.Any_(x => x.info.EffectType == EffectType.KillAndShield))
                 attacker.damageShield += CombatMain.itemAttributes.killAndShieldShield_Value;
-            var killAndBoostEffect = attacker.statusEffects.FirstOrDefault_(x => x.statusEffectType == StatusEffectType.KillAndBoost);
-            if (killAndBoostEffect.statusEffectType == StatusEffectType.KillAndBoost)
+            var killAndBoostEffect = attacker.effects.FirstOrDefault_(x => x.info.EffectType == EffectType.KillAndBoost);
+            if (killAndBoostEffect.info.EffectType == EffectType.KillAndBoost)
                 killAndBoostEffect.killAndBoost_flag = true;
         }
     }

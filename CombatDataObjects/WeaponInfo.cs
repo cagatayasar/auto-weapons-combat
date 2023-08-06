@@ -16,8 +16,8 @@ public class WeaponInfo
 
     public int healthPoint1;
     public int healthPoint2;
-    public float actionSpeed1;
-    public float actionSpeed2;
+    public float speed1;
+    public float speed2;
     public float startingActionTimePassed1;
     public float startingActionTimePassed2;
 
@@ -28,15 +28,15 @@ public class WeaponInfo
     public int damageMin2;
     public int damageMax2;
 
-    public int attackPerAnimation;
+    public int attackPerAnim;
 
     public float cancelingSpeed;
 
-    public float commandAttackWait1;
-    public float commandAttackWait2;
+    public float commandAttackWaitBeforeAttack;
+    public float commandAttackWaitAfterAttack;
 
-    public float actionTimePeriod1 => actionSpeed1 > 0f ? (1f / actionSpeed1) : 0f;
-    public float actionTimePeriod2 => actionSpeed2 > 0f ? (1f / actionSpeed2) : 0f;
+    public float actionTimePeriod1 => speed1 > 0f ? (1f / speed1) : 0f;
+    public float actionTimePeriod2 => speed2 > 0f ? (1f / speed2) : 0f;
 
     public int GetHP(int level) => level == 1 ? healthPoint1 : healthPoint2;
 

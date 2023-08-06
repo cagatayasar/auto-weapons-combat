@@ -15,13 +15,13 @@ public class CWDagger : CW, ICWCancelTransition
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -31,11 +31,12 @@ public class CWDagger : CW, ICWCancelTransition
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             UpdateAnimator();
@@ -58,24 +59,24 @@ public class CWDagger : CW, ICWCancelTransition
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
-        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.animNonidleSpeedMin)
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.animNonidleSpeedMax)
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.animNonidleSpeedMin) / (weaponInfo.animNonidleSpeedMax - weaponInfo.animNonidleSpeedMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationDamageEnemyPortion;
+        damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animDamageEnemyTime;
 
-        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -122,9 +123,9 @@ public class CWDagger : CW, ICWCancelTransition
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

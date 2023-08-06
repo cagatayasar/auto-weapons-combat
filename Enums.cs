@@ -124,10 +124,10 @@ public enum ItemType : byte
     Null,
 }
 
-public enum StatusEffectType : byte
+public enum EffectType : byte
 {
     Null,
-    BlueStaffBoost,
+    BlueStaff_SpeedBuff,
     Stack,
     BonusActionSpeed,
     BonusAttackDmg,
@@ -149,6 +149,7 @@ public enum StatusEffectType : byte
     Gunslinger_OneEyeClosed,
     Gunslinger_CorrosiveShot,
     Gunslinger_QuickDraw,
+    Stealth
 }
 
 public enum BowState : byte

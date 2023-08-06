@@ -27,14 +27,14 @@ public class CWBow : CW
         UpdateLevelBasedStats();
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin * weaponInfo.animationAttackDrawPortion));
-        OnAnimatorSetFloat("releaseSpeed", "bow_anim_release", 1f / weaponInfo.animationAttackReleaseTime);
+        OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
+        OnAnimatorSetFloat("releaseSpeed", "bow_anim_release", 1f / weaponInfo.animAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
@@ -49,11 +49,12 @@ public class CWBow : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             UpdateAnimator();
@@ -101,26 +102,26 @@ public class CWBow : CW
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
-        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.animNonidleSpeedMin)
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.animNonidleSpeedMax)
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.animNonidleSpeedMin) / (weaponInfo.animNonidleSpeedMax - weaponInfo.animNonidleSpeedMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         drawTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
-        releaseTriggerTime = actionTimePeriod - weaponInfo.animationAttackReleaseTime;
-        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animationAttackDrawPortion;
+        releaseTriggerTime = actionTimePeriod - weaponInfo.animAttackReleaseTime;
+        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animAttackDrawTime;
 
         OnAnimatorSetFloat("drawSpeed", "bow_anim_draw", 1f /
-            (((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion - weaponInfo.animationAttackReleaseTime) * weaponInfo.animationAttackDrawPortion));
+            (((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion - weaponInfo.animAttackReleaseTime) * weaponInfo.animAttackDrawTime));
     }
 
     public override void ActIfReady()
@@ -171,9 +172,9 @@ public class CWBow : CW
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

@@ -32,6 +32,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     public event Action<PArbalest> onDestroyProjectile;
     public event Action<PArbalest, float> onUpdateProjectile;
 
+    //------------------------------------------------------------------------
     public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
@@ -42,16 +43,18 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
         combatAreaBoundaryLeft = leftAreaRows[2].x - distancePerRow;
         combatAreaBoundaryRight = rightAreaRows[2].x + distancePerRow;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
+    //------------------------------------------------------------------------
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin * weaponInfo.animationAttackDrawPortion));
-        OnAnimatorSetFloat("releaseSpeed", "arbalest_anim_release", 1f / weaponInfo.animationAttackReleaseTime);
+        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
+        OnAnimatorSetFloat("releaseSpeed", "arbalest_anim_release", 1f / weaponInfo.animAttackReleaseTime);
     }
 
+    //------------------------------------------------------------------------
     public override void UpdateLevelBasedStats()
     {
         base.UpdateLevelBasedStats();
@@ -62,6 +65,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public void UpdateRowPositions(bool isPreparationPhase)
     {
         if (isPreparationPhase) {
@@ -71,13 +75,15 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateAnimator();
             ActIfReady();
@@ -87,8 +93,10 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public override void UpdateTarget(){}
 
+    //------------------------------------------------------------------------
     public override void UpdateProjectiles(float deltaTime)
     {
         for (int i = 0; i < pArbalests.Count; i++)
@@ -132,10 +140,10 @@ public class CWArbalest : CW, ICWHoldsRowPositions
                 var rowSize = enemyRowsList[rowToDamage - 1].Count;
                 for (int j = 0; j < rowSize; j++) {
                     var cw = enemyRowsList[rowToDamage - 1][j];
-                    if (cw.positionFromBottom == projectile.positionFromBottom)
+                    if (cw.verticalPosition == projectile.positionFromBottom)
                         targets.Add(cw);
-                    else if (cw.positionFromBottom == projectile.positionFromBottom + 1 ||
-                             cw.positionFromBottom == projectile.positionFromBottom - 1)
+                    else if (cw.verticalPosition == projectile.positionFromBottom + 1 ||
+                             cw.verticalPosition == projectile.positionFromBottom - 1)
                         touched.Add(cw);
                 }
             }
@@ -144,10 +152,10 @@ public class CWArbalest : CW, ICWHoldsRowPositions
                 var rowSize = playerRowsList[-rowToDamage - 1].Count;
                 for (int j = 0; j < rowSize; j++) {
                     var cw = playerRowsList[-rowToDamage - 1][j];
-                    if (cw.positionFromBottom == projectile.positionFromBottom)
+                    if (cw.verticalPosition == projectile.positionFromBottom)
                         targets.Add(cw);
-                    else if (cw.positionFromBottom == projectile.positionFromBottom + 1 ||
-                             cw.positionFromBottom == projectile.positionFromBottom - 1)
+                    else if (cw.verticalPosition == projectile.positionFromBottom + 1 ||
+                             cw.verticalPosition == projectile.positionFromBottom - 1)
                         touched.Add(cw);
                 }
             }
@@ -165,10 +173,10 @@ public class CWArbalest : CW, ICWHoldsRowPositions
                             for (int j = 0; j < rowSize; j++)
                             {
                                 var cw = enemyRowsList[projectile.flyingRowToDamage - 1][j];
-                                if (cw.positionFromBottom == projectile.positionFromBottom)
+                                if (cw.verticalPosition == projectile.positionFromBottom)
                                     targets.Add(cw);
-                                else if (cw.positionFromBottom == projectile.positionFromBottom + 1 ||
-                                         cw.positionFromBottom == projectile.positionFromBottom - 1)
+                                else if (cw.verticalPosition == projectile.positionFromBottom + 1 ||
+                                         cw.verticalPosition == projectile.positionFromBottom - 1)
                                     touched.Add(cw);
                             }
                             projectile.flyingRowToDamage = 0;
@@ -185,10 +193,10 @@ public class CWArbalest : CW, ICWHoldsRowPositions
                             var rowSize = playerRowsList[projectile.flyingRowToDamage - 1].Count;
                             for (int j = 0; j < rowSize; j++) {
                                 var cw = playerRowsList[projectile.flyingRowToDamage - 1][j];
-                                if (cw.positionFromBottom == projectile.positionFromBottom)
+                                if (cw.verticalPosition == projectile.positionFromBottom)
                                     targets.Add(cw);
-                                else if (cw.positionFromBottom == projectile.positionFromBottom + 1 ||
-                                         cw.positionFromBottom == projectile.positionFromBottom - 1)
+                                else if (cw.verticalPosition == projectile.positionFromBottom + 1 ||
+                                         cw.verticalPosition == projectile.positionFromBottom - 1)
                                     touched.Add(cw);
                             }
                             projectile.flyingRowToDamage = 0;
@@ -218,30 +226,32 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationNonidlePortion;
-        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
-            animationNonidlePortion = weaponInfo.animationNonidlePortionMin;
-        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
-            animationNonidlePortion = weaponInfo.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.animNonidleSpeedMin)
+            animationNonidlePortion = weaponInfo.animNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.animNonidleSpeedMax)
+            animationNonidlePortion = weaponInfo.animNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationNonidlePortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.animNonidleSpeedMin) / (weaponInfo.animNonidleSpeedMax - weaponInfo.animNonidleSpeedMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationNonidlePortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         drawTriggerTime = actionTimePeriod * (1f - animationNonidlePortion);
-        releaseTriggerTime = actionTimePeriod - weaponInfo.animationAttackReleaseTime;
-        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animationAttackDrawPortion;
+        releaseTriggerTime = actionTimePeriod - weaponInfo.animAttackReleaseTime;
+        waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animAttackDrawTime;
 
         OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f /
-            (((actionTimePeriod / seActionSpeedMultiplier) * animationNonidlePortion - weaponInfo.animationAttackReleaseTime) * weaponInfo.animationAttackDrawPortion));
+            (((actionTimePeriod / effectSpeedMultiplier) * animationNonidlePortion - weaponInfo.animAttackReleaseTime) * weaponInfo.animAttackDrawTime));
     }
 
+    //------------------------------------------------------------------------
     public override void ActIfReady()
     {
         if (bowState == BowState.Idle && actionTimePassed >= drawTriggerTime)
@@ -269,6 +279,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public void ReleaseProjectile()
     {
         var val1 = Vec3.right * 2;
@@ -277,11 +288,12 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         var attackerImaginaryPos = isPlayer ? leftAreaRows[rowNumber-1] : rightAreaRows[rowNumber-1];
         attackerImaginaryPos += directionVector * arrowImaginaryStartingOffset;
 
-        var projectile = new PArbalest(GetCombatAction(), attackerImaginaryPos, directionVector, projectileSpeed, positionFromBottom);
+        var projectile = new PArbalest(GetCombatAction(), attackerImaginaryPos, directionVector, projectileSpeed, verticalPosition);
         pArbalests.Add(projectile);
         onReleaseProjectile?.Invoke(projectile);
     }
 
+    //------------------------------------------------------------------------
     public CombatAction ModifyCombatAction(CW target, CombatAction combatAction, bool isTouched)
     {
         var multiplier = isTouched ? touchDamageMultiplier : 1f;
@@ -291,6 +303,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         return new CombatAction((int)(combatAction.damage * multiplier), combatAction.isSenderPlayersWeapon, combatAction.senderId);
     }
 
+    //------------------------------------------------------------------------
     public override void PrepareCombatStart(int roundCount)
     {
         PrepareCombatStartHP();
@@ -300,15 +313,17 @@ public class CWArbalest : CW, ICWHoldsRowPositions
 
     // @nextday starts here:
     // Copy GetCombatAction() to other CW classes
+    //------------------------------------------------------------------------
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 
+    //------------------------------------------------------------------------
     public override void ReceiveAction(CombatAction action)
     {
         base.ReceiveAction(action);
@@ -319,6 +334,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         }
     }
 
+    //------------------------------------------------------------------------
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow)
     {
         if (isPlayersRow == isPlayer)

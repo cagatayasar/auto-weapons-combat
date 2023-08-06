@@ -9,11 +9,11 @@ public class WInfoScimitar : WeaponInfo
     public int damagePerStack1;
     public int damagePerStack2;
 
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
-    public float actionSpeedForNonidleMin;
-    public float actionSpeedForNonidleMax;
-    public float animationDamageEnemyPortion;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
+    public float animNonidleSpeedMin;
+    public float animNonidleSpeedMax;
+    public float animDamageEnemyTime;
 
     public float _30DegreesRotationDuration;
 }

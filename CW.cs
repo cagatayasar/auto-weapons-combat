@@ -42,7 +42,7 @@ public class CW
     public List_<CW> targetCWs;
     public PlayerEnemyData playerEnemyData;
 
-    public List_<StatusEffect> statusEffects;
+    public List_<Effect> effects;
     public int healthPoint;
     public int maxHealthPoint;
     public float actionTimePeriod;
@@ -55,7 +55,7 @@ public class CW
     public int stacks;
     public int maxStacks;
     public int rowNumber; // between 1-3
-    public int positionFromBottom;
+    public int verticalPosition;
     public bool isPlayer;
     public float timePassed;
     public float actionTimePassed;
@@ -85,8 +85,7 @@ public class CW
     public float wantedAngle;
     public float currentRotationTime;
     public float totalRotationTime;
-    public float seRotationSpeedMultiplier = 1f;
-    public float prevSeActionSpeedMultiplier = -1f;
+    public float effectRotationSpeedMultiplier = 1f;
 
     public int prevAttackerCoordX = -9;
     public int prevAttackerCoordY = -9;
@@ -96,7 +95,9 @@ public class CW
     public Vec2 prevTargetImaginaryPos;
 
     // status effects
-    public float seActionSpeedMultiplier = 1f;
+    public float prevEffectSpeedMultiplier = -1f;
+    public float effectSpeedMultiplier = 1f;
+    public bool isInStealth = false;
     public bool oneLessRangeForXSeconds = false;
 
     // attachments
@@ -104,20 +105,23 @@ public class CW
     public bool attachment_firstAttackAvailable = false;
 
     //------------------------------------------------------------------------
-    public event System.Action onUpdate;
-    public event System.Action onDestroy;
-    public event System.Action onUpdateAnimator;
-    public event System.Action<float> onUpdateRotation;
-    public event System.Action<float> onUpdateHealthBar;
+    public bool IsTargetable => !isInStealth;
 
-    public event System.Action<float> onCancelTransition;
-    public event System.Action onFinishTransition;
+    //------------------------------------------------------------------------
+    public event Action onUpdate;
+    public event Action onDestroy;
+    public event Action onUpdateAnimator;
+    public event Action<float> onUpdateRotation;
+    public event Action<float> onUpdateHealthBar;
 
-    public event System.Action<string> onAnimatorSetTrigger;
-    public event System.Action<string, string, float> onAnimatorSetFloat;
-    public event System.Action<string> onSfxTrigger;
+    public event Action<float> onCancelTransition;
+    public event Action onFinishTransition;
 
-    public event System.Action<CW, CombatAction> onReceiveAction;
+    public event Action<string> onAnimatorSetTrigger;
+    public event Action<string, string, float> onAnimatorSetFloat;
+    public event Action<string> onSfxTrigger;
+
+    public event Action<CW, CombatAction> onReceiveAction;
 
     //------------------------------------------------------------------------
     public void OnUpdate()                           => onUpdate?.Invoke();
@@ -146,7 +150,7 @@ public class CW
 
         weaponInfo = CombatMain.weaponInfosDict[weapon.weaponType];
 
-        statusEffects = new List_<StatusEffect>();
+        effects = new List_<Effect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
             damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
             OnUpdateHealthBar(0f);
@@ -173,7 +177,6 @@ public class CW
     // this will be a problem for CWMaster.cs, fix before committing
     // public abstract void UpdateObjectReferencesExclusive();
     public virtual void InvokeInitializationEvents(){}
-    public virtual void Update(float deltaTime){}
     public virtual void UpdateTarget(){}
     public virtual void UpdateProjectiles(float deltaTime){}
     public virtual void UpdateReloading(float deltaTime){}
@@ -183,6 +186,13 @@ public class CW
     public virtual void ReportClearedRow(int rowNumber, bool isPlayersRow){}
     public virtual CombatAction GetCombatAction() { return null; }
 
+    //------------------------------------------------------------------------
+    public virtual void Update(float deltaTime)
+    {
+        UpdateEffects(deltaTime);
+    }
+
+    //------------------------------------------------------------------------
     public virtual void ReceiveAction(CombatAction action)
     {
         CombatFunctions.ReceiveAction(this, action);
@@ -219,12 +229,41 @@ public class CW
     }
 
     //------------------------------------------------------------------------
+    public void UpdateEffects(float deltaTime)
+    {
+        float speedMultiplier = 1f;
+        isInStealth = false;
+
+        for (int i = 0; i < effects.Count; i++)
+        {
+            var effect = effects[i];
+            if (effect.info.EffectType == EffectType.BlueStaff_SpeedBuff) {
+                speedMultiplier += effect.actionSpeedMultiplier - 1f;
+            }
+
+            if (effect.info.EffectType == EffectType.Stealth) {
+                isInStealth = true;
+            }
+
+            if (effect.info.isTimed) {
+                effect.timeLeft -= deltaTime;
+                if (effect.timeLeft < 0f) {
+                    effects.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        effectSpeedMultiplier = speedMultiplier;
+    }
+
+    //------------------------------------------------------------------------
     public void PrepareCombatStartHP() {
         int damageReceived = maxHealthPoint - healthPoint;
         float hpMultiplier = 1f;
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.BonusHp)) // item12
+        if (effects.Any_(x => x.info.EffectType == EffectType.BonusHp)) // item12
             hpMultiplier += CombatMain.itemAttributes.bonusHp_Multiplier - 1f;
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.IfAloneInRowBonusHp)) { // item17
+        if (effects.Any_(x => x.info.EffectType == EffectType.IfAloneInRowBonusHp)) { // item17
             if (playerRowsList[rowNumber - 1].Count == 1) {
                 hpMultiplier += CombatMain.itemAttributes.ifAloneInRowHp_Multiplier - 1f;
             }
@@ -237,11 +276,11 @@ public class CW
     public void PrepareCombatStartSpeed() {
         float actionSpeedMultiplier = 1f;
         float actionSpeedToAdd = 0f;
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.BonusActionSpeed)) // item13
+        if (effects.Any_(x => x.info.EffectType == EffectType.BonusActionSpeed)) // item13
             actionSpeedMultiplier += CombatMain.itemAttributes.bonusSpeed_Multiplier - 1f;
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.ThirdRowBonusActionSpeed)) // item16
+        if (effects.Any_(x => x.info.EffectType == EffectType.ThirdRowBonusActionSpeed)) // item16
             actionSpeedMultiplier += CombatMain.itemAttributes.thirdRowSpeed_Multiplier - 1f;
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.Gunslinger_QuickDraw))
+        if (effects.Any_(x => x.info.EffectType == EffectType.Gunslinger_QuickDraw))
             actionSpeedToAdd += CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_QuickDraw).speedToAdd;
         if (weapon.attachment == AttachmentType.Speed)
             actionSpeedToAdd += CombatMain.attachmentAttributes.speed_Value;
@@ -250,7 +289,7 @@ public class CW
 
     //------------------------------------------------------------------------
     public void PrepareCombatStartRange() {
-        if (statusEffects.Any_(x => x.statusEffectType == StatusEffectType.OneLessRangeForXSeconds))
+        if (effects.Any_(x => x.info.EffectType == EffectType.OneLessRangeForXSeconds))
             oneLessRangeForXSeconds = true;
     }
 
@@ -262,51 +301,51 @@ public class CW
     }
 
     //------------------------------------------------------------------------
-    public void ApplyStatusEffect(StatusEffect se)
+    public void ApplyEffect(Effect se)
     {
-        switch (se.statusEffectType)
+        switch (se.info.EffectType)
         {
-            case StatusEffectType.BlueStaffBoost: //@Test
+            case EffectType.BlueStaff_SpeedBuff: //@Test
                 bool contains = false;
-                foreach (var statusEffect in statusEffects) {
-                    if (statusEffect.isSenderPlayersWeapon == se.isSenderPlayersWeapon &&
-                        statusEffect.senderMatchRosterIndex == se.senderMatchRosterIndex) {
-                        statusEffect.ResetTime();
+                foreach (var effect in effects) {
+                    if (effect.isSenderPlayersWeapon == se.isSenderPlayersWeapon &&
+                        effect.senderMatchRosterIndex == se.senderMatchRosterIndex) {
+                        effect.ResetTime();
                         contains = true;
                         break;
                     }
                 }
                 if (!contains) {
-                    statusEffects.Add(se);
+                    effects.Add(se);
                 }
                 break;
-            case StatusEffectType.RotateSlower:
-                seRotationSpeedMultiplier *= CombatMain.itemAttributes.rotateSlower_Multiplier;
+            case EffectType.RotateSlower:
+                effectRotationSpeedMultiplier *= CombatMain.itemAttributes.rotateSlower_Multiplier;
                 break;
-            case StatusEffectType.Gunslinger_OneEyeClosed:
-                if (!statusEffects.Exists(e => e.statusEffectType == se.statusEffectType)) {
-                    statusEffects.Add(se);
+            case EffectType.Gunslinger_OneEyeClosed:
+                if (!effects.Exists(e => e.info.EffectType == se.info.EffectType)) {
+                    effects.Add(se);
                 }
                 break;
             default:
-                statusEffects.Add(se);
+                effects.Add(se);
                 break;
         }
     }
 
     //------------------------------------------------------------------------
-    public void ApplyNewPermanentStatusEffect(StatusEffect se)
+    public void ApplyNewPermanentEffect(Effect se)
     {
-        weapon.permanentStatusEffects.Add(se);
+        weapon.permanentEffects.Add(se);
 
-        switch (se.statusEffectType)
+        switch (se.info.EffectType)
         {
-            case StatusEffectType.Stack:
+            case EffectType.Stack:
                 if (stacks < maxStacks) {
                     (this as ICWStackWeapon).IncrementStack();
                 }
                 break;
-            case StatusEffectType.Gunslinger_CorrosiveShot:
+            case EffectType.Gunslinger_CorrosiveShot:
                 var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                 ReceiveAction(new CombatAction(dmg, false, -1));
                 OnUpdateHealthBar(0f);
@@ -315,22 +354,22 @@ public class CW
     }
 
     //------------------------------------------------------------------------
-    public void ApplyExistingPermanentStatusEffects()
+    public void ApplyExistingPermanentEffects()
     {
-        if (weapon.permanentStatusEffects == null) {
-            weapon.permanentStatusEffects = new List_<StatusEffect>();
+        if (weapon.permanentEffects == null) {
+            weapon.permanentEffects = new List_<Effect>();
             return;
         }
-        for (int i = 0; i < weapon.permanentStatusEffects.Count; i++) {
-            var se = weapon.permanentStatusEffects[i];
-            switch (se.statusEffectType)
+        for (int i = 0; i < weapon.permanentEffects.Count; i++) {
+            var se = weapon.permanentEffects[i];
+            switch (se.info.EffectType)
             {
-                case StatusEffectType.Stack:
+                case EffectType.Stack:
                     if (stacks < maxStacks) {
                         (this as ICWStackWeapon).IncrementStack();
                     }
                     break;
-                case StatusEffectType.Gunslinger_CorrosiveShot:
+                case EffectType.Gunslinger_CorrosiveShot:
                     var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                     ReceiveAction(new CombatAction(dmg, false, -1));
                     OnUpdateHealthBar(0f);
@@ -355,7 +394,7 @@ public class CW
     //------------------------------------------------------------------------
     public void CancelTransition()
     {
-        transitionTimeTotal = seActionSpeedMultiplier / (actionTimePeriod * weaponInfo.cancelingSpeed);
+        transitionTimeTotal = effectSpeedMultiplier / (actionTimePeriod * weaponInfo.cancelingSpeed);
         transitionTimePassed = 0f;
         OnCancelTransition(transitionTimeTotal);
     }
@@ -373,7 +412,7 @@ public class CW
             return;
         }
 
-        float degreesToAdd = deltaTime * (30f / (_30DegreesRotationDuration / seRotationSpeedMultiplier)) * MathF.Sign(wantedAngle - currentAngle);
+        float degreesToAdd = deltaTime * (30f / (_30DegreesRotationDuration / effectRotationSpeedMultiplier)) * MathF.Sign(wantedAngle - currentAngle);
         currentAngle += degreesToAdd;
 
         OnUpdateRotation(currentAngle);
@@ -408,7 +447,7 @@ public class CW
         {
             isRotating = true;
             currentRotationTime = 0.0f;
-            totalRotationTime = MathF.Abs(wantedAngle - currentAngle) * (_30DegreesRotationDuration / seRotationSpeedMultiplier / 30f);
+            totalRotationTime = MathF.Abs(wantedAngle - currentAngle) * (_30DegreesRotationDuration / effectRotationSpeedMultiplier / 30f);
         }
     }
 }

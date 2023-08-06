@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class WInfoDagger : WeaponInfo
 {
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
-    public float actionSpeedForNonidleMin;
-    public float actionSpeedForNonidleMax;
-    public float animationDamageEnemyPortion;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
+    public float animNonidleSpeedMin;
+    public float animNonidleSpeedMax;
+    public float animDamageEnemyTime;
 
     public float _30DegreesRotationDuration;
 }

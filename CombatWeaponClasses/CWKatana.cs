@@ -33,7 +33,7 @@ public class CWKatana : CW, ICWStackWeapon
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -56,12 +56,13 @@ public class CWKatana : CW, ICWStackWeapon
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
-            attackTimer += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
+            attackTimer += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             UpdateStacks(deltaTime);
@@ -92,7 +93,7 @@ public class CWKatana : CW, ICWStackWeapon
     public void UpdateStacks(float deltaTime)
     {
         if (stacks >= maxStacks) return;
-        stackProgress += deltaTime * seActionSpeedMultiplier / actionTimePeriod;
+        stackProgress += deltaTime * effectSpeedMultiplier / actionTimePeriod;
         if (stackProgress >= 1f) {
             stacks++;
             stackProgress -= 1f;
@@ -185,9 +186,9 @@ public class CWKatana : CW, ICWStackWeapon
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

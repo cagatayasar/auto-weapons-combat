@@ -16,7 +16,7 @@ public class CWBlueStaff : CW
     {
         UpdateLevelBasedStats();
         targetWeapons = new List_<CW>(3);
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -36,11 +36,12 @@ public class CWBlueStaff : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             onUpdateLines?.Invoke();
@@ -81,12 +82,13 @@ public class CWBlueStaff : CW
 
     public override CombatAction GetCombatAction()
     {
-        CombatAction action = new CombatAction(0, isPlayer, weapon.matchRosterIndex);
-        StatusEffect statusEffect = new StatusEffect(StatusEffectType.BlueStaffBoost, true);
-        statusEffect.isSenderPlayersWeapon = action.isSenderPlayersWeapon;
-        statusEffect.senderMatchRosterIndex = action.senderId;
-        statusEffect.SetActionSpeedMultiplier(actionSpeedMultiplier);
-        action.SetStatusEffect(statusEffect);
+        var effect = new Effect(weaponInfo.effectInfo_speedBuff);
+        effect.isSenderPlayersWeapon = isPlayer;
+        effect.senderMatchRosterIndex = weapon.matchRosterIndex;
+        effect.actionSpeedMultiplier = actionSpeedMultiplier;
+
+        var action = new CombatAction(0, isPlayer, weapon.matchRosterIndex);
+        action.effect = effect;
 
         return action;
     }

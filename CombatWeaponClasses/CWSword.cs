@@ -22,14 +22,14 @@ public class CWSword : CW, ICWCancelTransition
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -39,11 +39,12 @@ public class CWSword : CW, ICWCancelTransition
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             UpdateAnimator();
@@ -63,34 +64,34 @@ public class CWSword : CW, ICWCancelTransition
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
         if (actionSpeed < weaponInfo.actionSpeedForAnimationMin)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
         else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         else {
             float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
         damageUpwardTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamageEnemyPortion;
         damageFrontTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamageEnemyPortion;
 
-        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
-        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
     {
         if (meleeState == MeleeState.Attacking
             && (targetEnemy == null || targetEnemy != prevTargetEnemy
-                || (targetType == MeleeTargetType.Upward && targetEnemy.positionFromBottom != positionFromBottom + 1)
-                || (targetType == MeleeTargetType.Front  && targetEnemy.positionFromBottom != positionFromBottom)))
+                || (targetType == MeleeTargetType.Upward && targetEnemy.verticalPosition != verticalPosition + 1)
+                || (targetType == MeleeTargetType.Front  && targetEnemy.verticalPosition != verticalPosition)))
         {
             meleeState = MeleeState.Canceling;
             CancelTransition();
@@ -101,7 +102,7 @@ public class CWSword : CW, ICWCancelTransition
         {
             actionTimePassed = attackTriggerTime;
             meleeState = MeleeState.Attacking;
-            if (targetEnemy.positionFromBottom > positionFromBottom) {
+            if (targetEnemy.verticalPosition > verticalPosition) {
                 targetType = MeleeTargetType.Upward;
                 OnAnimatorSetTrigger("attackUpward");
             } else {
@@ -145,9 +146,9 @@ public class CWSword : CW, ICWCancelTransition
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

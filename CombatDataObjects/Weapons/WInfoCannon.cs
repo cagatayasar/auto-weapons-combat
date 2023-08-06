@@ -8,8 +8,8 @@ public class WInfoCannon : WeaponInfo
     public int range2;
     public float doFirstShotAfter;
 
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
     public float actionSpeedForAnimationMin;
     public float actionSpeedForAnimationMax;
 

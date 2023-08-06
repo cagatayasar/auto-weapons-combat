@@ -15,8 +15,8 @@ public class WInfoSniperRifle : WeaponInfo
 
     public float animationNonidleMultiplierMin;
     public float animationNonidleMultiplierMax;
-    public float actionSpeedForNonidleMin;
-    public float actionSpeedForNonidleMax;
+    public float animNonidleSpeedMin;
+    public float animNonidleSpeedMax;
 
     public float projectileSpeed;
     public float _30DegreesRotationDuration;

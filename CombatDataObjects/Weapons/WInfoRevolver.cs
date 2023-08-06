@@ -12,10 +12,10 @@ public class WInfoRevolver : WeaponInfo
     public float waitLengthAfterReload;
     public float playAfterReloadSoundAfter;
 
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
-    public float actionSpeedForNonidleMin;
-    public float actionSpeedForNonidleMax;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
+    public float animNonidleSpeedMin;
+    public float animNonidleSpeedMax;
 
     public float projectileSpeed;
     public float _30DegreesRotationDuration;

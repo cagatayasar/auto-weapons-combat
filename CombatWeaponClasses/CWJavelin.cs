@@ -26,7 +26,7 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
         var distancePerRow = MathF.Abs(leftAreaRows[0].x - leftAreaRows[1].x);
         combatAreaBoundaryLeft = leftAreaRows[2].x - distancePerRow;
         combatAreaBoundaryRight = rightAreaRows[2].x + distancePerRow;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -55,7 +55,8 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
 
     public override void Update(float deltaTime)
     {
-        CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         OnUpdateHealthBar(deltaTime);
     }
 
@@ -83,9 +84,9 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 
@@ -106,7 +107,7 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
             var cwCount = row.Count;
             for (int j = 0; j < cwCount; j++) {
                 var target = row[j];
-                var positionBottomDifference = target.positionFromBottom - positionFromBottom;
+                var positionBottomDifference = target.verticalPosition - verticalPosition;
                 if (positionBottomDifference == 0) {
                     CombatFunctions.ApplyActionToTarget(target, this, ModifyCombatAction(target, combatAction, false));
                 } else if (positionBottomDifference == 1 || positionBottomDifference == -1) {

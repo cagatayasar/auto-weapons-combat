@@ -35,13 +35,13 @@ public class CWSawedOff : CW
             weaponInfo.firstReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
             weaponInfo.secondReloadLength /= CombatMain.attachmentAttributes.fasterReload_Multiplier;
         }
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "sawedoff_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("speed", "sawedoff_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -56,13 +56,14 @@ public class CWSawedOff : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
             if (!didFirstShot) {
-                firstShotTimer += deltaTime * seActionSpeedMultiplier;
+                firstShotTimer += deltaTime * effectSpeedMultiplier;
                 if (firstShotTimer > weaponInfo.doFirstShotAfter) didFirstShot = true;
             }
 
@@ -87,23 +88,23 @@ public class CWSawedOff : CW
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationNonidleMultiplier;
-        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin) {
-            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin;
-            actionSpeedClamped = weaponInfo.actionSpeedForNonidleMin;
+        if (actionSpeed < weaponInfo.animNonidleSpeedMin) {
+            animationNonidleMultiplier = weaponInfo.animNonidlePortionMin;
+            actionSpeedClamped = weaponInfo.animNonidleSpeedMin;
         }
-        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax) {
-            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMax;
+        else if (actionSpeed > weaponInfo.animNonidleSpeedMax) {
+            animationNonidleMultiplier = weaponInfo.animNonidlePortionMax;
         }
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationNonidleMultiplier = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.animNonidleSpeedMin) / (weaponInfo.animNonidleSpeedMax - weaponInfo.animNonidleSpeedMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationNonidleMultiplier = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "sawedoff_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
@@ -214,9 +215,9 @@ public class CWSawedOff : CW
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

@@ -10,12 +10,12 @@ public class WInfoRagingBow : WeaponInfo
     public int speedBuffPercent1;
     public int speedBuffPercent2;
 
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
-    public float actionSpeedForNonidleMin;
-    public float actionSpeedForNonidleMax;
-    public float animationAttackDrawPortion;
-    public float animationAttackReleaseTime;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
+    public float animNonidleSpeedMin;
+    public float animNonidleSpeedMax;
+    public float animAttackDrawTime;
+    public float animAttackReleaseTime;
 
     public float projectileSpeed;
     public float _30DegreesRotationDuration;

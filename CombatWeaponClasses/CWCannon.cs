@@ -29,13 +29,13 @@ public class CWCannon : CW, ICWHoldsRowPositions
         projectileSpeed = weaponInfo.projectileSpeed * CombatMain.combatAreaScale;
         projectileMaxHeightOverDistance = weaponInfo.projectileMaxHeightOverDistance * CombatMain.combatAreaScale;
         UpdateRowPositions(false);
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -50,13 +50,14 @@ public class CWCannon : CW, ICWHoldsRowPositions
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
             if (!didFirstShot) {
-                firstShotTimer += deltaTime * seActionSpeedMultiplier;
+                firstShotTimer += deltaTime * effectSpeedMultiplier;
                 if (firstShotTimer > weaponInfo.doFirstShotAfter) {
                     didFirstShot = true;
                 }
@@ -93,23 +94,23 @@ public class CWCannon : CW, ICWHoldsRowPositions
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float actionSpeedClamped = actionSpeed;
         float animationAttackPortion;
         if (actionSpeed < weaponInfo.actionSpeedForAnimationMin) {
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
             actionSpeedClamped = weaponInfo.actionSpeedForAnimationMin;
         }
         else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax) {
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         }
         else {
             float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
         OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f * actionSpeedClamped / animationAttackPortion);
@@ -179,9 +180,9 @@ public class CWCannon : CW, ICWHoldsRowPositions
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

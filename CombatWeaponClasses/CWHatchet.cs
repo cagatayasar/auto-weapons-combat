@@ -14,7 +14,7 @@ public class CWHatchet : CW, ICWThrown
     {
         UpdateLevelBasedStats();
         _30DegreesRotationDuration = weaponInfo._30DegreesRotationDuration;
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -35,7 +35,8 @@ public class CWHatchet : CW, ICWThrown
 
     public override void Update(float deltaTime)
     {
-        CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         OnUpdateHealthBar(deltaTime);
     }
 
@@ -62,9 +63,9 @@ public class CWHatchet : CW, ICWThrown
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

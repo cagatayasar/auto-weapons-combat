@@ -8,14 +8,18 @@ cost2: 2
 isThrown: n
 healthPoint1: 15
 healthPoint2: 20
-actionSpeed1: 1.5
-actionSpeed2: 1.7
+speed1: 1.5
+speed2: 1.7
 damageFixed1: 0
 damageFixed2: 0
 damageMin1: 0
 damageMax1: 0
 damageMin2: 0
 damageMax2: 0
-attackPerAnimation: 1
+attackPerAnim: 1
 actionSpeedMultiplier1: 1.5
 actionSpeedMultiplier2: 1.7
+effectInfo:
+  effectTypeStr: BlueStaff_SpeedBuff
+  isTimed: y
+  duration: 0.3

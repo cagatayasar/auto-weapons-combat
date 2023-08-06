@@ -7,15 +7,14 @@ public class CombatAction
     public int damage;
     public int healthPercentDamage;
     public int healAmount;
-    public bool respondable;
     public bool isKnockbackAction;
     public bool isAttackerThrown;
 
     public bool isSenderPlayersWeapon;
     public int senderId;
-    public StatusEffect statusEffect;// Could be changed to a list, if an action has multiple status effects
+    public Effect effect; // Could be changed to a list, if an action has multiple status effects
 
-    public int damageDealt = 0;
+    public int damageDealt;
 
     //------------------------------------------------------------------------
     public CombatAction(int damage, bool isSenderPlayersWeapon, int senderId)
@@ -28,29 +27,12 @@ public class CombatAction
     }
 
     //------------------------------------------------------------------------
-    public CombatAction()
-    {
-        respondable = false;
-    }
+    public CombatAction(){}
 
     //------------------------------------------------------------------------
-    public void SetHealthPercentDamage(int percent, int dmgAddAmount = 0)
+    public void SetHealthPercentDamage(int percent, int dmgAddAmount)
     {
         healthPercentDamage = percent;
         damage = dmgAddAmount;
-    }
-
-    //------------------------------------------------------------------------
-    public void SetHealAmount(int healAmount)
-    {
-        this.healAmount = healAmount;
-    }
-
-    //------------------------------------------------------------------------
-    public void SetStatusEffect(StatusEffect statusEffect)
-    {
-        this.statusEffect = statusEffect;
-        statusEffect.isSenderPlayersWeapon = isSenderPlayersWeapon;
-        statusEffect.senderMatchRosterIndex = senderId;
     }
 }

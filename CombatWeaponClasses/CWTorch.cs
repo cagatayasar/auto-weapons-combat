@@ -15,7 +15,7 @@ public class CWTorch : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -35,11 +35,12 @@ public class CWTorch : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             onUpdateLines?.Invoke();
@@ -79,7 +80,7 @@ public class CWTorch : CW
 
     public override CombatAction GetCombatAction()
     {
-        return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damage, damage);
+        return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damage, damage);
     }
 
     public override void ReceiveAction(CombatAction action)

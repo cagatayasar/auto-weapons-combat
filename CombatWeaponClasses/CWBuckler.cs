@@ -15,7 +15,7 @@ public class CWBuckler : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -30,7 +30,8 @@ public class CWBuckler : CW
 
     public override void Update(float deltaTime)
     {
-        CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead) {
             if (isImmunityActive) {
                 UpdateImmunity(deltaTime);

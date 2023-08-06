@@ -10,8 +10,8 @@ isRanged: y
 isThrown: n
 healthPoint1: 14
 healthPoint2: 16
-actionSpeed1: 0.6
-actionSpeed2: 0.7
+speed1: 0.6
+speed2: 0.7
 startingActionTimePassed1: 10
 startingActionTimePassed2: 10
 damageFixed1: 5
@@ -20,7 +20,7 @@ damageMin1: 5
 damageMax1: 6
 damageMin2: 6
 damageMax2: 7
-attackPerAnimation: 1
+attackPerAnim: 1
 cancelingSpeed: 0
 range1: 2
 range2: 3
@@ -32,7 +32,7 @@ waitLengthAfterReload: 0.7
 playAfterReloadSoundAfter: 0
 animationNonidleMultiplierMin: 0.4
 animationNonidleMultiplierMax: 0.6
-actionSpeedForNonidleMin: 0.4
-actionSpeedForNonidleMax: 1
+animNonidleSpeedMin: 0.4
+animNonidleSpeedMax: 1
 projectileSpeed: 2.3
 _30DegreesRotationDuration: 0.5

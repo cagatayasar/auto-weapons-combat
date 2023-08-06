@@ -44,13 +44,13 @@ public class CWGreataxe : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -60,11 +60,12 @@ public class CWGreataxe : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateAnimator();
             ActIfReady();
@@ -77,26 +78,26 @@ public class CWGreataxe : CW
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
-        if (actionSpeed < weaponInfo.actionSpeedForNonidleMin)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
-        else if (actionSpeed > weaponInfo.actionSpeedForNonidleMax)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+        if (actionSpeed < weaponInfo.animNonidleSpeedMin)
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
+        else if (actionSpeed > weaponInfo.animNonidleSpeedMax)
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         else {
-            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForNonidleMin) / (weaponInfo.actionSpeedForNonidleMax - weaponInfo.actionSpeedForNonidleMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.animNonidleSpeedMin) / (weaponInfo.animNonidleSpeedMax - weaponInfo.animNonidleSpeedMin);
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
         damage1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack1DamageEnemyPortion;
         damage2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack2DamageEnemyPortion;
         damage3TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack3DamageEnemyPortion;
 
-        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -116,7 +117,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage1TriggerTime) {
                     greataxeState = GreataxeState.AttackingDownwardPhase2;
-                    damagedEnemy1 = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom + 1);
+                    damagedEnemy1 = GetTargetWithRelativePos(targetRowsList[0], verticalPosition + 1);
                     if (damagedEnemy1 != null) {
                         CombatFunctions.ApplyActionToTarget(damagedEnemy1, this, GetCombatAction());
                     }
@@ -126,7 +127,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage2TriggerTime) {
                     greataxeState = GreataxeState.AttackingDownwardPhase3;
-                    damagedEnemy2 = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom);
+                    damagedEnemy2 = GetTargetWithRelativePos(targetRowsList[0], verticalPosition);
                     if (damagedEnemy2 != null && damagedEnemy2 != damagedEnemy1) {
                         CombatFunctions.ApplyActionToTarget(damagedEnemy2, this, GetCombatAction());
                     }
@@ -136,7 +137,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage3TriggerTime) {
                     greataxeState = GreataxeState.AttackingDownwardPhase4;
-                    var targetEnemy = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom - 1);
+                    var targetEnemy = GetTargetWithRelativePos(targetRowsList[0], verticalPosition - 1);
                     if (targetEnemy != null && targetEnemy != damagedEnemy1 && targetEnemy != damagedEnemy2) {
                         CombatFunctions.ApplyActionToTarget(targetEnemy, this, GetCombatAction());
                     }
@@ -162,7 +163,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage1TriggerTime) {
                     greataxeState = GreataxeState.AttackingUpwardPhase2;
-                    damagedEnemy1 = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom - 1);
+                    damagedEnemy1 = GetTargetWithRelativePos(targetRowsList[0], verticalPosition - 1);
                     if (damagedEnemy1 != null) {
                         CombatFunctions.ApplyActionToTarget(damagedEnemy1, this, GetCombatAction());
                     }
@@ -172,7 +173,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage2TriggerTime) {
                     greataxeState = GreataxeState.AttackingUpwardPhase3;
-                    damagedEnemy2 = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom);
+                    damagedEnemy2 = GetTargetWithRelativePos(targetRowsList[0], verticalPosition);
                     if (damagedEnemy2 != null && damagedEnemy2 != damagedEnemy1) {
                         CombatFunctions.ApplyActionToTarget(damagedEnemy2, this, GetCombatAction());
                     }
@@ -182,7 +183,7 @@ public class CWGreataxe : CW
             {
                 if (actionTimePassed >= damage3TriggerTime) {
                     greataxeState = GreataxeState.AttackingUpwardPhase4;
-                    var targetEnemy = GetTargetWithRelativePos(targetRowsList[0], positionFromBottom + 1);
+                    var targetEnemy = GetTargetWithRelativePos(targetRowsList[0], verticalPosition + 1);
                     if (targetEnemy != null && targetEnemy != damagedEnemy1 && targetEnemy != damagedEnemy2) {
                         CombatFunctions.ApplyActionToTarget(targetEnemy, this, GetCombatAction());
                     }
@@ -202,7 +203,7 @@ public class CWGreataxe : CW
     public static CW GetTargetWithRelativePos(List_<CW> row, int positionFromBottom)
     {
         for (int i = 0; i < row.Count; i++) {
-            if (row[i].positionFromBottom == positionFromBottom) {
+            if (row[i].verticalPosition == positionFromBottom) {
                 return row[i];
             }
         }
@@ -219,9 +220,9 @@ public class CWGreataxe : CW
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageMin, damageMax);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageMin, damageMax);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList, damageFixed, damageFixed);
         }
     }
 

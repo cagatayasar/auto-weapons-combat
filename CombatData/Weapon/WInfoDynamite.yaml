@@ -6,12 +6,12 @@ cost2: 1
 isThrown: y
 healthPoint1: 5
 healthPoint2: 5
-actionSpeed1: 0
-actionSpeed2: 0
+speed1: 0
+speed2: 0
 damageFixed1: 5
 damageFixed2: 5
 damageMin1: 5
 damageMax1: 5
 damageMin2: 5
 damageMax2: 5
-attackPerAnimation: 1
+attackPerAnim: 1

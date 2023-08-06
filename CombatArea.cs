@@ -84,7 +84,7 @@ public class CombatArea
                 cw.coordX = coordsX[i] * isPlayer.ToMultiplier();
                 cw.coordY = coordsY[j];
                 cw.rowNumber = i + 1;
-                cw.positionFromBottom = row[j].coordY + 3;
+                cw.verticalPosition = row[j].coordY + 3;
             }
         }
 

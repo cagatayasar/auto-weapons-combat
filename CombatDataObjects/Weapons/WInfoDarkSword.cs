@@ -9,8 +9,8 @@ public class WInfoDarkSword : WeaponInfo
     public int damagePerStack1;
     public int damagePerStack2;
 
-    public float animationNonidlePortionMin;
-    public float animationNonidlePortionMax;
+    public float animNonidlePortionMin;
+    public float animNonidlePortionMax;
     public float actionSpeedForAnimationMin;
     public float actionSpeedForAnimationMax;
     public float animationUpwardDamage1Portion;

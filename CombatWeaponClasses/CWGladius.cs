@@ -10,7 +10,7 @@ public class CWGladius : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -25,7 +25,8 @@ public class CWGladius : CW
 
     public override void Update(float deltaTime)
     {
-        CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         OnUpdateHealthBar(deltaTime);
     }
 

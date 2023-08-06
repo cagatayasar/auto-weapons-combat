@@ -31,14 +31,14 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animationNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -55,11 +55,12 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             UpdateAnimator();
@@ -85,19 +86,19 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
 
     public override void UpdateAnimator()
     {
-        if (prevSeActionSpeedMultiplier == seActionSpeedMultiplier) return;
-        prevSeActionSpeedMultiplier = seActionSpeedMultiplier;
+        if (prevEffectSpeedMultiplier == effectSpeedMultiplier) return;
+        prevEffectSpeedMultiplier = effectSpeedMultiplier;
 
-        float actionSpeed = seActionSpeedMultiplier / actionTimePeriod;
+        float actionSpeed = effectSpeedMultiplier / actionTimePeriod;
         float animationAttackPortion;
         if (actionSpeed < weaponInfo.actionSpeedForAnimationMin)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin;
+            animationAttackPortion = weaponInfo.animNonidlePortionMin;
         else if (actionSpeed > weaponInfo.actionSpeedForAnimationMax)
-            animationAttackPortion = weaponInfo.animationNonidlePortionMax;
+            animationAttackPortion = weaponInfo.animNonidlePortionMax;
         else {
             float actionSpeedForNonidleNormalized = (actionSpeed - weaponInfo.actionSpeedForAnimationMin) / (weaponInfo.actionSpeedForAnimationMax - weaponInfo.actionSpeedForAnimationMin);
-            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animationNonidlePortionMax - weaponInfo.animationNonidlePortionMin);
-            animationAttackPortion = weaponInfo.animationNonidlePortionMin + actionSpeedForNonidleMapped;
+            float actionSpeedForNonidleMapped = actionSpeedForNonidleNormalized * (weaponInfo.animNonidlePortionMax - weaponInfo.animNonidlePortionMin);
+            animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
         damageUpward1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamage1Portion;
@@ -105,16 +106,16 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
         damageFront1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage1Portion;
         damageFront2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage2Portion;
 
-        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
-        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / ((actionTimePeriod / seActionSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
     {
         if (meleeDoubleAttackState == MeleeDoubleAttackState.Attacking1
             && (targetEnemy == null || targetEnemy != prevTargetEnemy
-                || (targetType == MeleeTargetType.Upward && targetEnemy.positionFromBottom != positionFromBottom + 1)
-                || (targetType == MeleeTargetType.Front  && targetEnemy.positionFromBottom != positionFromBottom)))
+                || (targetType == MeleeTargetType.Upward && targetEnemy.verticalPosition != verticalPosition + 1)
+                || (targetType == MeleeTargetType.Front  && targetEnemy.verticalPosition != verticalPosition)))
         {
             meleeDoubleAttackState = MeleeDoubleAttackState.Canceling;
             CancelTransition();
@@ -125,7 +126,7 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
         {
             actionTimePassed = attackTriggerTime;
             meleeDoubleAttackState = MeleeDoubleAttackState.Attacking1;
-            if (targetEnemy.positionFromBottom > positionFromBottom) {
+            if (targetEnemy.verticalPosition > verticalPosition) {
                 targetType = MeleeTargetType.Upward;
                 OnAnimatorSetTrigger("attackUpward");
             } else {
@@ -189,10 +190,10 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     public override CombatAction GetCombatAction()
     {
         if (CombatMain.isRandomized) {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList,
                 damageMin + stacks * damagePerStack, damageMax + stacks * damagePerStack);
         } else {
-            return CombatFunctions.GetCombatAction(rnd, statusEffects, this, allyCWs, allyRowsList,
+            return CombatFunctions.GetCombatAction(rnd, effects, this, allyCWs, allyRowsList,
                 damageFixed + stacks * damagePerStack, damageFixed + stacks * damagePerStack);
         }
     }

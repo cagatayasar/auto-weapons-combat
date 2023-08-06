@@ -15,7 +15,7 @@ public class CWGreenStaff : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        ApplyExistingPermanentStatusEffects();
+        ApplyExistingPermanentEffects();
     }
 
     public override void InvokeInitializationEvents()
@@ -35,11 +35,12 @@ public class CWGreenStaff : CW
 
     public override void Update(float deltaTime)
     {
-        seActionSpeedMultiplier = CombatFunctions.HandleStatusEffects(this, deltaTime);
+        base.Update(deltaTime);
+
         if (!isDead)
         {
             timePassed += deltaTime;
-            actionTimePassed += deltaTime * seActionSpeedMultiplier;
+            actionTimePassed += deltaTime * effectSpeedMultiplier;
 
             UpdateTarget();
             onUpdateLines?.Invoke();
@@ -81,8 +82,8 @@ public class CWGreenStaff : CW
 
     public override CombatAction GetCombatAction()
     {
-        CombatAction action = new CombatAction(0, isPlayer, weapon.matchRosterIndex);
-        action.SetHealAmount(healAmount);
+        var action = new CombatAction(0, isPlayer, weapon.matchRosterIndex);
+        action.healAmount = healAmount;
 
         return action;
     }

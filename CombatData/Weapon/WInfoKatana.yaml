@@ -12,8 +12,8 @@ isRanged: n
 isThrown: n
 healthPoint1: 14
 healthPoint2: 18
-actionSpeed1: 0.7
-actionSpeed2: 0.8
+speed1: 0.7
+speed2: 0.8
 startingActionTimePassed1: 0
 startingActionTimePassed2: 0
 damageFixed1: 8
@@ -22,10 +22,10 @@ damageMin1: 7
 damageMax1: 9
 damageMin2: 9
 damageMax2: 11
-attackPerAnimation: 1
+attackPerAnim: 1
 cancelingSpeed: 0
-commandAttackWait1: 0.3
-commandAttackWait2: 0.4
+commandAttackWaitBeforeAttack: 0.3
+commandAttackWaitAfterAttack: 0.4
 maxStackAmount1: 5
 maxStackAmount2: 5
 firstAttackLength: 0.5

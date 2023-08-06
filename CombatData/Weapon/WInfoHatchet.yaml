@@ -10,8 +10,8 @@ isRanged: n
 isThrown: y
 healthPoint1: 5
 healthPoint2: 5
-actionSpeed1: 0
-actionSpeed2: 0
+speed1: 0
+speed2: 0
 startingActionTimePassed1: 0
 startingActionTimePassed2: 0
 damageFixed1: 8
@@ -20,10 +20,10 @@ damageMin1: 6
 damageMax1: 10
 damageMin2: 9
 damageMax2: 13
-attackPerAnimation: 1
+attackPerAnim: 1
 cancelingSpeed: 0
-commandAttackWait1: 0
-commandAttackWait2: 0
+commandAttackWaitBeforeAttack: 0
+commandAttackWaitAfterAttack: 0
 wInfoThrown:
   rotationsBaseCount: 0
   rotationsPerDistance: 2.2
