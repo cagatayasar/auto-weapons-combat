@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class List_<T> : List<T>
 {
     public new int Count;
@@ -75,4 +77,5 @@ public class List_<T> : List<T>
         base.Clear();
         Count = 0;
     }
+}
 }

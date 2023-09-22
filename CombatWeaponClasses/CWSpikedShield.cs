@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWSpikedShield : CW
 {
     public new WInfoSpikedShield weaponInfo => base.weaponInfo as WInfoSpikedShield;
@@ -79,4 +81,5 @@ public class CWSpikedShield : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

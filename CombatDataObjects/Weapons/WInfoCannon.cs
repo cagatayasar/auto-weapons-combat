@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoCannon : WeaponInfo
 {
     public int range1;
@@ -15,4 +17,5 @@ public class WInfoCannon : WeaponInfo
 
     public float projectileSpeed;
     public float projectileMaxHeightOverDistance;
+}
 }

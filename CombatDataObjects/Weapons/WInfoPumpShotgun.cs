@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoPumpShotgun : WeaponInfo
 {
     public int range1;
@@ -20,4 +22,5 @@ public class WInfoPumpShotgun : WeaponInfo
 
     public float projectileSpeed;
     public float _30DegreesRotationDuration;
+}
 }

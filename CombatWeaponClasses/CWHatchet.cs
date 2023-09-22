@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWHatchet : CW, ICWThrown
 {
     public new WInfoHatchet weaponInfo => base.weaponInfo as WInfoHatchet;
@@ -88,4 +90,5 @@ public class CWHatchet : CW, ICWThrown
             isDead = true;
         }
     }
+}
 }

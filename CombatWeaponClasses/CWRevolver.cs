@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWRevolver : CW
 {
     public new WInfoRevolver weaponInfo => base.weaponInfo as WInfoRevolver;
@@ -232,4 +234,5 @@ public class CWRevolver : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

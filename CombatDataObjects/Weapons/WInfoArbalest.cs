@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoArbalest : WeaponInfo
 {
     public float touchDamageMultiplier1;
@@ -17,4 +19,5 @@ public class WInfoArbalest : WeaponInfo
 
     public float projectileSpeed;
     public float arrowImaginaryStartingOffset;
+}
 }

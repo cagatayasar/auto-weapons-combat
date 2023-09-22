@@ -19,6 +19,8 @@ public interface ICWThrown {
     void Throw_Simulation();
 }
 
+namespace AutoWeapons {
+
 public class CW
 {
     //------------------------------------------------------------------------
@@ -450,4 +452,5 @@ public class CW
             totalRotationTime = MathF.Abs(wantedAngle - currentAngle) * (_30DegreesRotationDuration / effectRotationSpeedMultiplier / 30f);
         }
     }
+}
 }

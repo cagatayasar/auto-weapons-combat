@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoJavelin : WeaponInfo
 {
     public float touchDamageMultiplier1;
@@ -13,4 +15,5 @@ public class WInfoJavelin : WeaponInfo
 
     public float projectileSpeed;
     public float damagePointOffset;
+}
 }

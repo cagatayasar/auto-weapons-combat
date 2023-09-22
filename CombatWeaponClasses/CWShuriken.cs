@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWShuriken : CW, ICWThrown
 {
     public new WInfoShuriken weaponInfo => base.weaponInfo as WInfoShuriken;
@@ -81,4 +83,5 @@ public class CWShuriken : CW, ICWThrown
             isDead = true;
         }
     }
+}
 }

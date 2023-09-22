@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWSniperRifle : CW
 {
     public new WInfoSniperRifle weaponInfo => base.weaponInfo as WInfoSniperRifle;
@@ -242,4 +244,5 @@ public class CWSniperRifle : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

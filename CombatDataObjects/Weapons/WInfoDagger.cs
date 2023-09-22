@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoDagger : WeaponInfo
 {
     public float animNonidlePortionMin;
@@ -11,4 +13,5 @@ public class WInfoDagger : WeaponInfo
     public float animDamageEnemyTime;
 
     public float _30DegreesRotationDuration;
+}
 }

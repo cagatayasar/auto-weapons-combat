@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public interface IProjectile
 {
     float Speed { get; set; }
@@ -71,4 +73,5 @@ public class POneRow : IProjectile
         this.endX = endX;
         currentTravelTime = 0f;
     }
+}
 }

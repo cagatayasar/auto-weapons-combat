@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWDagger : CW, ICWCancelTransition
 {
     public new WInfoDagger weaponInfo => base.weaponInfo as WInfoDagger;
@@ -135,4 +137,5 @@ public class CWDagger : CW, ICWCancelTransition
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

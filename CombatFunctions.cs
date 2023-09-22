@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public static class CombatFunctions
 {
     //------------------------------------------------------------------------
@@ -433,4 +435,5 @@ public static class CombatFunctions
                 killAndBoostEffect.killAndBoost_flag = true;
         }
     }
+}
 }

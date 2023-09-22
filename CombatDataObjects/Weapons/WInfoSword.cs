@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoSword : WeaponInfo
 {
     public float animNonidlePortionMin;
@@ -10,4 +12,5 @@ public class WInfoSword : WeaponInfo
     public float actionSpeedForAnimationMax;
     public float animationUpwardDamageEnemyPortion;
     public float animationFrontDamageEnemyPortion;
+}
 }

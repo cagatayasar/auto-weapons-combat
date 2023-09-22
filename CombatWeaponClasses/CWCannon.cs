@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWCannon : CW, ICWHoldsRowPositions
 {
     public new WInfoCannon weaponInfo => base.weaponInfo as WInfoCannon;
@@ -197,4 +199,5 @@ public class CWCannon : CW, ICWHoldsRowPositions
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

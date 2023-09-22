@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CombatArea
 {
     //------------------------------------------------------------------------
@@ -155,4 +157,5 @@ public class CombatArea
         }
         UpdateCoords(isPreparationPhase, cw.isPlayer);
     }
+}
 }

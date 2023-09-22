@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoDarkSword : WeaponInfo
 {
     public int maxStackAmount1;
@@ -17,4 +19,5 @@ public class WInfoDarkSword : WeaponInfo
     public float animationUpwardDamage2Portion;
     public float animationFrontDamage1Portion;
     public float animationFrontDamage2Portion;
+}
 }

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class CWSaved
 {
     public Weapon weapon;
@@ -22,4 +24,5 @@ public class CWSaved
         this.id = id;
         this.matchRosterIndex = matchRosterIndex;
     }
+}
 }

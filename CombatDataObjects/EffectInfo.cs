@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 [Serializable]
 public class EffectInfo : IYamlObject
 {
@@ -15,4 +17,5 @@ public class EffectInfo : IYamlObject
     {
         EffectType = (EffectType) Enum.Parse(typeof(EffectType), effectTypeStr);
     }
+}
 }

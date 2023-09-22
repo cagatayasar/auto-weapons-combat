@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWBuckler : CW
 {
     public new WInfoBuckler weaponInfo => base.weaponInfo as WInfoBuckler;
@@ -94,4 +96,5 @@ public class CWBuckler : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

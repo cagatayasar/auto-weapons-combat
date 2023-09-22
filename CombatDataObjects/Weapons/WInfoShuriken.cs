@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoShuriken : WeaponInfo
 {
     public _WInfoThrown wInfoThrown;
@@ -12,4 +14,5 @@ public class WInfoShuriken : WeaponInfo
     public float animationThrowPrepare2Length;
 
     public float _30DegreesRotationDuration;
+}
 }

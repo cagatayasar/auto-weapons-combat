@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 [Serializable]
 public struct WeaponStruct
 {
@@ -70,4 +72,5 @@ public class Weapon
     public void ResetPermanentEffects() {
         permanentEffects = new List_<Effect>();
     }
+}
 }

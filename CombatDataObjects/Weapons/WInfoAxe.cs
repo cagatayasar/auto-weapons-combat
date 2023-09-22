@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoAxe : WeaponInfo
 {
     public int healthPercent1;
@@ -14,4 +16,5 @@ public class WInfoAxe : WeaponInfo
     public float animDamageEnemyTime;
 
     public float _30DegreesRotationDuration;
+}
 }

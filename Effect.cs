@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public struct Effect
 {
     //------------------------------------------------------------------------
@@ -44,4 +46,5 @@ public struct Effect
 
         timeLeft = info.duration;
     }
+}
 }
