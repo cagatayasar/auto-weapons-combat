@@ -342,7 +342,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static Vec3 GetCHPosition(int coordX, int coordY, bool isPlayer)
+    public static Vec2 GetCHPosition(int coordX, int coordY, bool isPlayer)
     {
         int rowIndex = coordX + 2;
         int colIndex = coordY + 2;
