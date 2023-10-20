@@ -39,7 +39,6 @@ public enum TacticType : byte
     Null,
     Capitalist_Borrow,
     Capitalist_Bribe,
-    Capitalist_Investment,
     Capitalist_Productivity,
     Capitalist_Reproduction,
     Capitalist_SkilledLabor,

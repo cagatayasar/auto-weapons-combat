@@ -56,6 +56,7 @@ public static class CombatMain
 
     public static bool isRandomized;
     public static Random rnd = new Random();
+    public static ILogger logger;
 
     //------------------------------------------------------------------------
     public static WeaponMasterInfo GetWeaponMasterInfo(WeaponMasterType weaponMasterType)
