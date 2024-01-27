@@ -18,6 +18,8 @@ public enum GreataxeState
     Null
 }
 
+namespace AutoWeapons {
+
 public class CWGreataxe : CW
 {
     public new WInfoGreataxe weaponInfo => base.weaponInfo as WInfoGreataxe;
@@ -232,4 +234,5 @@ public class CWGreataxe : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

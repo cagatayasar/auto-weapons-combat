@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWTorch : CW
 {
     public new WInfoTorch weaponInfo => base.weaponInfo as WInfoTorch;
@@ -89,4 +91,5 @@ public class CWTorch : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

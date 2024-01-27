@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
 {
     public new WInfoJavelin weaponInfo => base.weaponInfo as WInfoJavelin;
@@ -116,4 +118,5 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
             }
         }
     }
+}
 }

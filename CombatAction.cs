@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class CombatAction
 {
     //------------------------------------------------------------------------
@@ -35,4 +37,5 @@ public class CombatAction
         healthPercentDamage = percent;
         damage = dmgAddAmount;
     }
+}
 }

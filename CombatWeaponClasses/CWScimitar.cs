@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
 {
     public new WInfoScimitar weaponInfo => base.weaponInfo as WInfoScimitar;
@@ -157,4 +159,5 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public static class CombatMain
 {
     public static ItemAttributes itemAttributes;
@@ -54,6 +56,7 @@ public static class CombatMain
 
     public static bool isRandomized;
     public static Random rnd = new Random();
+    public static ILogger logger;
 
     //------------------------------------------------------------------------
     public static WeaponMasterInfo GetWeaponMasterInfo(WeaponMasterType weaponMasterType)
@@ -67,4 +70,5 @@ public static class CombatMain
         var wmInfo = GetWeaponMasterInfo(weaponMasterType);
         return wmInfo.tactics.First(t => t.TacticType == tacticType);
     }
+}
 }

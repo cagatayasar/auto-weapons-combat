@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWSawedOff : CW
 {
     public new WInfoSawedOff weaponInfo => base.weaponInfo as WInfoSawedOff;
@@ -232,4 +234,5 @@ public class CWSawedOff : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

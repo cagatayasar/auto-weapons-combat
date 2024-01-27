@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 [Serializable]
 public struct WeaponStruct
 {
@@ -63,11 +65,28 @@ public class Weapon
         this.isSummonedWeapon            = weaponStruct.isSummonedWeapon;
         this.isPermanentlySummonedWeapon = weaponStruct.isPermanentlySummonedWeapon;
         this.isUpgradedForTheMatch       = weaponStruct.isUpgradedForTheMatch;
-        this.permanentEffects      = permanentEffects;
+        this.permanentEffects            = permanentEffects;
     }
 
     //------------------------------------------------------------------------
     public void ResetPermanentEffects() {
         permanentEffects = new List<Effect>();
     }
+
+    //------------------------------------------------------------------------
+    public int GetCost()
+    {
+        var statsGeneral = CombatMain.weaponInfosDict[weaponType];
+        var cost = level switch {
+            1 => statsGeneral.cost1,
+            2 => statsGeneral.cost2,
+            _ => 0
+        };
+
+        if (attachment == AttachmentType.CostsLess) {
+            cost--;
+        }
+        return Math.Max(cost, 0);
+    }
+}
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class CombatData
 {
     //------------------------------------------------------------------------
@@ -22,4 +24,5 @@ public class CombatData
         this.playerWeapons = playerWeapons;
         this.enemyWeapons = enemyWeapons;
     }
+}
 }

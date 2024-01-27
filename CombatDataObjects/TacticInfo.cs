@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 [Serializable]
 public class TacticInfo : IYamlObject
 {
@@ -28,8 +30,9 @@ public class TacticInfo : IYamlObject
     public TacticType TacticType { get; set; }
     public WeaponMasterType WeaponMasterType { get; set; }
     public TacticUseType TacticUseType { get; set; }
-    public bool Usable => TacticUseType != TacticUseType.Unusable;
     public string InsertedDescription { get; set; }
+
+    public bool Usable => TacticUseType != TacticUseType.Nonusable;
 
     public void Initialize()
     {
@@ -42,4 +45,5 @@ public class TacticInfo : IYamlObject
             if (success) break;
         }
     }
+}
 }

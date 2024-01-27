@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class ItemAttributes
 {
     // Status Effects
@@ -25,4 +27,5 @@ public class ItemAttributes
     public int barrierShield_Value;
     public int killAndShieldShield_Value;
     public float killAndBoostBoost_Multiplier;
+}
 }

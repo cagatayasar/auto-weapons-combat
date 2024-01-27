@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class RosterAttributes : IYamlObject
 {
     public List<string> activeWeapons;
@@ -20,4 +22,5 @@ public class RosterAttributes : IYamlObject
         foreach (var wmStr in activeWeaponMasters)
             ActiveWeaponMasterTypes.Add((WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), wmStr));
     }
+}
 }

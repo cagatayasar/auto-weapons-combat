@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWArbalest : CW, ICWHoldsRowPositions
 {
     public new WInfoArbalest weaponInfo => base.weaponInfo as WInfoArbalest;
@@ -366,4 +368,5 @@ public class CWArbalest : CW, ICWHoldsRowPositions
             }
         }
     }
+}
 }

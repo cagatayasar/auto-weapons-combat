@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWAxe : CW, ICWCancelTransition
 {
     public new WInfoAxe weaponInfo => base.weaponInfo as WInfoAxe;
@@ -137,4 +139,5 @@ public class CWAxe : CW, ICWCancelTransition
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWBow : CW
 {
     public new WInfoBow weaponInfo => base.weaponInfo as WInfoBow;
@@ -189,4 +191,5 @@ public class CWBow : CW
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

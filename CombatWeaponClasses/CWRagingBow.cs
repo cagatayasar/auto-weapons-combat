@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWRagingBow : CW, ICWStackWeapon
 {
     public new WInfoRagingBow weaponInfo => base.weaponInfo as WInfoRagingBow;
@@ -201,4 +203,5 @@ public class CWRagingBow : CW, ICWStackWeapon
         stacks++;
         onUpdateStackUI?.Invoke();
     }
+}
 }

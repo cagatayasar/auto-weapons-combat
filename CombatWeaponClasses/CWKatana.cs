@@ -17,6 +17,8 @@ public enum KatanaState
     Null
 }
 
+namespace AutoWeapons {
+
 public class CWKatana : CW, ICWStackWeapon
 {
     public new WInfoKatana weaponInfo => base.weaponInfo as WInfoKatana;
@@ -198,4 +200,5 @@ public class CWKatana : CW, ICWStackWeapon
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

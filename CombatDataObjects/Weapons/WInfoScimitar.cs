@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoScimitar : WeaponInfo
 {
     public int maxStackAmount1;
@@ -16,4 +18,5 @@ public class WInfoScimitar : WeaponInfo
     public float animDamageEnemyTime;
 
     public float _30DegreesRotationDuration;
+}
 }

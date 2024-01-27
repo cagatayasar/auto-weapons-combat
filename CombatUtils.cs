@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
+namespace AutoWeapons {
+
 public static partial class Utils
 {
     public static NumberFormatInfo decimalSeperator = new NumberFormatInfo();
@@ -182,4 +184,5 @@ public static partial class Utils
             return value.ToString();
         }
     }
+}
 }

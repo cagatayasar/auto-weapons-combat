@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoHatchet : WeaponInfo
 {
     public _WInfoThrown wInfoThrown;
@@ -11,4 +13,5 @@ public class WInfoHatchet : WeaponInfo
     public float animationThrowPrepareSpeed;
 
     public float _30DegreesRotationDuration;
+}
 }

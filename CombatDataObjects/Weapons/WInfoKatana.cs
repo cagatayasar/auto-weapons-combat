@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class WInfoKatana : WeaponInfo
 {
     public int maxStackAmount1;
@@ -16,4 +18,5 @@ public class WInfoKatana : WeaponInfo
 
     public float waitTimeBetweenAttacks;
     public float _30DegreesRotationDuration;
+}
 }

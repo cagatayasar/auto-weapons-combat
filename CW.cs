@@ -19,6 +19,8 @@ public interface ICWThrown {
     void Throw_Simulation();
 }
 
+namespace AutoWeapons {
+
 public class CW
 {
     //------------------------------------------------------------------------
@@ -201,8 +203,8 @@ public class CW
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
-            var opponentCWs = isPlayer ? enemyCWs : playerCWs;
-            var target = opponentCWs.FirstOrDefault(cw => cw.id == action.senderId);
+            var targetCWs = isPlayer ? enemyCWs : playerCWs;
+            var target = targetCWs.FirstOrDefault(cw => cw.id == action.senderId);
             CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
     }
@@ -450,4 +452,5 @@ public class CW
             totalRotationTime = MathF.Abs(wantedAngle - currentAngle) * (_30DegreesRotationDuration / effectRotationSpeedMultiplier / 30f);
         }
     }
+}
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
 {
     public new WInfoDarkSword weaponInfo => base.weaponInfo as WInfoDarkSword;
@@ -204,4 +206,5 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}
+}
 }

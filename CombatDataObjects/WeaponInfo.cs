@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 [Serializable]
 public class WeaponInfo
 {
@@ -54,4 +56,5 @@ public class WeaponInfo
         }
         return desc;
     }
+}
 }

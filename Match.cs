@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 [System.Serializable]
 public class Match
 {
@@ -29,4 +31,5 @@ public class Match
             playerWon = true;
         }
     }
+}
 }

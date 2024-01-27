@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public enum WeaponMasterType : byte {
     Null,
     Capitalist,
@@ -35,4 +37,5 @@ public class WeaponMaster
         this.weaponMasterType = weaponMasterType;
         this.isPlayer = isPlayer;
     }
+}
 }

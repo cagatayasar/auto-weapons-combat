@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+namespace AutoWeapons {
+
 public class AttachmentAttributes
 {
     public int dmgShield_Value;
@@ -11,4 +13,5 @@ public class AttachmentAttributes
     public int repel_Value;
     public int rowMoreDamage_Value;
     public float speed_Value;
+}
 }

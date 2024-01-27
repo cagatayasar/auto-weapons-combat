@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace AutoWeapons {
+
 public static class CombatFunctions
 {
     //------------------------------------------------------------------------
@@ -347,7 +349,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static Vec3 GetCHPosition(int coordX, int coordY, bool isPlayer)
+    public static Vec2 GetCHPosition(int coordX, int coordY, bool isPlayer)
     {
         int rowIndex = coordX + 2;
         int colIndex = coordY + 2;
@@ -440,4 +442,5 @@ public static class CombatFunctions
                 killAndBoostEffect.killAndBoost_flag = true;
         }
     }
+}
 }
