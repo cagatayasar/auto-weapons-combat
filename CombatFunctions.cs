@@ -6,7 +6,7 @@ using System.Linq;
 public static class CombatFunctions
 {
     //------------------------------------------------------------------------
-    public static string GetFormation(List_<List_<CW>> rowsList)
+    public static string GetFormation(List<List<CW>> rowsList)
     {
         string formation = "";
         foreach (var list in rowsList) {
@@ -16,7 +16,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static string GetCombatState(List_<List_<CW>> rowsList)
+    public static string GetCombatState(List<List<CW>> rowsList)
     {
         string state = GetFormation(rowsList) + "_";
 
@@ -42,7 +42,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static CombatAction GetCombatAction(System.Random rnd, List<Effect> effects, CW attacker, List_<CW> allyCWs, List_<List_<CW>> allyRowsList,
+    public static CombatAction GetCombatAction(System.Random rnd, List<Effect> effects, CW attacker, List<CW> allyCWs, List<List<CW>> allyRowsList,
         int damageMin, int damageMax, int healthPercent = 0, float finalDmgMultiplierParameter = 1f)
     {
         int dmgAddAmount = 0;
@@ -116,8 +116,85 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
+    public static CW GetClosestTargetOnRow(List<CW> row, CW attacker, bool redirectActive)
+    {
+        var targets = new List<CW>();
+        if (row.Count == 1 && MathF.Abs(attacker.verticalPosition - 3) <= 1) {
+            targets.Add(row[0]);
+        }
+        else if (row.Count == 2)
+        {
+            if (attacker.verticalPosition <= 2)
+                targets.Add(row[0]);
+            else if (attacker.verticalPosition >= 4)
+                targets.Add(row[1]);
+            else {
+                targets.Add(row[redirectActive ? 0 : 1]);
+                targets.Add(row[redirectActive ? 1 : 0]);
+            }
+        }
+        else if (row.Count == 3)
+        {
+            switch(attacker.verticalPosition)
+            {
+                case 1:
+                    targets.Add(row[0]); break;
+                case 2:
+                    targets.Add(row[redirectActive ? 0 : 1]);
+                    targets.Add(row[redirectActive ? 1 : 0]);
+                    break;
+                case 3:
+                    targets.Add(row[1]);
+                    break;
+                case 4:
+                    targets.Add(row[redirectActive ? 1 : 2]);
+                    targets.Add(row[redirectActive ? 2 : 1]);
+                    break;
+                case 5:
+                    targets.Add(row[2]);
+                    break;
+            };
+        }
+
+        return targets.FirstOrDefault_(cw => cw.IsTargetable);
+    }
+
+    //------------------------------------------------------------------------
+    public static CW GetFurthestTargetOnRow(List<CW> row, CW attacker, bool redirectActive)
+    {
+        var targets = new List<CW>();
+        if (row.Count == 1 && MathF.Abs(attacker.verticalPosition - 3) <= 1) {
+            targets.Add(row[0]);
+        }
+        else if (row.Count == 2)
+        {
+            if (attacker.verticalPosition <= 2)
+                targets.Add(row[1]);
+            else if (attacker.verticalPosition >= 4)
+                targets.Add(row[0]);
+            else {
+                targets.Add(row[redirectActive ? 0 : 1]);
+                targets.Add(row[redirectActive ? 1 : 0]);
+            }
+        }
+        else if (row.Count == 3)
+        {
+            if (attacker.verticalPosition <= 2)
+                targets.Add(row[2]);
+            else if (attacker.verticalPosition >= 4)
+                targets.Add(row[0]);
+            else {
+                targets.Add(row[redirectActive ? 0 : 2]);
+                targets.Add(row[redirectActive ? 2 : 0]);
+            }
+        }
+
+        return targets.FirstOrDefault_(cw => cw.IsTargetable);
+    }
+
+    //------------------------------------------------------------------------
     public static CW TargetEnemyMelee(CW attacker, CW prevTargetEnemy,
-        List_<List_<CW>> targetRowsList, bool canAttackDownwards = true)
+        List<List<CW>> targetRowsList, bool canAttackDownwards = true)
     {
         if (targetRowsList.Count == 0 || attacker.rowNumber != 1) {
             return null;
@@ -131,31 +208,8 @@ public static class CombatFunctions
         bool redirectActive = attacker.itemRedirect_active && canAttackDownwards;
         CW targetEnemy = null;
         var targetRow = targetRowsList[0];
-        if (prevTargetEnemy == null) {
-            if (targetRow.Count == 1 && MathF.Abs(attacker.verticalPosition - 3) <= 1) {
-                targetEnemy = targetRow[0];
-            }
-            else if (targetRow.Count == 2)
-            {
-                if (attacker.verticalPosition <= 2)
-                    targetEnemy = targetRow[0];
-                else if (attacker.verticalPosition >= 4)
-                    targetEnemy = targetRow[1];
-                else
-                    targetEnemy = targetRow[redirectActive ? 0 : 1];
-            }
-            else if (targetRow.Count == 3)
-            {
-                targetEnemy = attacker.verticalPosition switch
-                {
-                    1 => targetRow[0],
-                    2 => targetRow[redirectActive ? 0 : 1],
-                    3 => targetRow[1],
-                    4 => targetRow[redirectActive ? 1 : 2],
-                    5 => targetRow[2],
-                    _ => targetEnemy
-                };
-            }
+        if (prevTargetEnemy == null || !prevTargetEnemy.IsTargetable) {
+            targetEnemy = GetClosestTargetOnRow(targetRow, attacker, redirectActive);
         } else if (!targetRow.Contains_(prevTargetEnemy) || MathF.Abs(attacker.verticalPosition - prevTargetEnemy.verticalPosition) > 1) {
             targetEnemy = null;
         } else {
@@ -167,7 +221,7 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRanged(CW attacker, int range, CW prevTargetEnemy,
-        List_<List_<CW>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
+        List<List<CW>> targetRowsList, float timePassed, bool oneLessRangeForXSeconds)
     {
         int rangeToAddOrSubstract = CombatFunctions.GetRangeToAddOrSubstract(attacker, range, timePassed, oneLessRangeForXSeconds);
         if (attacker.weapon.attachment == AttachmentType.Furthest) {
@@ -179,43 +233,20 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRangedClosest(CW attacker, int range, CW prevTargetEnemy,
-        List_<List_<CW>> targetRowsList)
+        List<List<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
 
         bool redirectActive = attacker.itemRedirect_active;
         CW targetEnemy = null;
-        if (prevTargetEnemy == null)
-        {
-            var targetRow = targetRowsList[0];
-
-            if (targetRow.Count == 1)
-                targetEnemy = targetRow[0];
-            else if (targetRow.Count == 2)
-            {
-                if (attacker.verticalPosition <= 2)
-                    targetEnemy = targetRow[0];
-                else if (attacker.verticalPosition >= 4)
-                    targetEnemy = targetRow[1];
-                else
-                    targetEnemy = targetRow[redirectActive ? 0 : 1];
+        if (prevTargetEnemy == null || !prevTargetEnemy.IsTargetable) {
+            for (int i = 0; i < targetRowsList.Count; i++) {
+                targetEnemy = GetClosestTargetOnRow(targetRowsList[i], attacker, redirectActive);
+                if (targetEnemy != null)
+                    break;
             }
-            else if (targetRow.Count == 3)
-            {
-                targetEnemy = attacker.verticalPosition switch
-                {
-                    1 => targetRow[0],
-                    2 => targetRow[redirectActive ? 0 : 1],
-                    3 => targetRow[1],
-                    4 => targetRow[redirectActive ? 1 : 2],
-                    5 => targetRow[2],
-                    _ => targetEnemy
-                };
-            }
-        }
-        else
-        {
+        } else {
             bool contains = false;
             for (int i = 0; i < targetRowsList.Count; i++) {
                 if (targetRowsList[i].Contains_(prevTargetEnemy)) {
@@ -234,45 +265,21 @@ public static class CombatFunctions
 
     //------------------------------------------------------------------------
     public static CW TargetEnemyRangedFurthest(CW attacker, int range, CW prevTargetEnemy,
-        List_<List_<CW>> targetRowsList)
+        List<List<CW>> targetRowsList)
     {
         if (attacker.rowNumber > range || targetRowsList.Count == 0)
             return null;
 
         bool redirectActive = attacker.itemRedirect_active;
         CW targetEnemy = null;
-        if (prevTargetEnemy == null)
+        if (prevTargetEnemy == null || !prevTargetEnemy.IsTargetable)
         {
-            List_<CW> targetRow = null;
-            for (int i = targetRowsList.Count - 1; i >= 0; i--)
-            {
-                if (range - attacker.rowNumber >= i)
-                {
-                    targetRow = targetRowsList[i];
-                    break;
+            for (int i = targetRowsList.Count - 1; i >= 0; i--) {
+                if (range - attacker.rowNumber >= i) {
+                    targetEnemy = GetFurthestTargetOnRow(targetRowsList[i], attacker, redirectActive);
+                    if (targetEnemy != null)
+                        break;
                 }
-            }
-
-            var targetRowCount = targetRow?.Count;
-            if (targetRowCount == 1)
-                targetEnemy = targetRow[0];
-            else if (targetRowCount == 2)
-            {
-                if (attacker.verticalPosition <= 2)
-                    targetEnemy = targetRow[1];
-                else if (attacker.verticalPosition >= 4)
-                    targetEnemy = targetRow[0];
-                else
-                    targetEnemy = targetRow[redirectActive ? 0 : 1];
-            }
-            else if (targetRowCount == 3)
-            {
-                if (attacker.verticalPosition <= 2)
-                    targetEnemy = targetRow[2];
-                else if (attacker.verticalPosition >= 4)
-                    targetEnemy = targetRow[0];
-                else
-                    targetEnemy = targetRow[redirectActive ? 0 : 2];
             }
         }
         else
@@ -324,7 +331,7 @@ public static class CombatFunctions
     }
 
     //------------------------------------------------------------------------
-    public static int GetCompFormation(List_<List_<CW>> rowsList)
+    public static int GetCompFormation(List<List<CW>> rowsList)
     {
         int formation = 0;
         if (rowsList.Count == 0)

@@ -7,7 +7,7 @@ public class CWGreenStaff : CW
 {
     public new WInfoGreenStaff weaponInfo => base.weaponInfo as WInfoGreenStaff;
     public int healAmount;
-    public List_<CW> targetWeapons;
+    public List<CW> targetWeapons;
 
     public event Action onUpdateLines;
 
@@ -52,7 +52,7 @@ public class CWGreenStaff : CW
     public override void UpdateTarget()
     {
         if (rowNumber == 1) {
-            targetWeapons = null;
+            targetWeapons = new List<CW>();
         } else if (rowNumber == 2) {
             targetWeapons = allyRowsList[0];
         } else if (rowNumber == 3) {

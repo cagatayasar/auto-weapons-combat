@@ -8,10 +8,10 @@ public class CombatArea
     //------------------------------------------------------------------------
     public const int rowCwCapacity = 3;
     public const int areaRowCapacity = 3;
-    public List_<List_<CW>> playerRowsList = new List_<List_<CW>>(areaRowCapacity);
-    public List_<CW> playerCWs = new List_<CW>(rowCwCapacity);
-    public List_<List_<CW>> enemyRowsList = new List_<List_<CW>>(areaRowCapacity);
-    public List_<CW> enemyCWs = new List_<CW>(rowCwCapacity);
+    public List<List<CW>> playerRowsList = new List<List<CW>>(areaRowCapacity);
+    public List<CW> playerCWs = new List<CW>(rowCwCapacity);
+    public List<List<CW>> enemyRowsList = new List<List<CW>>(areaRowCapacity);
+    public List<CW> enemyCWs = new List<CW>(rowCwCapacity);
 
     //------------------------------------------------------------------------
     public static Vec2[][] combatAreaPositions;
@@ -58,7 +58,7 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void UpdateCoords(bool isPreparationPhase, bool isPlayer, List_<List_<CW>> rowsList = null)
+    public void UpdateCoords(bool isPreparationPhase, bool isPlayer, List<List<CW>> rowsList = null)
     {
         rowsList ??= isPlayer ? playerRowsList : enemyRowsList;
 
@@ -68,7 +68,7 @@ public class CombatArea
             }
         }
 
-        foreach (List_<CW> row in rowsList) {
+        foreach (List<CW> row in rowsList) {
             row.Sort((x, y) => x.coordY - y.coordY);
         }
         rowsList.Sort((x, y) => (y[0].coordX - x[0].coordX) * isPlayer.ToMultiplier());
@@ -92,11 +92,11 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void PullCW(bool isPreparationPhase, List_<List_<CW>> rowsList, CW cw)
+    public void PullCW(bool isPreparationPhase, List<List<CW>> rowsList, CW cw)
     {
         if (rowsList[cw.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
             cw.coordX = rowsList[0][0].coordX + cw.isPlayer.ToMultiplier();
-            rowsList.Add(new List_<CW>(3) { cw });
+            rowsList.Add(new List<CW>(3) { cw });
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             if (cw.rowNumber - 1 == 0) return;
@@ -116,11 +116,11 @@ public class CombatArea
     }
 
     //------------------------------------------------------------------------
-    public void PushCW(bool isPreparationPhase, List_<List_<CW>> rowsList, CW cw)
+    public void PushCW(bool isPreparationPhase, List<List<CW>> rowsList, CW cw)
     {
         if (rowsList[cw.rowNumber - 1].Count == 1 || rowsList.Count != 3) {
             cw.coordX = rowsList[rowsList.Count-1][0].coordX - cw.isPlayer.ToMultiplier();
-            rowsList.Add(new List_<CW>(3) { cw });
+            rowsList.Add(new List<CW>(3) { cw });
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             if (cw.rowNumber == 3) return;
@@ -150,7 +150,7 @@ public class CombatArea
             rowsList[cw.rowNumber - 1].Remove(cw);
         } else {
             cw.coordX = cw.coordX - cw.isPlayer.ToMultiplier();
-            rowsList.Add(new List_<CW>(3) { cw });
+            rowsList.Add(new List<CW>(3) { cw });
             rowsList[cw.rowNumber - 1].Remove(cw);
         }
         UpdateCoords(isPreparationPhase, cw.isPlayer);

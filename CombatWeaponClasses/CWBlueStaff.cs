@@ -7,7 +7,7 @@ public class CWBlueStaff : CW
 {
     public new WInfoBlueStaff weaponInfo => base.weaponInfo as WInfoBlueStaff;
     public float actionSpeedMultiplier;
-    public List_<CW> targetWeapons;
+    public List<CW> targetWeapons;
 
     public event Action onUpdateLines;
 
@@ -15,7 +15,7 @@ public class CWBlueStaff : CW
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
     {
         UpdateLevelBasedStats();
-        targetWeapons = new List_<CW>(3);
+        targetWeapons = new List<CW>(3);
         ApplyExistingPermanentEffects();
     }
 
@@ -53,7 +53,7 @@ public class CWBlueStaff : CW
     public override void UpdateTarget()
     {
         if (rowNumber == 1) {
-            targetWeapons = new List_<CW>(3);
+            targetWeapons = new List<CW>(3);
         } else if (rowNumber == 2) {
             targetWeapons = allyRowsList[0];
         } else if (rowNumber == 3) {

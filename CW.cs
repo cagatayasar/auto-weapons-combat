@@ -32,17 +32,17 @@ public class CW
 
     public System.Random rnd;
 
-    public List_<List_<CW>> playerRowsList;
-    public List_<List_<CW>> enemyRowsList;
-    public List_<List_<CW>> allyRowsList;
-    public List_<List_<CW>> targetRowsList;
-    public List_<CW> playerCWs;
-    public List_<CW> enemyCWs;
-    public List_<CW> allyCWs;
-    public List_<CW> targetCWs;
+    public List<List<CW>> playerRowsList;
+    public List<List<CW>> enemyRowsList;
+    public List<List<CW>> allyRowsList;
+    public List<List<CW>> targetRowsList;
+    public List<CW> playerCWs;
+    public List<CW> enemyCWs;
+    public List<CW> allyCWs;
+    public List<CW> targetCWs;
     public PlayerEnemyData playerEnemyData;
 
-    public List_<Effect> effects;
+    public List<Effect> effects;
     public int healthPoint;
     public int maxHealthPoint;
     public float actionTimePeriod;
@@ -63,8 +63,8 @@ public class CW
     public int roundCount;
 
     public int range;
-    public List_<POneRow> pOneRows = new List_<POneRow>();
-    public List_<POneTarget> pOneTargets = new List_<POneTarget>();
+    public List<POneRow> pOneRows = new List<POneRow>();
+    public List<POneTarget> pOneTargets = new List<POneTarget>();
 
     public bool itemRedirect_active = false;
 
@@ -150,7 +150,7 @@ public class CW
 
         weaponInfo = CombatMain.weaponInfosDict[weapon.weaponType];
 
-        effects = new List_<Effect>();
+        effects = new List<Effect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
             damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
             OnUpdateHealthBar(0f);
@@ -357,7 +357,7 @@ public class CW
     public void ApplyExistingPermanentEffects()
     {
         if (weapon.permanentEffects == null) {
-            weapon.permanentEffects = new List_<Effect>();
+            weapon.permanentEffects = new List<Effect>();
             return;
         }
         for (int i = 0; i < weapon.permanentEffects.Count; i++) {

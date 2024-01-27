@@ -1,0 +1,39 @@
+weaponMasterTypeStr: Rogue
+displayName: Rogue
+passiveTactic:
+  tacticTypeStr: Mobility
+  useTypeStr: Unusable
+  description: The first position change in each round costs 0.
+tactics:
+- tacticTypeStr: Conceal
+  useTypeStr: AnyWeapon
+  useCost: 1
+  uses: 3
+  cooldown: 0
+  description: Give a weapon stealth for <duration> sec.
+  delay: 3
+  duration: 3
+- tacticTypeStr: Vanish
+  useTypeStr: AnyWeapon
+  useCost: 1
+  uses: 3
+  cooldown: 0
+  description: After a <delay> sec delay, give a weapon stealth for <duration> sec.
+  delay: 3
+  duration: 3
+- tacticTypeStr: Conceal
+  useTypeStr: AnyWeapon
+  useCost: 1
+  uses: 3
+  cooldown: 0
+  description: Give a weapon stealth for <duration> sec.
+  delay: 3
+  duration: 3
+- tacticTypeStr: Vanish
+  useTypeStr: AnyWeapon
+  useCost: 1
+  uses: 3
+  cooldown: 0
+  description: After a <delay> sec delay, give a weapon stealth for <duration> sec.
+  delay: 3
+  duration: 3

@@ -16,7 +16,12 @@ public class WeaponMasterInfo : IYamlObject
     {
         WeaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
 
+        passiveTactic.WeaponMasterType = WeaponMasterType;
         passiveTactic.Initialize();
-        tactics.ForEach(t => t.Initialize());
+
+        tactics.ForEach(t => {
+            t.WeaponMasterType = WeaponMasterType;
+            t.Initialize();
+        });
     }
 }

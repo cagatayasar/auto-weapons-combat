@@ -200,7 +200,7 @@ public class CWGreataxe : CW
         }
     }
 
-    public static CW GetTargetWithRelativePos(List_<CW> row, int positionFromBottom)
+    public static CW GetTargetWithRelativePos(List<CW> row, int positionFromBottom)
     {
         for (int i = 0; i < row.Count; i++) {
             if (row[i].verticalPosition == positionFromBottom) {

@@ -74,14 +74,17 @@ public enum TacticType : byte
 
 public enum TacticUseType {
     Null,
-    Nonusable,
+    Unusable,
     NoTarget,
-    AllWeapons,
-    AllyWeapons,
-    EnemyWeapons,
-    AllRows,
-    AllyRows,
-    EnemyRows
+    AnyWeapon,
+    AllyWeapon,
+    EnemyWeapon,
+    AnyRow,
+    AllyRow,
+    EnemyRow,
+    AnyArea,
+    AllyArea,
+    EnemyArea
 }
 
 public enum ItemType : byte

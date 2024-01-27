@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [Serializable]
-public class EffectInfo : IYamlObject
+public struct EffectInfo : IYamlObject
 {
     public string effectTypeStr;
     public bool isTimed;

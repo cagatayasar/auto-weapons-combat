@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class TacticInfo : IYamlObject
 {
     public string tacticTypeStr;
-    public string weaponMasterTypeStr;
     public string useTypeStr;
 
     public int useCost;
@@ -24,18 +23,18 @@ public class TacticInfo : IYamlObject
     public int delay;
     public int percent;
     public float speedToAdd;
+    public float duration;
 
     public TacticType TacticType { get; set; }
     public WeaponMasterType WeaponMasterType { get; set; }
     public TacticUseType TacticUseType { get; set; }
-    public bool Usable => TacticUseType != TacticUseType.Nonusable;
+    public bool Usable => TacticUseType != TacticUseType.Unusable;
     public string InsertedDescription { get; set; }
 
     public void Initialize()
     {
-        WeaponMasterType = (WeaponMasterType) Enum.Parse(typeof(WeaponMasterType), weaponMasterTypeStr);
-        TacticType       = (TacticType)       Enum.Parse(typeof(TacticType), WeaponMasterType + "_" + tacticTypeStr);
-        TacticUseType    = (TacticUseType)    Enum.Parse(typeof(TacticUseType), useTypeStr);
+        TacticType    = (TacticType)    Enum.Parse(typeof(TacticType), WeaponMasterType + "_" + tacticTypeStr);
+        TacticUseType = (TacticUseType) Enum.Parse(typeof(TacticUseType), useTypeStr);
 
         InsertedDescription = description.Clone() as string;
         for (int i = 0; i < 10; i++) {

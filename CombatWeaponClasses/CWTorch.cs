@@ -7,7 +7,7 @@ public class CWTorch : CW
 {
     public new WInfoTorch weaponInfo => base.weaponInfo as WInfoTorch;
     public int damage;
-    public List_<CW> targetEnemies;
+    public List<CW> targetEnemies;
 
     public event Action onUpdateLines;
 
@@ -52,7 +52,7 @@ public class CWTorch : CW
     public override void UpdateTarget()
     {
         if (rowNumber > 1 || targetRowsList.Count == 0) {
-            targetEnemies = null;
+            targetEnemies = new List<CW>();
         } else {
             targetEnemies = targetRowsList[0];
         }

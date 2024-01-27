@@ -9,6 +9,13 @@ public enum WeaponMasterType : byte {
     Gunslinger,
     Guardian,
     Liner,
+    Swordsman,
+    Rogue,
+    Corsair,
+    Shieldmaiden,
+    Blacksmith,
+    Alchemist,
+    Gambler,
 }
 
 [System.Serializable]
