@@ -32,7 +32,7 @@ public class TacticInfo : IYamlObject
     public TacticUseType TacticUseType { get; set; }
     public string InsertedDescription { get; set; }
 
-    public bool Usable => TacticUseType != TacticUseType.Nonusable;
+    public bool Usable => TacticUseType != TacticUseType.Unusable;
 
     public void Initialize()
     {
