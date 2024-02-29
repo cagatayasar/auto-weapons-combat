@@ -15,7 +15,6 @@ public struct WeaponStruct
     public WeaponType weaponType;
     public bool isSummonedWeapon;
     public bool isPermanentlySummonedWeapon;
-    public bool isUpgradedForTheMatch;
 
     //------------------------------------------------------------------------
     public WeaponStruct(Weapon weapon)
@@ -26,7 +25,6 @@ public struct WeaponStruct
         this.weaponType                  = weapon.weaponType;
         this.isSummonedWeapon            = weapon.isSummonedWeapon;
         this.isPermanentlySummonedWeapon = weapon.isPermanentlySummonedWeapon;
-        this.isUpgradedForTheMatch       = weapon.isUpgradedForTheMatch;
     }
 }
 
@@ -40,23 +38,19 @@ public class Weapon
     public WeaponType weaponType;
     public bool isSummonedWeapon = false;
     public bool isPermanentlySummonedWeapon = false;
-    public bool isUpgradedForTheMatch = false;
-    public List<Effect> permanentEffects;
+    public Dictionary<EffectType, Effect> permanentEffects = new Dictionary<EffectType, Effect>();
 
-    public int combatLevel => isUpgradedForTheMatch ? 2 : level;
+    public int combatLevel => permanentEffects.ContainsKey(EffectType.UpgradedForTheMatch) ? 2 : level;
 
     //------------------------------------------------------------------------
     public Weapon(WeaponType weaponType, int level)
     {
         this.weaponType = weaponType;
         this.level = level;
-
-        matchRosterIndex = -1;
-        permanentEffects = new List<Effect>();
     }
 
     //------------------------------------------------------------------------
-    public Weapon(WeaponStruct weaponStruct, List<Effect> permanentEffects)
+    public Weapon(WeaponStruct weaponStruct, Dictionary<EffectType, Effect> permanentEffects = null)
     {
         this.level                       = weaponStruct.level;
         this.matchRosterIndex            = weaponStruct.matchRosterIndex;
@@ -64,13 +58,13 @@ public class Weapon
         this.weaponType                  = weaponStruct.weaponType;
         this.isSummonedWeapon            = weaponStruct.isSummonedWeapon;
         this.isPermanentlySummonedWeapon = weaponStruct.isPermanentlySummonedWeapon;
-        this.isUpgradedForTheMatch       = weaponStruct.isUpgradedForTheMatch;
-        this.permanentEffects            = permanentEffects;
+        if (permanentEffects != null)
+            this.permanentEffects = permanentEffects;
     }
 
     //------------------------------------------------------------------------
     public void ResetPermanentEffects() {
-        permanentEffects = new List<Effect>();
+        permanentEffects = new Dictionary<EffectType, Effect>();
     }
 
     //------------------------------------------------------------------------

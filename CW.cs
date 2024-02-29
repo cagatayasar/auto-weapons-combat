@@ -336,11 +336,13 @@ public class CW
     }
 
     //------------------------------------------------------------------------
-    public void ApplyNewPermanentEffect(Effect se)
+    public void ApplyNewPermanentEffect(Effect effect)
     {
-        weapon.permanentEffects.Add(se);
+        if (!weapon.permanentEffects.ContainsKey(effect.info.EffectType))
+            weapon.permanentEffects.Add(effect.info.EffectType, effect);
 
-        switch (se.info.EffectType)
+        var appliedEffect = weapon.permanentEffects[effect.info.EffectType];
+        switch (effect.info.EffectType)
         {
             case EffectType.Stack:
                 if (stacks < maxStacks) {
@@ -359,12 +361,11 @@ public class CW
     public void ApplyExistingPermanentEffects()
     {
         if (weapon.permanentEffects == null) {
-            weapon.permanentEffects = new List<Effect>();
+            weapon.permanentEffects = new Dictionary<EffectType, Effect>();
             return;
         }
-        for (int i = 0; i < weapon.permanentEffects.Count; i++) {
-            var se = weapon.permanentEffects[i];
-            switch (se.info.EffectType)
+        foreach (var effectType in weapon.permanentEffects.Keys) {
+            switch (effectType)
             {
                 case EffectType.Stack:
                     if (stacks < maxStacks) {

@@ -41,7 +41,7 @@ public enum TacticType : byte
     Capitalist_Bribe,
     Capitalist_Productivity,
     Capitalist_Reproduction,
-    Capitalist_SkilledLabor,
+    Capitalist_SkilledLabor_DEPRECATED,
     Capitalist_Savings,
     Gunslinger_45,
     Gunslinger_QuickShot,
@@ -151,7 +151,8 @@ public enum EffectType : byte
     Gunslinger_OneEyeClosed,
     Gunslinger_CorrosiveShot,
     Gunslinger_QuickDraw,
-    Stealth
+    Stealth,
+    UpgradedForTheMatch,
 }
 
 public enum BowState : byte
