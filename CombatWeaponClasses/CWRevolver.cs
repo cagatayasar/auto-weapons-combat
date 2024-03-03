@@ -21,10 +21,10 @@ public class CWRevolver : CW
 
     float projectileSpeed;
 
-    public event Action<POneTarget> onReleaseProjectile;
-    public event Action<POneTarget> onDestroyProjectile;
-    public event Action<POneTarget, float> onUpdateProjectile;
-    public event Action<int, float> onUpdateBulletFillAmount;
+    public Action<POneTarget> onReleaseProjectile;
+    public Action<POneTarget> onDestroyProjectile;
+    public Action<POneTarget, float> onUpdateProjectile;
+    public Action<int, float> onUpdateBulletFillAmount;
 
     public CWRevolver(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -42,7 +42,7 @@ public class CWRevolver : CW
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "revolver_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("speed", "revolver_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -73,7 +73,7 @@ public class CWRevolver : CW
             if (!isRotating && reloadState == ReloadState.Shoot)
                 ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -104,7 +104,7 @@ public class CWRevolver : CW
             animationNonidleMultiplier = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
-        OnAnimatorSetFloat("speed", "revolver_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
+        onAnimatorSetFloat?.Invoke("speed", "revolver_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
     }
 
     public override void UpdateProjectiles(float deltaTime)
@@ -152,7 +152,7 @@ public class CWRevolver : CW
             onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + weaponInfo.reloadAnimationUIPortion) / weaponInfo.reloadAnimationUIPortion);
             if (!reloadSoundPlayed && t - 1f + weaponInfo.reloadAnimationUIPortion > 0f) {
                 reloadSoundPlayed = true;
-                OnSfxTrigger("reloadSound");
+                onSfxTrigger?.Invoke("reloadSound");
             }
 
             if (reloadTimer > weaponInfo.reloadTimePerBullet) {
@@ -169,7 +169,7 @@ public class CWRevolver : CW
             reloadTimer += deltaTime;
             if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
                 afterReloadSoundPlayed = true;
-                OnSfxTrigger("wheelSound");
+                onSfxTrigger?.Invoke("wheelSound");
             }
             if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
@@ -184,8 +184,8 @@ public class CWRevolver : CW
             actionTimePassed = 0f;
             ReleaseProjectile();
             bullets--;
-            OnSfxTrigger("shotSound");
-            OnAnimatorSetTrigger("attack");
+            onSfxTrigger?.Invoke("shotSound");
+            onAnimatorSetTrigger?.Invoke("attack");
             onUpdateBulletFillAmount?.Invoke(bullets, 0f);
         }
     }

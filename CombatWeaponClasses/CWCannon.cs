@@ -20,9 +20,9 @@ public class CWCannon : CW, ICWHoldsRowPositions
     Vec3[] leftAreaRows = new Vec3[3];
     Vec3[] rightAreaRows = new Vec3[3];
 
-    public event Action<POneRow> onReleaseProjectile;
-    public event Action<POneRow> onDestroyProjectile;
-    public event Action<POneRow, float> onUpdateProjectile;
+    public Action<POneRow> onReleaseProjectile;
+    public Action<POneRow> onDestroyProjectile;
+    public Action<POneRow, float> onUpdateProjectile;
 
     public CWCannon(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -37,7 +37,7 @@ public class CWCannon : CW, ICWHoldsRowPositions
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("speed", "cannon_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -70,7 +70,7 @@ public class CWCannon : CW, ICWHoldsRowPositions
             if (didFirstShot)
                 ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -115,7 +115,7 @@ public class CWCannon : CW, ICWHoldsRowPositions
             animationAttackPortion = weaponInfo.animNonidlePortionMin + actionSpeedForNonidleMapped;
         }
 
-        OnAnimatorSetFloat("speed", "cannon_anim_attack", 1f * actionSpeedClamped / animationAttackPortion);
+        onAnimatorSetFloat?.Invoke("speed", "cannon_anim_attack", 1f * actionSpeedClamped / animationAttackPortion);
     }
 
     public override void UpdateProjectiles(float deltaTime)
@@ -154,8 +154,8 @@ public class CWCannon : CW, ICWHoldsRowPositions
         {
             actionTimePassed = 0f;
             ReleaseProjectile();
-            OnSfxTrigger("shotSound");
-            OnAnimatorSetTrigger("attack");
+            onSfxTrigger?.Invoke("shotSound");
+            onAnimatorSetTrigger?.Invoke("attack");
         }
     }
 

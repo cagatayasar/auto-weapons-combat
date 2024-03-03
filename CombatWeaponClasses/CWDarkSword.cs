@@ -27,7 +27,7 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     float damageFront1TriggerTime;
     float damageFront2TriggerTime;
 
-    public event Action onUpdateStackUI;
+    public Action onUpdateStackUI;
 
     public CWDarkSword(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -39,8 +39,8 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeedUpward", "darksword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeedFront", "darksword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -70,7 +70,7 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
                 UpdateTransition(deltaTime);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -108,8 +108,8 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
         damageFront1TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage1Portion;
         damageFront2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamage2Portion;
 
-        OnAnimatorSetFloat("attackSpeedUpward", "darksword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
-        OnAnimatorSetFloat("attackSpeedFront", "darksword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeedUpward", "darksword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeedFront", "darksword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -130,10 +130,10 @@ public class CWDarkSword : CW, ICWCancelTransition, ICWStackWeapon
             meleeDoubleAttackState = MeleeDoubleAttackState.Attacking1;
             if (targetEnemy.verticalPosition > verticalPosition) {
                 targetType = MeleeTargetType.Upward;
-                OnAnimatorSetTrigger("attackUpward");
+                onAnimatorSetTrigger?.Invoke("attackUpward");
             } else {
                 targetType = MeleeTargetType.Front;
-                OnAnimatorSetTrigger("attackFront");
+                onAnimatorSetTrigger?.Invoke("attackFront");
             }
         }
         else if (meleeDoubleAttackState == MeleeDoubleAttackState.Attacking1 && targetType == MeleeTargetType.Upward

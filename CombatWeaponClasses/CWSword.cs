@@ -30,8 +30,8 @@ public class CWSword : CW, ICWCancelTransition
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
-        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeedUpward", "sword_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeedFront", "sword_anim_frontattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -54,7 +54,7 @@ public class CWSword : CW, ICWCancelTransition
                 UpdateTransition(deltaTime);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -84,8 +84,8 @@ public class CWSword : CW, ICWCancelTransition
         damageUpwardTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationUpwardDamageEnemyPortion;
         damageFrontTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animationFrontDamageEnemyPortion;
 
-        OnAnimatorSetFloat("attackSpeedUpward", "sword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
-        OnAnimatorSetFloat("attackSpeedFront", "sword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeedUpward", "sword_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeedFront", "sword_anim_frontattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -106,10 +106,10 @@ public class CWSword : CW, ICWCancelTransition
             meleeState = MeleeState.Attacking;
             if (targetEnemy.verticalPosition > verticalPosition) {
                 targetType = MeleeTargetType.Upward;
-                OnAnimatorSetTrigger("attackUpward");
+                onAnimatorSetTrigger?.Invoke("attackUpward");
             } else {
                 targetType = MeleeTargetType.Front;
-                OnAnimatorSetTrigger("attackFront");
+                onAnimatorSetTrigger?.Invoke("attackFront");
             }
         }
         else if (meleeState == MeleeState.Attacking && targetType == MeleeTargetType.Upward

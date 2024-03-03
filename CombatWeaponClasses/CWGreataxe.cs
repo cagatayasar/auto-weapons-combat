@@ -52,7 +52,7 @@ public class CWGreataxe : CW
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "greataxe_anim_upwardattack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -72,7 +72,7 @@ public class CWGreataxe : CW
             UpdateAnimator();
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -99,7 +99,7 @@ public class CWGreataxe : CW
         damage2TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack2DamageEnemyPortion;
         damage3TriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.attack3DamageEnemyPortion;
 
-        OnAnimatorSetFloat("attackSpeed", "greataxe_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "greataxe_anim_upwardattack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -112,7 +112,7 @@ public class CWGreataxe : CW
                     damagedEnemy1 = null;
                     damagedEnemy2 = null;
                     greataxeState = GreataxeState.AttackingDownwardPhase1;
-                    OnAnimatorSetTrigger("attackDownward");
+                    onAnimatorSetTrigger?.Invoke("attackDownward");
                 } break;
             }
             case GreataxeState.AttackingDownwardPhase1:
@@ -158,7 +158,7 @@ public class CWGreataxe : CW
                     damagedEnemy1 = null;
                     damagedEnemy2 = null;
                     greataxeState = GreataxeState.AttackingUpwardPhase1;
-                    OnAnimatorSetTrigger("attackUpward");
+                    onAnimatorSetTrigger?.Invoke("attackUpward");
                 } break;
             }
             case GreataxeState.AttackingUpwardPhase1:

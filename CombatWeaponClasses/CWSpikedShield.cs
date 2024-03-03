@@ -39,7 +39,7 @@ public class CWSpikedShield : CW
     {
         base.Update(deltaTime);
 
-        OnUpdateHealthBar(deltaTime);
+        onUpdateHealthBar?.Invoke(deltaTime);
     }
 
     public override void UpdateTarget(){}
@@ -62,8 +62,8 @@ public class CWSpikedShield : CW
     public override void ReceiveAction(CombatAction action)
     {
         CombatFunctions.ReceiveAction(this, action);
-        OnReceiveAction(action);
-        OnUpdateHealthBar(0f);
+        onReceiveAction?.Invoke(this, action);
+        onUpdateHealthBar?.Invoke(0f);
         var addToResponseDamage = 0;
         if (weapon.attachment == AttachmentType.Repel) {
             addToResponseDamage = CombatMain.attachmentAttributes.repel_Value;

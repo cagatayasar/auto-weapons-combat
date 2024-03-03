@@ -30,9 +30,9 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     List<CW> targets = new List<CW>(3);
     List<CW> touched = new List<CW>(3);
 
-    public event Action<PArbalest> onReleaseProjectile;
-    public event Action<PArbalest> onDestroyProjectile;
-    public event Action<PArbalest, float> onUpdateProjectile;
+    public Action<PArbalest> onReleaseProjectile;
+    public Action<PArbalest> onDestroyProjectile;
+    public Action<PArbalest, float> onUpdateProjectile;
 
     //------------------------------------------------------------------------
     public CWArbalest(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
@@ -52,8 +52,8 @@ public class CWArbalest : CW, ICWHoldsRowPositions
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
-        OnAnimatorSetFloat("releaseSpeed", "arbalest_anim_release", 1f / weaponInfo.animAttackReleaseTime);
+        onAnimatorSetFloat?.Invoke("drawSpeed", "arbalest_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
+        onAnimatorSetFloat?.Invoke("releaseSpeed", "arbalest_anim_release", 1f / weaponInfo.animAttackReleaseTime);
     }
 
     //------------------------------------------------------------------------
@@ -90,7 +90,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
             UpdateAnimator();
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -249,7 +249,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         releaseTriggerTime = actionTimePeriod - weaponInfo.animAttackReleaseTime;
         waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animAttackDrawTime;
 
-        OnAnimatorSetFloat("drawSpeed", "arbalest_anim_draw", 1f /
+        onAnimatorSetFloat?.Invoke("drawSpeed", "arbalest_anim_draw", 1f /
             (((actionTimePeriod / effectSpeedMultiplier) * animationNonidlePortion - weaponInfo.animAttackReleaseTime) * weaponInfo.animAttackDrawTime));
     }
 
@@ -260,7 +260,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         {
             actionTimePassed = drawTriggerTime;
             bowState = BowState.Drawing;
-            OnAnimatorSetTrigger("draw");
+            onAnimatorSetTrigger?.Invoke("draw");
         }
         else if (bowState == BowState.Drawing && actionTimePassed >= waitForReleaseTriggerTime)
         {
@@ -271,7 +271,7 @@ public class CWArbalest : CW, ICWHoldsRowPositions
         {
             actionTimePassed = releaseTriggerTime;
             bowState = BowState.Releasing;
-            OnAnimatorSetTrigger("release");
+            onAnimatorSetTrigger?.Invoke("release");
             ReleaseProjectile();
         }
         else if (bowState == BowState.Releasing && actionTimePassed >= actionTimePeriod)

@@ -36,7 +36,7 @@ public class CWShuriken : CW, ICWThrown
     {
         base.Update(deltaTime);
 
-        OnUpdateHealthBar(deltaTime);
+        onUpdateHealthBar?.Invoke(deltaTime);
     }
 
     public override void UpdateTarget()

@@ -11,7 +11,7 @@ public class CWGreenStaff : CW
     public int healAmount;
     public List<CW> targetWeapons;
 
-    public event Action onUpdateLines;
+    public Action onUpdateLines;
 
     public CWGreenStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -47,7 +47,7 @@ public class CWGreenStaff : CW
             UpdateTarget();
             onUpdateLines?.Invoke();
             ActIfReady();
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 

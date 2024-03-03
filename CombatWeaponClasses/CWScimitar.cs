@@ -14,7 +14,7 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
     public float attackTriggerTime;
     public float damageTriggerTime;
 
-    public event Action onUpdateStackUI;
+    public Action onUpdateStackUI;
 
     public CWScimitar(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -27,7 +27,7 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "scimitar_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "scimitar_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -60,7 +60,7 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
             RotateIfNeeded(targetEnemy);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -97,7 +97,7 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
         damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animDamageEnemyTime;
 
-        OnAnimatorSetFloat("attackSpeed", "scimitar_anim_attack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "scimitar_anim_attack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -114,7 +114,7 @@ public class CWScimitar : CW, ICWCancelTransition, ICWStackWeapon
         {
             actionTimePassed = attackTriggerTime;
             meleeState = MeleeState.Attacking;
-            OnAnimatorSetTrigger("attack");
+            onAnimatorSetTrigger?.Invoke("attack");
         }
         else if (meleeState == MeleeState.Attacking && actionTimePassed >= damageTriggerTime)
         {

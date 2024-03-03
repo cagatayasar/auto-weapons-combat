@@ -22,7 +22,7 @@ public class CWHatchet : CW, ICWThrown
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("prepareSpeed", "hatchet_anim_prepare", weaponInfo.animationThrowPrepareSpeed);
+        onAnimatorSetFloat?.Invoke("prepareSpeed", "hatchet_anim_prepare", weaponInfo.animationThrowPrepareSpeed);
     }
 
     public override void UpdateLevelBasedStats()
@@ -39,7 +39,7 @@ public class CWHatchet : CW, ICWThrown
     {
         base.Update(deltaTime);
 
-        OnUpdateHealthBar(deltaTime);
+        onUpdateHealthBar?.Invoke(deltaTime);
     }
 
     public override void UpdateTarget()

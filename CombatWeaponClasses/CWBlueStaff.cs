@@ -11,7 +11,7 @@ public class CWBlueStaff : CW
     public float actionSpeedMultiplier;
     public List<CW> targetWeapons;
 
-    public event Action onUpdateLines;
+    public Action onUpdateLines;
 
     public CWBlueStaff(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -48,7 +48,7 @@ public class CWBlueStaff : CW
             UpdateTarget();
             onUpdateLines?.Invoke();
             ActIfReady();
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -98,7 +98,7 @@ public class CWBlueStaff : CW
     public override void ReceiveAction(CombatAction action)
     {
         CombatFunctions.ReceiveAction(this, action);
-        OnReceiveAction(action);
+        onReceiveAction?.Invoke(this, action);
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
@@ -106,7 +106,7 @@ public class CWBlueStaff : CW
             var target = enemyList.FirstOrDefault(cw => cw.id == action.senderId);
             CombatFunctions.ApplyResponseAction(target, this, CombatMain.attachmentAttributes.repel_Value, CombatMain.attachmentAttributes.repel_Value);
         }
-        OnUpdateHealthBar(0f);
+        onUpdateHealthBar?.Invoke(0f);
     }
 
     public override void ReportClearedRow(int rowNumber, bool isPlayersRow) {}

@@ -11,7 +11,7 @@ public class CWBuckler : CW
     bool isImmunityActive;
     float immunityTimer;
 
-    public event Action<float> onUpdateImmunity;
+    public Action<float> onUpdateImmunity;
 
     public CWBuckler(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -38,7 +38,7 @@ public class CWBuckler : CW
             if (isImmunityActive) {
                 UpdateImmunity(deltaTime);
             }
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -73,12 +73,12 @@ public class CWBuckler : CW
     {
         if (action.isSenderPlayersWeapon == isPlayer) {
             CombatFunctions.ReceiveAction(this, action);
-            OnReceiveAction(action);
-            OnUpdateHealthBar(0f);
+            onReceiveAction?.Invoke(this, action);
+            onUpdateHealthBar?.Invoke(0f);
         } else if (!isImmunityActive) {
             CombatFunctions.ReceiveAction(this, action);
-            OnReceiveAction(action);
-            OnUpdateHealthBar(0f);
+            onReceiveAction?.Invoke(this, action);
+            onUpdateHealthBar?.Invoke(0f);
             isImmunityActive = true;
             if (action.isAttackerThrown) {
                 immunityTimer = weaponInfo.immunityLength * 0.25f;

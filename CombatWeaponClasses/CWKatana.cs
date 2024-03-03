@@ -28,7 +28,7 @@ public class CWKatana : CW, ICWStackWeapon
     public float attackTimer;
     public float stackProgress;
 
-    public event Action onUpdateStackUI;
+    public Action onUpdateStackUI;
 
     public CWKatana(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -41,9 +41,9 @@ public class CWKatana : CW, ICWStackWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeedFirst", "katana_anim_firstattack", 1f / weaponInfo.firstAttackLength);
-        OnAnimatorSetFloat("attackSpeedUpward", "katana_anim_upwardattack", 1f / weaponInfo.upwardAttackLength);
-        OnAnimatorSetFloat("attackSpeedDownward", "katana_anim_downwardattack", 1f / weaponInfo.downwardAttackLength);
+        onAnimatorSetFloat?.Invoke("attackSpeedFirst", "katana_anim_firstattack", 1f / weaponInfo.firstAttackLength);
+        onAnimatorSetFloat?.Invoke("attackSpeedUpward", "katana_anim_upwardattack", 1f / weaponInfo.upwardAttackLength);
+        onAnimatorSetFloat?.Invoke("attackSpeedDownward", "katana_anim_downwardattack", 1f / weaponInfo.downwardAttackLength);
     }
 
     public override void UpdateLevelBasedStats()
@@ -73,7 +73,7 @@ public class CWKatana : CW, ICWStackWeapon
             RotateIfNeeded(targetEnemy);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -119,7 +119,7 @@ public class CWKatana : CW, ICWStackWeapon
         {
             attackTimer = 0f;
             katanaState = KatanaState.AttackingFirstPhase1;
-            OnAnimatorSetTrigger("attackFirst");
+            onAnimatorSetTrigger?.Invoke("attackFirst");
         }
         else if (katanaState == KatanaState.AttackingFirstPhase1 && attackTimer >= weaponInfo.firstAttackLength * weaponInfo.firstAttackDamageEnemyPortion)
         {
@@ -136,7 +136,7 @@ public class CWKatana : CW, ICWStackWeapon
         {
             attackTimer = 0f;
             katanaState = KatanaState.AttackingDownwardPhase1;
-            OnAnimatorSetTrigger("attackDownward");
+            onAnimatorSetTrigger?.Invoke("attackDownward");
         }
         else if (katanaState == KatanaState.AttackingDownwardPhase1 && attackTimer >= weaponInfo.downwardAttackLength * weaponInfo.downwardAttackDamageEnemyPortion) 
         {
@@ -153,7 +153,7 @@ public class CWKatana : CW, ICWStackWeapon
         {
             attackTimer = 0f;
             katanaState = KatanaState.AttackingUpwardPhase1;
-            OnAnimatorSetTrigger("attackUpward");
+            onAnimatorSetTrigger?.Invoke("attackUpward");
         }
         else if (katanaState == KatanaState.AttackingUpwardPhase1 && attackTimer >= weaponInfo.upwardAttackLength * weaponInfo.upwardAttackDamageEnemyPortion)
         {

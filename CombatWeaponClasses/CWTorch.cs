@@ -11,7 +11,7 @@ public class CWTorch : CW
     public int damage;
     public List<CW> targetEnemies;
 
-    public event Action onUpdateLines;
+    public Action onUpdateLines;
 
     public CWTorch(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -47,7 +47,7 @@ public class CWTorch : CW
             UpdateTarget();
             onUpdateLines?.Invoke();
             ActIfReady();
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 

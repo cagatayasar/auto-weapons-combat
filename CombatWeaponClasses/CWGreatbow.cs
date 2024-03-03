@@ -20,9 +20,9 @@ public class CWGreatbow : CW
 
     float projectileSpeed;
 
-    public event Action<POneTarget> onReleaseProjectile;
-    public event Action<POneTarget> onDestroyProjectile;
-    public event Action<POneTarget, float> onUpdateProjectile;
+    public Action<POneTarget> onReleaseProjectile;
+    public Action<POneTarget> onDestroyProjectile;
+    public Action<POneTarget, float> onUpdateProjectile;
 
     public CWGreatbow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -36,8 +36,8 @@ public class CWGreatbow : CW
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "greatbow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
-        OnAnimatorSetFloat("releaseSpeed", "greatbow_anim_release", 1f / weaponInfo.animAttackReleaseTime);
+        onAnimatorSetFloat?.Invoke("drawSpeed", "greatbow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
+        onAnimatorSetFloat?.Invoke("releaseSpeed", "greatbow_anim_release", 1f / weaponInfo.animAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
@@ -68,7 +68,7 @@ public class CWGreatbow : CW
             RotateIfNeeded(targetEnemy);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -125,7 +125,7 @@ public class CWGreatbow : CW
         releaseTriggerTime = actionTimePeriod - weaponInfo.animAttackReleaseTime;
         waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animAttackDrawTime;
 
-        OnAnimatorSetFloat("drawSpeed", "greatbow_anim_draw", 1f /
+        onAnimatorSetFloat?.Invoke("drawSpeed", "greatbow_anim_draw", 1f /
             (((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion - weaponInfo.animAttackReleaseTime) * weaponInfo.animAttackDrawTime));
     }
 
@@ -135,7 +135,7 @@ public class CWGreatbow : CW
         {
             actionTimePassed = drawTriggerTime;
             bowState = BowState.Drawing;
-            OnAnimatorSetTrigger("draw");
+            onAnimatorSetTrigger?.Invoke("draw");
         }
         else if (bowState == BowState.Drawing && actionTimePassed >= waitForReleaseTriggerTime)
         {
@@ -146,7 +146,7 @@ public class CWGreatbow : CW
         {
             actionTimePassed = releaseTriggerTime;
             bowState = BowState.Releasing;
-            OnAnimatorSetTrigger("release");
+            onAnimatorSetTrigger?.Invoke("release");
             ReleaseProjectile();
         }
         else if (bowState == BowState.Releasing && actionTimePassed >= actionTimePeriod)

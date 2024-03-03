@@ -59,7 +59,7 @@ public class CWJavelin : CW, ICWThrown, ICWHoldsRowPositions
     {
         base.Update(deltaTime);
 
-        OnUpdateHealthBar(deltaTime);
+        onUpdateHealthBar?.Invoke(deltaTime);
     }
 
     public override void UpdateTarget(){}

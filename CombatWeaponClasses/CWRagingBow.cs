@@ -21,10 +21,10 @@ public class CWRagingBow : CW, ICWStackWeapon
 
     float projectileSpeed;
 
-    public event Action onUpdateStackUI;
-    public event Action<POneTarget> onReleaseProjectile;
-    public event Action<POneTarget> onDestroyProjectile;
-    public event Action<POneTarget, float> onUpdateProjectile;
+    public Action onUpdateStackUI;
+    public Action<POneTarget> onReleaseProjectile;
+    public Action<POneTarget> onDestroyProjectile;
+    public Action<POneTarget, float> onUpdateProjectile;
 
     public CWRagingBow(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -38,8 +38,8 @@ public class CWRagingBow : CW, ICWStackWeapon
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("drawSpeed", "ragingbow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
-        OnAnimatorSetFloat("releaseSpeed", "ragingbow_anim_release", 1f / weaponInfo.animAttackReleaseTime);
+        onAnimatorSetFloat?.Invoke("drawSpeed", "ragingbow_anim_draw", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin * weaponInfo.animAttackDrawTime));
+        onAnimatorSetFloat?.Invoke("releaseSpeed", "ragingbow_anim_release", 1f / weaponInfo.animAttackReleaseTime);
     }
 
     public override void UpdateLevelBasedStats()
@@ -70,7 +70,7 @@ public class CWRagingBow : CW, ICWStackWeapon
             RotateIfNeeded(targetEnemy);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -128,7 +128,7 @@ public class CWRagingBow : CW, ICWStackWeapon
         releaseTriggerTime = actionTimePeriod - weaponInfo.animAttackReleaseTime;
         waitForReleaseTriggerTime = drawTriggerTime + (releaseTriggerTime - drawTriggerTime) * weaponInfo.animAttackDrawTime;
 
-        OnAnimatorSetFloat("drawSpeed", "ragingbow_anim_draw", 1f /
+        onAnimatorSetFloat?.Invoke("drawSpeed", "ragingbow_anim_draw", 1f /
             (((actionTimePeriod / actionSpeedMultiplier) * animationAttackPortion - weaponInfo.animAttackReleaseTime) * weaponInfo.animAttackDrawTime));
     }
 
@@ -138,7 +138,7 @@ public class CWRagingBow : CW, ICWStackWeapon
         {
             actionTimePassed = drawTriggerTime;
             bowState = BowState.Drawing;
-            OnAnimatorSetTrigger("draw");
+            onAnimatorSetTrigger?.Invoke("draw");
         }
         else if (bowState == BowState.Drawing && actionTimePassed >= waitForReleaseTriggerTime)
         {
@@ -149,7 +149,7 @@ public class CWRagingBow : CW, ICWStackWeapon
         {
             actionTimePassed = releaseTriggerTime;
             bowState = BowState.Releasing;
-            OnAnimatorSetTrigger("release");
+            onAnimatorSetTrigger?.Invoke("release");
             ReleaseProjectile();
         }
         else if (bowState == BowState.Releasing && actionTimePassed >= actionTimePeriod)

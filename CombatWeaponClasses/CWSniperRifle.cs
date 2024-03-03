@@ -22,10 +22,10 @@ public class CWSniperRifle : CW
 
     float projectileSpeed;
 
-    public event Action<POneTarget> onReleaseProjectile;
-    public event Action<POneTarget> onDestroyProjectile;
-    public event Action<POneTarget, float> onUpdateProjectile;
-    public event Action<int, float> onUpdateBulletFillAmount;
+    public Action<POneTarget> onReleaseProjectile;
+    public Action<POneTarget> onDestroyProjectile;
+    public Action<POneTarget, float> onUpdateProjectile;
+    public Action<int, float> onUpdateBulletFillAmount;
 
     public CWSniperRifle(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
         : base(weapon, playerEnemyData, id, isPlayer, ref rnd)
@@ -43,7 +43,7 @@ public class CWSniperRifle : CW
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("speed", "sniper_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidleMultiplierMin));
+        onAnimatorSetFloat?.Invoke("speed", "sniper_anim_attack", 1f / (actionTimePeriod * weaponInfo.animationNonidleMultiplierMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -78,7 +78,7 @@ public class CWSniperRifle : CW
             if (!isRotating && reloadState == ReloadState.Shoot && didFirstShot)
                 ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
             UpdateProjectiles(deltaTime);
         }
     }
@@ -110,7 +110,7 @@ public class CWSniperRifle : CW
             animationNonidleMultiplier = weaponInfo.animationNonidleMultiplierMin + actionSpeedForNonidleMapped;
         }
 
-        OnAnimatorSetFloat("speed", "sniper_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
+        onAnimatorSetFloat?.Invoke("speed", "sniper_anim_attack", actionSpeedClamped / animationNonidleMultiplier);
     }
 
     public override void UpdateProjectiles(float deltaTime)
@@ -159,7 +159,7 @@ public class CWSniperRifle : CW
             onUpdateBulletFillAmount?.Invoke(bullets, (t - 1f + weaponInfo.reloadAnimationUIPortion) / weaponInfo.reloadAnimationUIPortion);
             if (!reloadSoundPlayed && t - 1f + weaponInfo.reloadAnimationUIPortion > 0f) {
                 reloadSoundPlayed = true;
-                OnSfxTrigger("reloadSound");
+                onSfxTrigger?.Invoke("reloadSound");
             }
 
             if (reloadTimer > weaponInfo.reloadTimePerBullet) {
@@ -176,7 +176,7 @@ public class CWSniperRifle : CW
             reloadTimer += deltaTime;
             if (!afterReloadSoundPlayed && reloadTimer >= weaponInfo.playAfterReloadSoundAfter) {
                 afterReloadSoundPlayed = true;
-                OnSfxTrigger("cockSound");
+                onSfxTrigger?.Invoke("cockSound");
             }
             if (reloadTimer > weaponInfo.waitLengthAfterReload) {
                 afterReloadSoundPlayed = false;
@@ -193,15 +193,15 @@ public class CWSniperRifle : CW
             ReleaseProjectile();
             bullets--;
             if (bullets == 0)
-                OnSfxTrigger("shotSound");
+                onSfxTrigger?.Invoke("shotSound");
             else if (actionTimePeriod / effectSpeedMultiplier > shotAndCockSlowLength) {
-                OnSfxTrigger("shotAndCockSoundSlow");
+                onSfxTrigger?.Invoke("shotAndCockSoundSlow");
             } else if (actionTimePeriod / effectSpeedMultiplier > shotAndCockMedLength) {
-                OnSfxTrigger("shotAndCockSoundMed");
+                onSfxTrigger?.Invoke("shotAndCockSoundMed");
             } else {
-                OnSfxTrigger("shotAndCockSoundFast");
+                onSfxTrigger?.Invoke("shotAndCockSoundFast");
             }
-            OnAnimatorSetTrigger("attack");
+            onAnimatorSetTrigger?.Invoke("attack");
             onUpdateBulletFillAmount?.Invoke(bullets, 0f);
         }
     }

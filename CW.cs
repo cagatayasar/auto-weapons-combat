@@ -110,36 +110,20 @@ public class CW
     public bool IsTargetable => !isInStealth;
 
     //------------------------------------------------------------------------
-    public event Action onUpdate;
-    public event Action onDestroy;
-    public event Action onUpdateAnimator;
-    public event Action<float> onUpdateRotation;
-    public event Action<float> onUpdateHealthBar;
+    public Action onUpdate;
+    public Action onDestroy;
+    public Action onUpdateAnimator;
+    public Action<float> onUpdateRotation;
+    public Action<float> onUpdateHealthBar;
 
-    public event Action<float> onCancelTransition;
-    public event Action onFinishTransition;
+    public Action<float> onCancelTransition;
+    public Action onFinishTransition;
 
-    public event Action<string> onAnimatorSetTrigger;
-    public event Action<string, string, float> onAnimatorSetFloat;
-    public event Action<string> onSfxTrigger;
+    public Action<string> onAnimatorSetTrigger;
+    public Action<string, string, float> onAnimatorSetFloat;
+    public Action<string> onSfxTrigger;
 
-    public event Action<CW, CombatAction> onReceiveAction;
-
-    //------------------------------------------------------------------------
-    public void OnUpdate()                           => onUpdate?.Invoke();
-    public void OnDestroy()                          => onDestroy?.Invoke();
-    public void OnUpdateAnimator()                   => onUpdateAnimator?.Invoke();
-    public void OnUpdateRotation(float currentAngle) => onUpdateRotation?.Invoke(currentAngle);
-    public void OnUpdateHealthBar(float deltaTime)   => onUpdateHealthBar?.Invoke(deltaTime);
-
-    public void OnCancelTransition(float transitionTimeTotal) => onCancelTransition?.Invoke(transitionTimeTotal);
-    public void OnFinishTransition()                          => onFinishTransition?.Invoke();
-
-    public void OnAnimatorSetTrigger(string name)                                      => onAnimatorSetTrigger?.Invoke(name);
-    public void OnAnimatorSetFloat(string parameterName, string clipName, float value) => onAnimatorSetFloat?.Invoke(parameterName, clipName, value);
-    public void OnSfxTrigger(string name) => onSfxTrigger?.Invoke(name);
-
-    public void OnReceiveAction(CombatAction combatAction) => onReceiveAction?.Invoke(this, combatAction);
+    public Action<CW, CombatAction> onReceiveAction;
 
     //------------------------------------------------------------------------
     public CW(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
@@ -155,7 +139,7 @@ public class CW
         effects = new List<Effect>();
         if (weapon.attachment == AttachmentType.DmgShield) {
             damageShield += CombatMain.attachmentAttributes.dmgShield_Value;
-            OnUpdateHealthBar(0f);
+            onUpdateHealthBar?.Invoke(0f);
         } else if (weapon.attachment == AttachmentType.Dodge) {
             attachment_dodgeAvailable = true;
         } else if (weapon.attachment == AttachmentType.FirstAttack) {
@@ -198,8 +182,8 @@ public class CW
     public virtual void ReceiveAction(CombatAction action)
     {
         CombatFunctions.ReceiveAction(this, action);
-        OnReceiveAction(action);
-        OnUpdateHealthBar(0f);
+        onReceiveAction?.Invoke(this, action);
+        onUpdateHealthBar?.Invoke(0f);
         if (weapon.attachment == AttachmentType.Repel) {
             if (isPlayer == action.isSenderPlayersWeapon)
                 return;
@@ -352,7 +336,7 @@ public class CW
             case EffectType.Gunslinger_CorrosiveShot:
                 var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                 ReceiveAction(new CombatAction(dmg, false, -1));
-                OnUpdateHealthBar(0f);
+                onUpdateHealthBar?.Invoke(0f);
                 break;
         }
     }
@@ -375,7 +359,7 @@ public class CW
                 case EffectType.Gunslinger_CorrosiveShot:
                     var dmg = CombatMain.GetTacticInfo(WeaponMasterType.Gunslinger, TacticType.Gunslinger_CorrosiveShot).damage;
                     ReceiveAction(new CombatAction(dmg, false, -1));
-                    OnUpdateHealthBar(0f);
+                    onUpdateHealthBar?.Invoke(0f);
                     break;
             }
         }
@@ -390,7 +374,7 @@ public class CW
             transitionTimePassed = transitionTimeTotal;
             (this as ICWCancelTransition).OnCancelTransitionEnd();
             actionTimePassed = 0f;
-            OnFinishTransition();
+            onFinishTransition?.Invoke();
         }
     }
 
@@ -399,7 +383,7 @@ public class CW
     {
         transitionTimeTotal = effectSpeedMultiplier / (actionTimePeriod * weaponInfo.cancelingSpeed);
         transitionTimePassed = 0f;
-        OnCancelTransition(transitionTimeTotal);
+        onCancelTransition?.Invoke(transitionTimeTotal);
     }
 
     //------------------------------------------------------------------------
@@ -411,14 +395,14 @@ public class CW
             isRotating = false;
             currentRotationTime = 0f;
             currentAngle = wantedAngle;
-            OnUpdateRotation(currentAngle);
+            onUpdateRotation?.Invoke(currentAngle);
             return;
         }
 
         float degreesToAdd = deltaTime * (30f / (_30DegreesRotationDuration / effectRotationSpeedMultiplier)) * MathF.Sign(wantedAngle - currentAngle);
         currentAngle += degreesToAdd;
 
-        OnUpdateRotation(currentAngle);
+        onUpdateRotation?.Invoke(currentAngle);
     }
 
     //------------------------------------------------------------------------

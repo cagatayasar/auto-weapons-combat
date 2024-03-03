@@ -23,7 +23,7 @@ public class CWDagger : CW, ICWCancelTransition
     public override void InvokeInitializationEvents()
     {
         base.InvokeInitializationEvents();
-        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "dagger_anim_attack", 1f / (actionTimePeriod * weaponInfo.animNonidlePortionMin));
     }
 
     public override void UpdateLevelBasedStats()
@@ -49,7 +49,7 @@ public class CWDagger : CW, ICWCancelTransition
             RotateIfNeeded(targetEnemy);
             ActIfReady();
 
-            OnUpdateHealthBar(deltaTime);
+            onUpdateHealthBar?.Invoke(deltaTime);
         }
     }
 
@@ -78,7 +78,7 @@ public class CWDagger : CW, ICWCancelTransition
         attackTriggerTime = actionTimePeriod * (1f - animationAttackPortion);
         damageTriggerTime = attackTriggerTime + (actionTimePeriod - attackTriggerTime) * weaponInfo.animDamageEnemyTime;
 
-        OnAnimatorSetFloat("attackSpeed", "dagger_anim_attack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
+        onAnimatorSetFloat?.Invoke("attackSpeed", "dagger_anim_attack", 1f / ((actionTimePeriod / effectSpeedMultiplier) * animationAttackPortion));
     }
 
     public override void ActIfReady()
@@ -95,7 +95,7 @@ public class CWDagger : CW, ICWCancelTransition
         {
             actionTimePassed = attackTriggerTime;
             meleeState = MeleeState.Attacking;
-            OnAnimatorSetTrigger("attack");
+            onAnimatorSetTrigger?.Invoke("attack");
         }
         else if (meleeState == MeleeState.Attacking && actionTimePassed >= damageTriggerTime)
         {
