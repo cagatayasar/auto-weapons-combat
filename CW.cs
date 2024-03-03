@@ -223,20 +223,21 @@ public class CW
         for (int i = 0; i < effects.Count; i++)
         {
             var effect = effects[i];
-            if (effect.info.EffectType == EffectType.BlueStaff_SpeedBuff) {
-                speedMultiplier += effect.actionSpeedMultiplier - 1f;
-            }
-
-            if (effect.info.EffectType == EffectType.Stealth) {
-                isInStealth = true;
-            }
-
             if (effect.info.isTimed) {
                 effect.timeLeft -= deltaTime;
                 if (effect.timeLeft < 0f) {
                     effects.RemoveAt(i);
                     i--;
+                    continue;
                 }
+
+                effects[i] = effect;
+            }
+
+            if (effect.info.EffectType == EffectType.BlueStaff_SpeedBuff) {
+                speedMultiplier += effect.actionSpeedMultiplier - 1f;
+            } else if (effect.info.EffectType == EffectType.Stealth) {
+                isInStealth = true;
             }
         }
 
