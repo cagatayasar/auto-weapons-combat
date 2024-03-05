@@ -124,6 +124,7 @@ public class CW
     public Action<string> onSfxTrigger;
 
     public Action<CW, CombatAction> onReceiveAction;
+    public Action onEffectChanged;
 
     //------------------------------------------------------------------------
     public CW(Weapon weapon, PlayerEnemyData playerEnemyData, int id, bool isPlayer, ref System.Random rnd)
@@ -228,6 +229,7 @@ public class CW
                 if (effect.timeLeft < 0f) {
                     effects.RemoveAt(i);
                     i--;
+                    onEffectChanged?.Invoke();
                     continue;
                 }
 
@@ -288,36 +290,45 @@ public class CW
     }
 
     //------------------------------------------------------------------------
-    public void ApplyEffect(Effect se)
+    public void ApplyEffect(Effect effect)
     {
-        switch (se.info.EffectType)
+        switch (effect.info.EffectType)
         {
             case EffectType.BlueStaff_SpeedBuff: //@Test
                 bool contains = false;
-                foreach (var effect in effects) {
-                    if (effect.isSenderPlayersWeapon == se.isSenderPlayersWeapon &&
-                        effect.senderMatchRosterIndex == se.senderMatchRosterIndex) {
-                        effect.ResetTime();
+                foreach (var existingEffect in effects) {
+                    if (existingEffect.isSenderPlayersWeapon == effect.isSenderPlayersWeapon &&
+                        existingEffect.senderMatchRosterIndex == effect.senderMatchRosterIndex) {
+                        existingEffect.ResetTime();
                         contains = true;
                         break;
                     }
                 }
                 if (!contains) {
-                    effects.Add(se);
+                    effects.Add(effect);
                 }
                 break;
             case EffectType.RotateSlower:
                 effectRotationSpeedMultiplier *= CombatMain.itemAttributes.rotateSlower_Multiplier;
                 break;
             case EffectType.Gunslinger_OneEyeClosed:
-                if (!effects.Exists(e => e.info.EffectType == se.info.EffectType)) {
-                    effects.Add(se);
+                if (!effects.Exists(e => e.info.EffectType == effect.info.EffectType)) {
+                    effects.Add(effect);
                 }
                 break;
             default:
-                effects.Add(se);
+                effects.Add(effect);
                 break;
         }
+
+        onEffectChanged?.Invoke();
+    }
+
+    //------------------------------------------------------------------------
+    public void RemoveEffect(EffectType effectType)
+    {
+        effects.RemoveAll(x => x.info.EffectType == EffectType.Stealth);
+        onEffectChanged?.Invoke();
     }
 
     //------------------------------------------------------------------------
@@ -340,6 +351,8 @@ public class CW
                 onUpdateHealthBar?.Invoke(0f);
                 break;
         }
+
+        onEffectChanged?.Invoke();
     }
 
     //------------------------------------------------------------------------
@@ -364,6 +377,8 @@ public class CW
                     break;
             }
         }
+
+        onEffectChanged?.Invoke();
     }
 
     //------------------------------------------------------------------------
