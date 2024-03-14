@@ -200,6 +200,7 @@ public enum ReloadState : byte
 
 public enum TableEventType : byte
 {
+    Match,
     WeaponChoice,
     Blacksmith,
 }

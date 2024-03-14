@@ -4,16 +4,15 @@ using System.Collections.Generic;
 
 namespace AutoWeapons {
 
-[System.Serializable]
+[Serializable]
 public class Match
 {
     //------------------------------------------------------------------------
     public int playerScore;
     public int enemyScore;
-    public bool playerWon = false;
     public List<Weapon> enemyWeapons;
-    public bool hasBeenPlayed = false;
-    public int weekNum = 0;
+
+    public bool playerWon => playerScore > enemyScore;
 
     //------------------------------------------------------------------------
     public Match(List<Weapon> enemyWeapons)
@@ -26,10 +25,6 @@ public class Match
     {
         this.playerScore = playerScore;
         this.enemyScore = enemyScore;
-        hasBeenPlayed = true;
-        if (playerScore > enemyScore) {
-            playerWon = true;
-        }
     }
 }
 }
